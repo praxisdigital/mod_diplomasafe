@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->release = '0.1.0';
-$plugin->version = 2020101600;
+$plugin->version = 2020101601;
 
 //--------------------------------------------------//
 $plugin->component = 'mod_diplomasafe';
