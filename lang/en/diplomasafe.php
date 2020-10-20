@@ -26,3 +26,30 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Diplomasafe';
+$string['modulename'] = 'Diplomasafe';
+$string['modulenameplural'] = 'Diplomasafe';
+$string['modulename_help'] = 'Diplomasafe is an integration between Moodle and Diplomasafe';
+$string['diplomasafename_help'] = '';
+$string['diplomasafename'] = 'Name';
+$string['pluginadministration'] = 'Diplomasafe Administration';
+
+$string['show_description'] = 'Show description';
+
+// Settings
+$string['settings_api_client_header'] = 'API Client settings';
+$string['settings_api_client_information'] = 'Setting are provided by Diplomasafe here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
+
+$string['environment'] = 'Environment';
+$string['environment_desc'] = 'Determines if you are testing or in production';
+
+$string['test_base_url'] = 'Base url (test site)';
+$string['test_base_url_desc'] = 'The url for the API incl. the version number';
+
+$string['prod_base_url'] = 'Base url (production site)';
+$string['prod_base_url_desc'] = 'The url for the API incl. the version number';
+
+$string['test_personal_access_token'] = 'Personal Access Token (test site)';
+$string['test_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
+
+$string['prod_personal_access_token'] = 'Personal Access Token (production site)';
+$string['prod_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://live-admin.diplomasafe.net/en-US/auth-user</a>';

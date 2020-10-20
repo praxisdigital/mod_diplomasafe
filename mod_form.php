@@ -48,6 +48,7 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('diplomasafename', 'mod_diplomasafe'), array('size' => '64'));
+        $mform->setDefault('name', 'Diplomasafe');
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -60,16 +61,10 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
         $mform->addHelpButton('name', 'diplomasafename', 'mod_diplomasafe');
 
         // Adding the standard "intro" and "introformat" fields.
-        if ($CFG->branch >= 29) {
-            $this->standard_intro_elements();
-        } else {
-            $this->add_intro_editor();
-        }
+        $this->standard_intro_elements();
 
-        // Adding the rest of mod_diplomasafe settings, spreading all them into this fieldset
-        // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'diplomasafesettings', get_string('diplomasafesettings', 'mod_diplomasafe'));
-        $mform->addElement('header', 'diplomasafefieldset', get_string('diplomasafefieldset', 'mod_diplomasafe'));
+        //$mform->addElement('checkbox', 'showdescription', get_string('show_description', 'mod_diplomasafe'));
+        //$mform->addElement('header', 'diplomasafefieldset', get_string('diplomasafefieldset', 'mod_diplomasafe'));
 
         // Add standard elements.
         $this->standard_coursemodule_elements();

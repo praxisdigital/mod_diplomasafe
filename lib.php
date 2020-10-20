@@ -36,6 +36,8 @@ function diplomasafe_supports($feature) {
             return true;
         case FEATURE_BACKUP_MOODLE2:
             return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
         default:
             return null;
     }
