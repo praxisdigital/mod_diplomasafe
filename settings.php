@@ -35,8 +35,8 @@ if ($ADMIN->fulltree) {
     $name = 'mod_diplomasafe/environment';
     $title = get_string('environment', 'mod_diplomasafe');
     $description = get_string('environment_desc', 'mod_diplomasafe');
-    $default = 0;
-    $options = ['test', 'prod'];
+    $default = 'test';
+    $options = ['test' => 'test', 'prod' => 'prod'];
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 
     $name = 'mod_diplomasafe/test_base_url';

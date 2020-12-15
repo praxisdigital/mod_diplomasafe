@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->release = '0.1.0';
-$plugin->version = 2020101603;
+$plugin->release = '0.1.1';
+$plugin->version = 2020121500;
 
 //--------------------------------------------------//
 $plugin->component = 'mod_diplomasafe';
-$plugin->requires = 2019111800;
+$plugin->requires = 2020061500; // Moodle 3.9
 $plugin->maturity = MATURITY_ALPHA;

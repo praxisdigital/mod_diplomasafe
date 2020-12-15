@@ -50,7 +50,7 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
             /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
         );
 
-        if(empty($REAL_DATA['test_base_url']) || $REAL_DATA['test_personal_access_token']){
+        if(empty($REAL_DATA['test_base_url']) || empty($REAL_DATA['test_personal_access_token'])){
             throw new \coding_exception('You must insert the test base url and test private access token under global settings');
         }
 
@@ -62,12 +62,11 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
         set_config('test_personal_access_token', $REAL_DATA['test_personal_access_token'], 'mod_diplomasafe');
 
         $config = new diplomasafe_config(get_config('mod_diplomasafe'));
-        $token = $config->get_private_token();
 
         $this->client = new diplomasafe_client(new moodle_curl_request_adapter(new curl()));
         $this->client->set_base_url($config->get_base_url());
         $this->client->set_headers([
-            "Authorization: Bearer $token",
+            "Authorization: Bearer ".$config->get_private_token(),
             'Accept: application/json',
             'Content-Type: application/json; charset=utf-8'
         ]);
