@@ -21,6 +21,10 @@
  * @copyright   2020 Diplomasafe <info@diplomasafe.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use mod_diplomasafe\entities\user_completion_course;
+use mod_diplomasafe\factories\completion as completion_factory;
+
 require_once(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 

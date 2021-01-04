@@ -53,3 +53,7 @@ $string['test_personal_access_token_desc'] = 'Create token here: <a href="https:
 
 $string['prod_personal_access_token'] = 'Personal Access Token (production site)';
 $string['prod_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://live-admin.diplomasafe.net/en-US/auth-user</a>';
+
+// Cron
+$string['cron_store_diploma_templates'] = 'Store diploma templates';
+$string['cron_courses_completed_create_diplomas'] = 'Create diplomas when courses are completed';
