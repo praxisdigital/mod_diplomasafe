@@ -40,12 +40,13 @@ class repository
      * @throws \dml_exception
      */
     public function get_all_records() : array {
-        return array_values($this->db->get_records(
-            self::TABLE,
-            [],
-            '',
-            'organisation_id, default_language_id, idnumber, name, is_valid'
-        ));
+        $sql =  /** @lang mysql */'
+        SELECT t.id, t.organisation_id, l.name default_language, 
+        t.idnumber, t.name, t.is_valid
+        FROM {' . self::TABLE . '} t
+        LEFT JOIN {diplomasafe_languages} l ON l.id = t.default_language_id
+        ';
+        return array_values($this->db->get_records_sql($sql));
     }
 
     /**

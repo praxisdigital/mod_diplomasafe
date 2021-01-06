@@ -37,6 +37,6 @@ class templates_list_request extends request implements request_interface
 
         $this->page_setup($page_url);
 
-        return new templates_list_output($this->page);
+        return new templates_list_output();
     }
 }

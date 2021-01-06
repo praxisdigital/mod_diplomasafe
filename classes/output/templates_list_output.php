@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\output;
 
+use mod_diplomasafe\collections\templates;
 use renderer_base;
 use stdClass;
 
@@ -21,31 +22,13 @@ defined('MOODLE_INTERNAL') || die();
 class templates_list_output implements \renderable, \templatable
 {
     /**
-     * @var \moodle_page
-     */
-    private $page;
-
-    /**
-     * @var int
-     */
-    private $module_id;
-
-    /**
-     * Constructor
-     *
-     * @param \moodle_page $page
-     * @param int $module_id
-     */
-    public function __construct(\moodle_page $page) {
-        $this->page = $page;
-    }
-
-    /**
      * @param renderer_base $output
      *
      * @return array|stdClass|void
      */
     public function export_for_template(renderer_base $output) {
-        return [];
+        return [
+            'templates' => new templates()
+        ];
     }
 }

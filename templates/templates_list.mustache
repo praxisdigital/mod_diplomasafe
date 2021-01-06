@@ -13,11 +13,11 @@
         <tbody>
         {{#templates}}
             <tr data-id="{{id}}">
-                <td>{{template.name}}</td>
-                <td>{{template.organisation_id}}</td>
-                <td>{{template.default_language_id}}</td>
-                <td>{{template.idnumber}}</td>
-                <td>{{template.is_valid}}</td>
+                <td>{{name}}</td>
+                <td>{{organisation_id}}</td>
+                <td>{{default_language}}</td>
+                <td>{{idnumber}}</td>
+                <td>{{#is_valid}}<i class="fa fa-check"></i>{{/is_valid}}</td>
             </tr>
         {{/templates}}
         </tbody>

@@ -9,7 +9,7 @@
 namespace mod_diplomasafe\collections;
 
 use mod_diplomasafe\collection;
-use mod_diplomasafe\factories\templates as template_factory;
+use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
