@@ -31,9 +31,9 @@ class mock_payload
                     'recipient_name' => 'Testbruger',
                     'language_code' => 'da-DK',
                     'issue_date' => '2021-01-06',
-                    'expire_date' => '2022-01-06',
+                    'no_claim_mail' => 0,
                     'diploma_fields' => [
-                        'course_num' => 'Kursusnummer her'
+                        //'course_num' => 'Kursusnummer her'
                     ]
                 ]
             ]

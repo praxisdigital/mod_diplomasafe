@@ -113,7 +113,7 @@ class moodle_curl_request_adapter implements request_interface{
      */
     public function post(string $url = ''): ?array {
         $this->basic_validation();
-        $content = $this->curl->post($this->base_url.$url, $this->payload, $this->options);
+        $content = $this->curl->post($this->base_url.$url, json_encode($this->payload), $this->options);
         $this->info = $this->curl->getResponse();
         return $this->json($content);
     }

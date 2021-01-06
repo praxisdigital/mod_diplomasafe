@@ -13,6 +13,13 @@ use mod_diplomasafe\client\diplomasafe_config;
  */
 defined('MOODLE_INTERNAL') || die();
 
+require_once $CFG->libdir . '/filelib.php';
+
+/**
+ * Class
+ *
+ * @package mod_diplomasafe
+ */
 abstract class factory {
     /**
      * @return \moodle_database|null
@@ -41,8 +48,7 @@ abstract class factory {
         $api_client->set_headers([
             "Authorization: Bearer " . $config->get_private_token(),
             'Accept: application/json',
-            'Content-Type: application/json; charset=utf-8',
-            //'Host: ' . url::make($config->get_base_url())->extract_base_host()
+            'Content-Type: application/json; charset=utf-8'
         ]);
 
         return $api_client;
