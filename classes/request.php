@@ -49,6 +49,10 @@ abstract class request
             die();
         }
 
+        if ($title === '') {
+            $title = get_string('pluginname', 'mod_diplomasafe');
+        }
+
         if ($title) {
             $this->page->set_heading($title);
             $this->page->set_title($title);

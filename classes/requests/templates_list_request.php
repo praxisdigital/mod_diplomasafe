@@ -35,7 +35,7 @@ class templates_list_request extends request implements request_interface
             'view' => $view,
         ]);
 
-        $this->page_setup($page_url, get_string('view_templates_list_title', 'mod_diplomasafe'));
+        $this->page_setup($page_url);
 
         return new templates_list_output($this->page);
     }

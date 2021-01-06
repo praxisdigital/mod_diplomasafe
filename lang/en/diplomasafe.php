@@ -68,3 +68,10 @@ $string['cron_courses_completed_create_diplomas'] = 'Create diplomas when course
 
 // Templates view
 $string['view_templates_list_title'] = 'Templates';
+$string['view_templates_list_header'] = $string['view_templates_list_title'];
+$string['view_templates_list_th_name'] = 'Navn';
+$string['view_templates_list_th_organisation_id'] = 'Organization ID';
+$string['view_templates_list_th_default_language_id'] = 'Language';
+$string['view_templates_list_th_idnumber'] = 'ID number';
+$string['view_templates_list_th_is_valid'] = 'Valid';
+$string['view_templates_list_back'] = 'Back to settings';
