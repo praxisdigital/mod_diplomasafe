@@ -22,66 +22,14 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_diplomasafe\client\diplomasafe_config;
-use mod_diplomasafe\factories\diploma_factory;
+use mod_diplomasafe\controllers\main_controller;
 
 require_once __DIR__.'/../../config.php';
 require_once __DIR__.'/lib.php';
 
-// Course_module ID, or
-$id = optional_param('id', 0, PARAM_INT);
+global $PAGE, $OUTPUT;
 
-// ... module instance id.
-$d  = optional_param('d', 0, PARAM_INT);
+$main_controller = new main_controller($PAGE, $OUTPUT);
 
-if ($id) {
-    $cm             = get_coursemodule_from_id('diplomasafe', $id, 0, false, MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('diplomasafe', array('id' => $cm->instance), '*', MUST_EXIST);
-} else if ($d) {
-    $moduleinstance = $DB->get_record('diplomasafe', array('id' => $d), '*', MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
-    $cm             = get_coursemodule_from_instance('diplomasafe', $moduleinstance->id, $course->id, false, MUST_EXIST);
-} else {
-    print_error(get_string('missingidandcmid', 'mod_diplomasafe'));
-}
-
-require_login($course, true, $cm);
-
-$modulecontext = context_module::instance($cm->id);
-
-// PTODO: Fix course_module_viewed event
-//$event = \mod_diplomasafe\event\course_module_viewed::create(array(
-//    'objectid' => $moduleinstance->id,
-//    'context' => $modulecontext
-//));
-//$event->add_record_snapshot('course', $course);
-//$event->add_record_snapshot('diplomasafe', $moduleinstance);
-//$event->trigger();
-
-$PAGE->set_url('/mod/diplomasafe/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($moduleinstance->name));
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($modulecontext);
-
-
-// Todo: Create diploma
-$config = new diplomasafe_config(get_config('mod_diplomasafe'));
-$curl = new curl();
-$curl->setHeader([
-    'Authorization: Bearer ' . $config->get_private_token(),
-    'Content-type: application/json',
-    'Accept: application/json',
-    'Expect:'
-]);
-$response = $curl->post($config->get_base_url() . '/diplomas', \mod_diplomasafe\mock_payload::create_diploma());
-
-
-$api_client = \mod_diplomasafe\factory::get_api_client();
-$api_client->set_payload(\mod_diplomasafe\mock_payload::create_diploma());
-$response = $api_client->post('/diplomas');
-
-
-echo $OUTPUT->header();
-echo '<a href="https://diplomasafe.com">Download you diploma here</a>';
-echo $OUTPUT->footer();
+$view = optional_param('view', 'default', PARAM_TEXT);
+$main_controller->dispatch($view);

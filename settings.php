@@ -23,43 +23,61 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_diplomasafe\settings\admin_setting_link;
+
 defined('MOODLE_INTERNAL') || die();
+
 if ($ADMIN->fulltree) {
     // https://docs.moodle.org/dev/Admin_settings
 
-    $name = 'mod_diplomasafe/settings';
-    $heading = get_string('settings_api_client_header', 'mod_diplomasafe');
-    $information = get_string('settings_api_client_information', 'mod_diplomasafe');
+    $component = 'mod_diplomasafe';
+
+    $name = $component . '/settings_templates';
+    $heading = get_string('settings_templates_header', $component);
+    $information = get_string('settings_templates_information', $component);
+    $settings->add(new admin_setting_heading($name, $heading, $information));
+    $name = $component . '/show_templates';
+    $heading = get_string('settings_show_templates', $component);
+    $setting = new admin_setting_link($name, $heading,
+        new moodle_url('/mod/diplomasafe/view.php', [
+            'view' => 'templates_list'
+        ])
+    );
+    $settings->add($setting);
+
+    $name = $component . '/settings';
+    $heading = get_string('settings_templates', $component);
+    $information = get_string('settings_api_client_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
 
-    $name = 'mod_diplomasafe/environment';
-    $title = get_string('environment', 'mod_diplomasafe');
-    $description = get_string('environment_desc', 'mod_diplomasafe');
+    $name = $component . '/environment';
+    $title = get_string('settings_environment', $component);
+    $description = get_string('settings_environment_desc', $component);
     $default = 'test';
     $options = ['test' => 'test', 'prod' => 'prod'];
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 
-    $name = 'mod_diplomasafe/test_base_url';
-    $title = get_string('test_base_url', 'mod_diplomasafe');
-    $description = get_string('test_base_url_desc', 'mod_diplomasafe');
+    $name = $component . '/test_base_url';
+    $title = get_string('settings_test_base_url', $component);
+    $description = get_string('settings_test_base_url_desc', $component);
     $default = 'https://demo-api.diplomasafe.net/api/v1';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = 'mod_diplomasafe/prod_base_url';
-    $title = get_string('prod_base_url', 'mod_diplomasafe');
-    $description = get_string('prod_base_url_desc', 'mod_diplomasafe');
+    $name = $component . '/prod_base_url';
+    $title = get_string('settings_prod_base_url', $component);
+    $description = get_string('settings_prod_base_url_desc', $component);
     $default = 'https://live-api.diplomasafe.net/api/v1';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = 'mod_diplomasafe/test_personal_access_token';
-    $title = get_string('test_personal_access_token', 'mod_diplomasafe');
-    $description = get_string('test_personal_access_token_desc', 'mod_diplomasafe');
+    $name = $component . '/test_personal_access_token';
+    $title = get_string('settings_test_personal_access_token', $component);
+    $description = get_string('settings_test_personal_access_token_desc', $component);
     $default = '';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = 'mod_diplomasafe/prod_personal_access_token';
-    $title = get_string('prod_personal_access_token', 'mod_diplomasafe');
-    $description = get_string('prod_personal_access_token_desc', 'mod_diplomasafe');
+    $name = $component . '/prod_personal_access_token';
+    $title = get_string('settings_prod_personal_access_token', $component);
+    $description = get_string('settings_prod_personal_access_token_desc', $component);
     $default = '';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 }
