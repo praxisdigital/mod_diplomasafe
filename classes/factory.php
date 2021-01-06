@@ -30,6 +30,7 @@ abstract class factory {
      * @throws client\exceptions\current_environment_not_set
      * @throws client\exceptions\invalid_argument_exception
      * @throws client\exceptions\personal_access_token_not_set
+     * @throws \moodle_exception
      */
     public static function get_api_client() : diplomasafe_client {
 
@@ -40,7 +41,8 @@ abstract class factory {
         $api_client->set_headers([
             "Authorization: Bearer " . $config->get_private_token(),
             'Accept: application/json',
-            'Content-Type: application/json; charset=utf-8'
+            'Content-Type: application/json; charset=utf-8',
+            //'Host: ' . url::make($config->get_base_url())->extract_base_host()
         ]);
 
         return $api_client;

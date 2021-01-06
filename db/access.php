@@ -22,16 +22,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'mod/diplomasafe:addinstance' => array(
+$capabilities = [
+    'mod/diplomasafe:addinstance' => [
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        ),
+        ],
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    ),
-);
+    ],
+    'mod/diplomasafe:receive_api_error_mail' => [
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+        ]
+    ],
+];

@@ -55,7 +55,7 @@ interface request_interface{
      * @param array $options
      * @return array
      */
-    public function post(string $url = ''): array;
+    public function post(string $url = ''): ?array;
 
     /**
      * Fire a patch request - used when only updating parts of the data

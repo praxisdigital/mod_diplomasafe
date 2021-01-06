@@ -111,7 +111,7 @@ class moodle_curl_request_adapter implements request_interface{
      * @return array
      * @throws base_url_missing_exception
      */
-    public function post(string $url = ''): array {
+    public function post(string $url = ''): ?array {
         $this->basic_validation();
         $content = $this->curl->post($this->base_url.$url, $this->payload, $this->options);
         $this->info = $this->curl->getResponse();

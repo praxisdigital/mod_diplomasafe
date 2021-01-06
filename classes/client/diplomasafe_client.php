@@ -79,9 +79,9 @@ class diplomasafe_client implements request_interface{
     /**
      * Fire a post request - inserts a new entity
      * @param string $url
-     * @return array
+     * @return ?array
      */
-    public function post(string $url = ''): array {
+    public function post(string $url = ''): ?array {
         return $this->request->post($url);
     }
 

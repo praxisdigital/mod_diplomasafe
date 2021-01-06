@@ -20,7 +20,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\factories
  */
-class templates extends factory
+class template_factory extends factory
 {
     /**
      * @return mapper

@@ -22,11 +22,11 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_diplomasafe\entities\user_completion_course;
-use mod_diplomasafe\factories\completion as completion_factory;
+use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\factories\diploma_factory;
 
-require_once(__DIR__.'/../../config.php');
-require_once(__DIR__.'/lib.php');
+require_once __DIR__.'/../../config.php';
+require_once __DIR__.'/lib.php';
 
 // Course_module ID, or
 $id = optional_param('id', 0, PARAM_INT);
@@ -63,6 +63,24 @@ $PAGE->set_url('/mod/diplomasafe/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
+
+
+// Todo: Create diploma
+$config = new diplomasafe_config(get_config('mod_diplomasafe'));
+$curl = new curl();
+$curl->setHeader([
+    'Authorization: Bearer ' . $config->get_private_token(),
+    'Content-type: application/json',
+    'Accept: application/json',
+    'Expect:'
+]);
+$response = $curl->post($config->get_base_url() . '/diplomas', \mod_diplomasafe\mock_payload::create_diploma());
+
+
+$api_client = \mod_diplomasafe\factory::get_api_client();
+$api_client->set_payload(\mod_diplomasafe\mock_payload::create_diploma());
+$response = $api_client->post('/diplomas');
+
 
 echo $OUTPUT->header();
 echo '<a href="https://diplomasafe.com">Download you diploma here</a>';

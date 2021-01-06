@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\factories
  */
-class diplomas extends factory
+class diploma_factory extends factory
 {
     /**
      * @return api_mapper

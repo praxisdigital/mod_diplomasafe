@@ -14,6 +14,11 @@ defined('MOODLE_INTERNAL') || die();
  * Class
  *
  * @package mod_diplomasafe\entities
+ *
+ * @property $template
+ * @property $course_id
+ * @property $user_id
+ *
  */
 class diploma
 {
