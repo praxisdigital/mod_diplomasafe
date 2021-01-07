@@ -20,17 +20,17 @@ defined('MOODLE_INTERNAL') || die();
 class fieldset_template_field implements \renderable, \templatable
 {
     /**
-     * @var int
+     * @var \moodle_page
      */
-    private $language_id;
+    private $page;
 
     /**
      * Constructor
      *
-     * @param int $language_id
+     * @param \moodle_page $page
      */
-    public function __construct(int $language_id) {
-        $this->language_id = $language_id;
+    public function __construct(\moodle_page $page) {
+        $this->page = $page;
     }
 
     /**
@@ -38,7 +38,10 @@ class fieldset_template_field implements \renderable, \templatable
      *
      * @return array
      */
-    public function export_for_template(renderer_base $output) {
-        return [];
+    public function export_for_template(renderer_base $output): array {
+        $this->page->requires->js_call_amd('mod_diplomasafe/template_ajax', 'init');
+        return [
+            'session_key' => sesskey()
+        ];
     }
 }

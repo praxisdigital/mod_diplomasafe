@@ -1,4 +1,7 @@
-<select name="template" id="template" class="custom-select">
+<select name="template" id="template" class="custom-select"{{#is_disabled}} disabled="disabled"{{/is_disabled}}>
+    <option value="">
+        {{#str}}select_default_option_template, mod_diplomasafe{{/str}}
+    </option>
     {{#templates}}
         <option value="{{id}}">
             {{name}}

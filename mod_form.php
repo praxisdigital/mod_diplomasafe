@@ -64,8 +64,8 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Template field
         $renderer = $PAGE->get_renderer('mod_diplomasafe');
-        $page = new fieldset_template_field((int)$this->_customdata["language_id"]);
-        $html = $renderer->render($page);
+        $view = new fieldset_template_field($PAGE);
+        $html = $renderer->render($view);
         $mform->addElement('html', $html);
 
         // Adding the standard "name" field.

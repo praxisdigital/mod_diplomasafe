@@ -28,6 +28,7 @@ class template_ajax implements \renderable, \templatable
     /**
      * Constructor
      *
+     * @param \moodle_page $page
      * @param int $language_id
      */
     public function __construct(int $language_id) {
@@ -41,9 +42,12 @@ class template_ajax implements \renderable, \templatable
      * @throws \dml_exception
      */
     public function export_for_template(renderer_base $output) {
+        $templates = template_factory::get_repository()
+            ->get_by_language($this->language_id);
+        $is_disabled = $this->language_id === 0;
         return [
-            'templates' => template_factory::get_repository()
-                ->get_by_language($this->language_id)
+            'templates' => $templates,
+            'is_disabled' => $is_disabled
         ];
     }
 }

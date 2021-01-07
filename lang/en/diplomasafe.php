@@ -59,6 +59,7 @@ $string['select_default_option_template'] = 'Select template';
 $string['label_template'] = 'Template';
 $string['template_help'] = 'Select a template';
 $string['label_language'] = 'Language';
+$string['ajax_error_occurred'] = 'An error occurred. Could not fetch data';
 
 // Capabilities
 $string['diplomasafe:addinstance'] = 'Add instance';
