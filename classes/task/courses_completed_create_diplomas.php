@@ -6,9 +6,9 @@ use core\task\scheduled_task;
 use lang_string;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\user_completion_course;
-use mod_diplomasafe\factories\completion as completion_factory;
-use mod_diplomasafe\factories\diplomas as diploma_factory;
-use mod_diplomasafe\factories\templates as template_factory;
+use mod_diplomasafe\factories\completion_factory;
+use mod_diplomasafe\factories\diploma_factory;
+use mod_diplomasafe\factories\template_factory;
 
 /**
  * @developer   Johnny Drud
@@ -43,19 +43,15 @@ class courses_completed_create_diplomas extends scheduled_task
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function execute() {
-        $completion_factory = new completion_factory();
-        $completion_repo = $completion_factory->get_repository();
-
-        $diploma_factory = new diploma_factory();
-        $diploma_api_mapper = $diploma_factory->get_api_mapper();
+        $completion_repo = completion_factory::get_repository();
+        $diploma_api_mapper = diploma_factory::get_api_mapper();
 
         foreach ($completion_repo->get_user_completion_status_courses() as $user_completion_course) {
             /** @var user_completion_course $user_completion_course */
             if ($user_completion_course->is_completed()) {
-                $template_factory = new template_factory();
 
                 // Todo: Change hardcoded template ID
-                $template = $template_factory->get_repository()
+                $template = template_factory::get_repository()
                     ->get_by_id(123);
 
                 // Todo: Create diploma for the user in the course via the API

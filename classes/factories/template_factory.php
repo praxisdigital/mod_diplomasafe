@@ -25,11 +25,11 @@ class template_factory extends factory
     /**
      * @return mapper
      */
-    public function get_mapper() : mapper {
+    public static function get_mapper() : mapper {
         return new mapper(self::get_db());
     }
 
-    public function get_repository() : repository {
+    public static function get_repository() : repository {
         return new repository(self::get_db());
     }
 
@@ -37,7 +37,7 @@ class template_factory extends factory
      * @return api_repository
      * @throws \mod_diplomasafe\client\exceptions\invalid_argument_exception
      */
-    public function get_api_repository() : api_repository {
+    public static function get_api_repository() : api_repository {
         return new api_repository(self::get_api_client());
     }
 }

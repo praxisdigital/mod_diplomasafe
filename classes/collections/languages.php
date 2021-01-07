@@ -1,7 +1,7 @@
 <?php
 /**
  * @developer   Johnny Drud
- * @date        04-01-2021
+ * @date        07-01-2021
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
@@ -9,7 +9,7 @@
 namespace mod_diplomasafe\collections;
 
 use mod_diplomasafe\collection;
-use mod_diplomasafe\factories\template_factory;
+use mod_diplomasafe\factories\language_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -18,12 +18,10 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\collections
  */
-class templates extends collection
+class languages extends collection
 {
     /**
      * Constructor
-     *
-     * @throws \dml_exception
      */
     public function __construct() {
         $data = $this->get_data();
@@ -32,10 +30,9 @@ class templates extends collection
 
     /**
      * @return mixed
-     * @throws \dml_exception
      */
     private function get_data() {
-        return template_factory::get_repository()
+        return language_factory::get_repository()
             ->get_all_records();
     }
 }

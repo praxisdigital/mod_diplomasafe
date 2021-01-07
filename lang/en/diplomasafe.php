@@ -53,6 +53,10 @@ $string['settings_test_personal_access_token_desc'] = 'Create token here: <a hre
 $string['settings_prod_personal_access_token'] = 'Personal Access Token (production site)';
 $string['settings_prod_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://live-admin.diplomasafe.net/en-US/auth-user</a>';
 
+// Default form
+$string['select_default_option_language'] = 'Select language';
+$string['select_default_option_template'] = 'Select template';
+
 // Capabilities
 $string['diplomasafe:addinstance'] = 'Add instance';
 $string['diplomasafe:receive_api_error_mail'] = 'Receive API mail with error messages';
@@ -61,6 +65,8 @@ $string['diplomasafe:receive_api_error_mail'] = 'Receive API mail with error mes
 $string['messageprovider:api_error'] = 'API error notification';
 $string['message_api_error_subject'] = 'API error';
 $string['message_api_error_body'] = 'The following error occurred in the API: {$a}';
+$string['message_language_please_select_error'] = 'Please select a language';
+$string['message_template_please_select_error'] = 'Please select a template';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';

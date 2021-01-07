@@ -1,15 +1,15 @@
 <?php
 /**
  * @developer   Johnny Drud
- * @date        04-01-2021
+ * @date        07-01-2021
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
 
 namespace mod_diplomasafe\factories;
 
-use mod_diplomasafe\completion\repository;
 use mod_diplomasafe\factory;
+use mod_diplomasafe\languages\repository;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -18,12 +18,12 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\factories
  */
-class completion_factory extends factory
+class language_factory extends factory
 {
     /**
      * @return repository
      */
     public static function get_repository() : repository {
-        return new repository();
+        return new repository(self::get_db());
     }
 }

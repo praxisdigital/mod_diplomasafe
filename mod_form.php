@@ -22,6 +22,9 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_diplomasafe\factories\language_factory;
+use mod_diplomasafe\output\fieldset_template_field;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -39,12 +42,31 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
      * Defines forms elements
      */
     public function definition() {
-        global $CFG;
+
+        global $CFG, $PAGE;
 
         $mform = $this->_form;
 
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
+
+        // Language field
+        $languages = language_factory::get_repository()
+            ->get_all();
+        $languages->sort_asc('name');
+        $options = [];
+        $options[''] = get_string('select_default_option_language', 'mod_diplomasafe');
+        foreach ($languages as $language) {
+            $options[$language->id] = $language->name;
+        }
+        $mform->addElement('select', 'language_id', get_string('language', 'mod_diplomasafe'),  $options);
+        $mform->addRule('language_id', get_string('message_language_please_select_error', 'mod_diplomasafe'), 'required', null, 'client');
+
+        // Template field
+        $renderer = $PAGE->get_renderer('mod_diplomasafe');
+        $page = new fieldset_template_field((int)$this->_customdata["language_id"]);
+        $html = $renderer->render($page);
+        $mform->addElement('html', $html);
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('diplomasafename', 'mod_diplomasafe'), array('size' => '64'));
@@ -62,9 +84,6 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Adding the standard "intro" and "introformat" fields.
         $this->standard_intro_elements();
-
-        //$mform->addElement('checkbox', 'showdescription', get_string('show_description', 'mod_diplomasafe'));
-        //$mform->addElement('header', 'diplomasafefieldset', get_string('diplomasafefieldset', 'mod_diplomasafe'));
 
         // Add standard elements.
         $this->standard_coursemodule_elements();
