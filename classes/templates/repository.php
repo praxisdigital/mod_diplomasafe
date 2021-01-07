@@ -36,17 +36,25 @@ class repository
     }
 
     /**
+     * @param int|null $language_id
+     *
      * @return array
      * @throws \dml_exception
      */
-    public function get_all_records() : array {
-        $sql =  /** @lang mysql */'
+    public function get_all_records(int $language_id = null) : array {
+        $sql = /** @lang mysql */'
         SELECT t.id, t.organisation_id, l.name default_language, 
         t.idnumber, t.name, t.is_valid
         FROM {' . self::TABLE . '} t
         LEFT JOIN {diplomasafe_languages} l ON l.id = t.default_language_id
+        WHERE 1
         ';
-        return array_values($this->db->get_records_sql($sql));
+        $sql_params = [];
+        if ($language_id !== null) {
+            $sql .= ' AND t.default_language_id = :language_id';
+            $sql_params['language_id'] = $language_id;
+        }
+        return array_values($this->db->get_records_sql($sql, $sql_params));
     }
 
     /**
@@ -66,6 +74,16 @@ class repository
         return new template($this->db->get_record(self::TABLE, [
             'id' => $template_id
         ], '*', MUST_EXIST));
+    }
+
+    /**
+     * @param $language_id
+     *
+     * @return templates
+     * @throws \dml_exception
+     */
+    public function get_by_language($language_id) : templates {
+        return new templates($language_id);
     }
 
     /**

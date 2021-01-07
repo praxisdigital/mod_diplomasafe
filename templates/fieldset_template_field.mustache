@@ -1,0 +1,22 @@
+<div id="fitem_id_template" class="form-group row fitem diplomasafe-template-wrapper" data-module-id="{{module_id}}">
+    <div class="col-md-3">
+        <span class="float-sm-right text-nowrap">
+            <a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover" data-placement="right"
+               data-content="<div class=&quot;no-overflow&quot;><p>{{#str}}template_help, mod_diplomasafe{{/str}}</p></div>"
+               data-html="true" tabindex="0" data-trigger="focus">
+                <i class="icon fa fa-question-circle text-info fa-fw " title="{{#str}}label_template, mod_diplomasafe{{/str}}"
+                   aria-label="{{#str}}label_template, mod_diplomasafe{{/str}}"></i>
+            </a>
+        </span>
+        <label for="id_template">
+            {{#str}} label_template, mod_diplomasafe {{/str}}
+        </label>
+    </div>
+    <div class="col-md-9">
+        <div class="diplomasafe-ajax-wrapper">
+            <div class="ajax-result" data-session-key="{{session_key}}">
+                <!-- AJAX output -->
+            </div>
+        </div>
+    </div>
+</div>

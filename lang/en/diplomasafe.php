@@ -56,6 +56,9 @@ $string['settings_prod_personal_access_token_desc'] = 'Create token here: <a hre
 // Default form
 $string['select_default_option_language'] = 'Select language';
 $string['select_default_option_template'] = 'Select template';
+$string['label_template'] = 'Template';
+$string['template_help'] = 'Select a template';
+$string['label_language'] = 'Language';
 
 // Capabilities
 $string['diplomasafe:addinstance'] = 'Add instance';

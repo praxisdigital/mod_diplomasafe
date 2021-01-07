@@ -59,7 +59,7 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
         foreach ($languages as $language) {
             $options[$language->id] = $language->name;
         }
-        $mform->addElement('select', 'language_id', get_string('language', 'mod_diplomasafe'),  $options);
+        $mform->addElement('select', 'language_id', get_string('label_language', 'mod_diplomasafe'),  $options);
         $mform->addRule('language_id', get_string('message_language_please_select_error', 'mod_diplomasafe'), 'required', null, 'client');
 
         // Template field
