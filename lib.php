@@ -32,11 +32,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 function diplomasafe_supports($feature) {
     switch ($feature) {
-        case FEATURE_MOD_INTRO:
-            return true;
         case FEATURE_BACKUP_MOODLE2:
-            return true;
         case FEATURE_SHOW_DESCRIPTION:
+        case FEATURE_MOD_INTRO:
             return true;
         default:
             return null;
@@ -51,8 +49,10 @@ function diplomasafe_supports($feature) {
  * number of the instance.
  *
  * @param object $moduleinstance An object from the form.
- * @param mod_diplomasafe_mod_form $mform The form.
+ * @param null $mform The form.
+ *
  * @return int The id of the newly inserted record.
+ * @throws dml_exception
  */
 function diplomasafe_add_instance($moduleinstance, $mform = null) {
     global $DB;
@@ -72,7 +72,9 @@ function diplomasafe_add_instance($moduleinstance, $mform = null) {
  *
  * @param object $moduleinstance An object from the form in mod_form.php.
  * @param mod_diplomasafe_mod_form $mform The form.
+ *
  * @return bool True if successful, false otherwise.
+ * @throws dml_exception
  */
 function diplomasafe_update_instance($moduleinstance, $mform = null) {
     global $DB;
@@ -87,7 +89,9 @@ function diplomasafe_update_instance($moduleinstance, $mform = null) {
  * Removes an instance of the mod_diplomasafe from the database.
  *
  * @param int $id Id of the module instance.
+ *
  * @return bool True if successful, false on failure.
+ * @throws dml_exception
  */
 function diplomasafe_delete_instance($id) {
     global $DB;

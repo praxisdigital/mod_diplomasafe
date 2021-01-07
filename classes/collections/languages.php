@@ -30,6 +30,7 @@ class languages extends collection
 
     /**
      * @return mixed
+     * @throws \dml_exception
      */
     private function get_data() {
         return language_factory::get_repository()

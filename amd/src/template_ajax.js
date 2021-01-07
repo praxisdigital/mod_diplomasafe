@@ -12,21 +12,26 @@ define(['jquery'], function($) {
              * @constructor
              */
             function TemplateField($pageWrapper) {
-                this.$pageWrapper = $pageWrapper;
-                var self = this;
                 this.loadAjax = function() {
-                    var $ajaxWrapper = this.$pageWrapper.find('#ajax-result');
+                    var $ajaxWrapper = $pageWrapper.find('#ajax-result');
                     var sessionKey = $ajaxWrapper.data('session-key');
-                    var languageId = this.$pageWrapper.find('#id_language_id option:selected').val();
+                    var selectedTemplateId = $pageWrapper.find('[name="template_id"]').val();
+                    var languageId = $pageWrapper.find('#id_language_id option:selected').val();
                     $.ajax({
                         type : 'GET',
                         url : '/mod/diplomasafe/ajax/template_ajax.php',
                         data : {
                             sesskey : sessionKey,
+                            selected_template_id : selectedTemplateId,
                             language_id : languageId
                         },
                         success : function(data) {
-                            self.$pageWrapper.find('#ajax-result').html(data);
+                            $pageWrapper.find('#ajax-result').html(data);
+                            $pageWrapper.find('#template').on('change', function() {
+                                var selectedOption = $(this).find('option:selected');
+                                var hiddenField = $pageWrapper.find('[name="template_id"]');
+                                hiddenField.val(selectedOption.val());
+                            });
                         }
                     });
                 };

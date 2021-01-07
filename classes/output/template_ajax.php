@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\output;
 
+use mod_diplomasafe\collections\templates;
 use mod_diplomasafe\factories\template_factory;
 use renderer_base;
 
@@ -26,13 +27,19 @@ class template_ajax implements \renderable, \templatable
     private $language_id;
 
     /**
+     * @var int
+     */
+    private $selected_template_id;
+
+    /**
      * Constructor
      *
-     * @param \moodle_page $page
      * @param int $language_id
+     * @param int $selected_template_id
      */
-    public function __construct(int $language_id) {
+    public function __construct(int $language_id, int $selected_template_id) {
         $this->language_id = $language_id;
+        $this->selected_template_id = $selected_template_id;
     }
 
     /**
@@ -42,12 +49,32 @@ class template_ajax implements \renderable, \templatable
      * @throws \dml_exception
      */
     public function export_for_template(renderer_base $output) {
+
         $templates = template_factory::get_repository()
             ->get_by_language($this->language_id);
         $is_disabled = $this->language_id === 0;
+
+        $this->set_selected($templates);
+
         return [
             'templates' => $templates,
-            'is_disabled' => $is_disabled
+            'is_disabled' => $is_disabled,
         ];
+    }
+
+    /**
+     * @param $templates
+     *
+     * @return templates
+     */
+    private function set_selected($templates) : templates {
+        foreach ($templates as $i => $template) {
+            $template->selected = false;
+            if ((int)$template->id === $this->selected_template_id) {
+                $template->selected = true;
+            }
+            $templates[$i] = $template;
+        }
+        return $templates;
     }
 }

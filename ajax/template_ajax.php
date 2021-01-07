@@ -20,9 +20,10 @@ require_sesskey();
 $PAGE->set_context(context_user::instance($USER->id));
 
 $language_id = required_param('language_id', PARAM_INT);
+$selected_template_id = required_param('selected_template_id', PARAM_INT);
 
 try {
-    $view = new template_ajax($language_id);
+    $view = new template_ajax($language_id, $selected_template_id);
 
     $renderer = $PAGE->get_renderer('mod_diplomasafe');
     echo $renderer->render($view);
