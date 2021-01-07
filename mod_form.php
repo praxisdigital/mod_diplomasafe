@@ -70,7 +70,7 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('diplomasafename', 'mod_diplomasafe'), array('size' => '64'));
-        $mform->setDefault('name', 'Diplomasafe');
+        $mform->setDefault('name', get_string('pluginname', 'mod_diplomasafe'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
