@@ -63,10 +63,11 @@ class repository
         foreach ($templates as $template) {
             $this->templates[] = new template([
                 'organisation_id' => $template['organization_id'],
-                'default_language_id' => 0, // Todo: How can I know which is the default language for the template
-                'idnumber' => $template['id'], // Todo: How can I know which is the default language for the template
+                'default_language_id' => 0, // Todo: Not available in the API but it will be added
+                'idnumber' => $template['id'],
                 'name' => '-- Findes ikke i API lige nu --',
-                'is_valid' => 0, // Todo: Figure out if valid
+                'is_valid' => 0, // Todo: Figure out if valid. Not valid if there are other fields than the ones mapped
+                'default_fields' => template::extract_default_fields($template)
             ]);
         }
 

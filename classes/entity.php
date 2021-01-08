@@ -10,6 +10,11 @@ namespace mod_diplomasafe;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class
+ *
+ * @package mod_diplomasafe
+ */
 abstract class entity
 {
     /**

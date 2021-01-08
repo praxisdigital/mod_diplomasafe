@@ -35,6 +35,7 @@ class cron_tasks
         $admin_task_mailer = new admin_task_mailer();
 
         $templates = $api_repo->get_all();
+
         foreach ($templates as $template) {
             try {
                 $mapper->store($template);
