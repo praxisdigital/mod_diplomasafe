@@ -35,7 +35,13 @@ class template_factory extends factory
 
     /**
      * @return api_repository
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
      * @throws \mod_diplomasafe\client\exceptions\invalid_argument_exception
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     * @throws \moodle_exception
      */
     public static function get_api_repository() : api_repository {
         return new api_repository(self::get_api_client());

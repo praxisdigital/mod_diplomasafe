@@ -93,7 +93,7 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_idnumber(string $template_idnumber) : template {
-        return new template($this->db->get_record(self::TABLE, [
+        return new template((array)$this->db->get_record(self::TABLE, [
             'idnumber' => $template_idnumber
         ], '*', MUST_EXIST));
     }

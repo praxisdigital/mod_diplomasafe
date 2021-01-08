@@ -10,6 +10,9 @@ namespace mod_diplomasafe\requests;
 
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\contracts\request_interface;
+use mod_diplomasafe\cron_tasks;
+use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\output\default_output;
 use mod_diplomasafe\request;
 
@@ -31,6 +34,9 @@ class default_request extends request implements request_interface
     public function process(): \renderable {
 
         global $DB, $PAGE;
+
+        // Todo: Create templates
+        cron_tasks::create_templates();
 
         // Todo: Create diploma
         //$config = new diplomasafe_config(get_config('mod_diplomasafe'));

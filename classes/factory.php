@@ -30,27 +30,25 @@ abstract class factory {
     }
 
     /**
-     * @return diplomasafe_client
+     * @return \curl
      * @throws \dml_exception
      * @throws client\exceptions\base_url_not_set
      * @throws client\exceptions\current_environment_invalid
      * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\invalid_argument_exception
      * @throws client\exceptions\personal_access_token_not_set
-     * @throws \moodle_exception
      */
-    public static function get_api_client() : diplomasafe_client {
+    public static function get_api_client() : \curl {
 
         $config = new diplomasafe_config(get_config('mod_diplomasafe'));
 
-        $api_client = new diplomasafe_client(new moodle_curl_request_adapter(new \curl()));
-        $api_client->set_base_url($config->get_base_url());
-        $api_client->set_headers([
-            "Authorization: Bearer " . $config->get_private_token(),
+        $curl = new \curl();
+        $curl->setHeader([
+            'Authorization: Bearer ' . $config->get_private_token(),
+            'Content-type: application/json',
             'Accept: application/json',
-            'Content-Type: application/json; charset=utf-8'
+            'Expect:'
         ]);
 
-        return $api_client;
+        return $curl;
     }
 }

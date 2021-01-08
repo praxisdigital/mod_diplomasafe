@@ -17,6 +17,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\entities
  *
+ * @property $id
  * @property $organisation_id
  * @property $default_language_id
  * @property $idnumber
@@ -30,6 +31,7 @@ class template extends entity
      */
     public function set_data() {
         $this->data = [
+            'id' => null,
             'organisation_id' => '',
             'default_language_id' => null,
             'idnumber' => '',
@@ -46,5 +48,12 @@ class template extends entity
     public function __construct($params) {
         $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name', 'is_valid'];
         $this->process_params($params, $required_params);
+    }
+
+    /**
+     * @return bool
+     */
+    public function exists() : bool {
+        return $this->id !== null;
     }
 }

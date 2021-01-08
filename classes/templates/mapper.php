@@ -2,6 +2,7 @@
 namespace mod_diplomasafe\templates;
 
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\template_factory;
 
 /**
  * @developer   Johnny Drud
@@ -41,29 +42,52 @@ class mapper
      * @param template $template
      *
      * @return bool
+     * @throws \dml_exception
      */
     public function store(template $template) : bool {
-        // Todo: Store the template
-        return true;
+        if (!$this->db->record_exists(self::TABLE, [
+            'idnumber' => $template->idnumber
+        ])) {
+            return $this->create($template);
+        }
+        return $this->update($template);
     }
 
     /**
      * @param template $template
      *
-     * @return bool
+     * @return int
+     * @throws \dml_exception
      */
-    private function create(template $template) : bool {
-        // Todo: Create the template
-        return true;
+    private function create(template $template) : int {
+        return $this->db->insert_record(self::TABLE, (object)[
+            'organisation_id' => $template->organisation_id,
+            'default_language_id' => $template->default_language_id,
+            'idnumber' => $template->idnumber,
+            'name' => $template->name,
+            'is_valid' => $template->is_valid
+        ]);
     }
 
     /**
      * @param template $template
      *
      * @return bool
+     * @throws \dml_exception
      */
     private function update(template $template) : bool {
-        // Todo: Update the template
-        return true;
+        $repo = template_factory::get_repository();
+        $template = $repo->get_by_idnumber($template->idnumber);
+        if (!$template->exists()) {
+            throw new \RuntimeException('The template does not exist. Can\'t update!');
+        }
+        return $this->db->update_record(self::TABLE, (object)[
+            'id' => $template->id,
+            'organisation_id' => $template->organisation_id,
+            'default_language_id' => $template->default_language_id,
+            'idnumber' => $template->idnumber,
+            'name' => $template->name,
+            'is_valid' => $template->is_valid
+        ]);
     }
 }

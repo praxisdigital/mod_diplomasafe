@@ -4,6 +4,7 @@ namespace mod_diplomasafe\task;
 use coding_exception;
 use core\task\scheduled_task;
 use lang_string;
+use mod_diplomasafe\cron_tasks;
 
 /**
  * @developer   Johnny Drud
@@ -28,7 +29,16 @@ class store_diploma_templates extends scheduled_task
         return get_string('cron_store_diploma_templates', 'mod_diplomasafe');
     }
 
+    /**
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\invalid_argument_exception
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     * @throws \moodle_exception
+     */
     public function execute() {
-        // Todo: Implement method
+        cron_tasks::create_templates();
     }
 }
