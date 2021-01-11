@@ -1,9 +1,8 @@
 <?php
 namespace mod_diplomasafe\templates;
 
-use mod_diplomasafe\collections\languages;
-use mod_diplomasafe\collections\template_default_field_values;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\collections\template_default_field_values;
 use mod_diplomasafe\factories\template_factory;
 
 /**
@@ -25,11 +24,6 @@ class mapper
      * @const string
      */
     private const TABLE = 'diplomasafe_templates';
-
-    /**
-     * @const string
-     */
-    private const TABLE_TEXTS = 'diplomasafe_template_texts';
 
     /**
      * @var \moodle_database
@@ -81,29 +75,10 @@ class mapper
                 }
             }
 
-            foreach ($template->default_fields as $field) {
-
-                // Todo: Store template fields in the DB. FIX ERROR WHEN ENABLED !!!
-                /*
-                $field_type_id = Template::get_field_type_id_by_key($field['key']);
-
-                // Store default template fields
-                if (!$this->db->record_exists(self::TABLE_TEXTS, [
-                    'template_id' => $template->id
-                ])) {
-                    $this->db->insert_record(self::TABLE_TEXTS, (object)[
-                        'language_id' => '', // Todo: Insert language ID here
-                        'type' => $field_type_id,
-                        'value' => $field['value']
-                    ]);
-                }
-                $this->db->update_record(self::TABLE_TEXTS, (object)[
-                    'id' => $template->id,
-                    'language_id' => '', // Todo: Insert language ID here
-                    'type' => $field_type_id,
-                    'value' => $field['value']
-                ]);
-                */
+            // Store default fields
+            foreach ($template->default_fields as $default_field) {
+                $default_fields_mapper = template_factory::get_default_fields_mapper();
+                $default_fields_mapper->store($template->id, $default_field);
             }
 
             $transaction->allow_commit();
