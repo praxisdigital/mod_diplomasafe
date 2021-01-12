@@ -26,7 +26,6 @@ class diploma_factory extends factory
      * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
      * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
      * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\invalid_argument_exception
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public static function get_api_mapper() : api_mapper {

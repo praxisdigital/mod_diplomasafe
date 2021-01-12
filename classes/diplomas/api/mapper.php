@@ -1,9 +1,8 @@
 <?php
 namespace mod_diplomasafe\diplomas\api;
 
-use mod_diplomasafe\client\diplomasafe_client;
+use mod_diplomasafe\admin_task_mailer;
 use mod_diplomasafe\entities\diploma;
-use mod_diplomasafe\messenger;
 
 /**
  * @developer   Johnny Drud
@@ -23,16 +22,16 @@ require_once $CFG->dirroot . '/user/lib.php';
 class mapper
 {
     /**
-     * @var diplomasafe_client
+     * @var \curl
      */
     private $client;
 
     /**
      * Constructor
      *
-     * @param diplomasafe_client $client
+     * @param \curl $client
      */
-    public function __construct(diplomasafe_client $client) {
+    public function __construct(\curl $client) {
         $this->client = $client;
     }
 
@@ -43,11 +42,12 @@ class mapper
      * @throws \coding_exception
      */
     public function create(diploma $diploma) : array {
+        $admin_task_mailer = new admin_task_mailer();
         try {
             // Todo: Issue the diploma here
             //return $this->client->post('/diplomas');
         } catch (\Exception $e) {
-            messenger::send_api_error_mail($diploma->course_id, $diploma->user_id, $e->getMessage());
+            $admin_task_mailer->send_to_all($e->getMessage());
             throw new \RuntimeException($e->getMessage());
         }
     }

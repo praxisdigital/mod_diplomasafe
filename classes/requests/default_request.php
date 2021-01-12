@@ -11,7 +11,9 @@ namespace mod_diplomasafe\requests;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\contracts\request_interface;
 use mod_diplomasafe\cron_tasks;
+use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\output\default_output;
 use mod_diplomasafe\request;
@@ -34,28 +36,6 @@ class default_request extends request implements request_interface
     public function process(): \renderable {
 
         global $DB, $PAGE;
-
-        // Todo: Create templates
-        cron_tasks::create_templates();
-
-        // Todo: Create diploma
-        //$config = new diplomasafe_config(get_config('mod_diplomasafe'));
-        //$curl = new \curl();
-        //$curl->setHeader([
-        //    'Authorization: Bearer ' . $config->get_private_token(),
-        //    'Content-type: application/json',
-        //    'Accept: application/json',
-        //    'Expect:'
-        //]);
-        //$response = $curl->post($config->get_base_url() . '/diplomas', \mod_diplomasafe\mock_payload::create_diploma());
-
-
-        //$api_client = \mod_diplomasafe\factory::get_api_client();
-        //$api_client->set_payload(\mod_diplomasafe\mock_payload::create_diploma());
-        //$response = $api_client->post('/diplomas');
-
-
-        //echo '<pre>' . print_r($response, true) . '</pre>';
 
         // Course_module ID, or
         $module_id = optional_param('id', 0, PARAM_INT);

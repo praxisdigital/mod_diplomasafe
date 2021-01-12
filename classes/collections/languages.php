@@ -21,11 +21,30 @@ defined('MOODLE_INTERNAL') || die();
 class languages extends collection
 {
     /**
+     * @var array
+     */
+    private $ids_by_key = [];
+
+    /**
      * Constructor
+     *
+     * @throws \dml_exception
      */
     public function __construct() {
-        $data = $this->get_data();
-        $this->set($data);
+        $languages = $this->get_data();
+        foreach ($languages as $language) {
+            $this->ids_by_key[$language->name] = $language->id;
+        }
+        $this->set($languages);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function key_exists(string $key) : bool {
+        return isset($this->ids_by_key[$key]);
     }
 
     /**

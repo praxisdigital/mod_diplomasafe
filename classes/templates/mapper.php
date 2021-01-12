@@ -26,6 +26,11 @@ class mapper
     private const TABLE = 'diplomasafe_templates';
 
     /**
+     * @const string
+     */
+    private const TABLE_LANGUAGES = 'diplomasafe_languages';
+
+    /**
      * @var \moodle_database
      */
     private $db;
@@ -51,34 +56,45 @@ class mapper
 
         try {
             // Store template
-            if (!$this->db->record_exists(self::TABLE, [
-                'idnumber' => $template->idnumber
-            ])) {
+            $template_id = template_factory::get_repository()
+                ->get_by_idnumber($template->idnumber)->id;
+
+            $template_exists = $template_id ? true : false;
+            if (!$template_exists) {
                 $template->id = $this->create($template);
             } else {
+                $template->id = $template_id;
                 $this->update($template);
-                $template->id = template_factory::get_repository()
-                    ->get_by_idnumber($template->idnumber)->id;
+            }
+
+            if (empty($template->id)) {
+                throw new \RuntimeException(get_string('message_template_id_unavailable_error', 'mod_diplomasafe'));
             }
 
             /** @var template_default_field_values $default_fieldss */
             $language_keys = $template->default_fields->get_available_language_keys();
 
-            // Make sure all language keys are stored
+            // Store language keys
             foreach ($language_keys as $language_key) {
-                if (!$this->db->record_exists('diplomasafe_languages', [
+                if (!$this->db->record_exists(self::TABLE_LANGUAGES, [
                     'name' => $language_key
                 ])) {
-                    $this->db->insert_record('diplomasafe_languages', (object)[
+                    $this->db->insert_record(self::TABLE_LANGUAGES, (object)[
                         'name' => $language_key
                     ]);
                 }
             }
 
+            $languages = $this->db->get_records(self::TABLE_LANGUAGES, null, '', 'name, id');
+
             // Store default fields
             foreach ($template->default_fields as $default_field) {
+                if (!isset($languages[$default_field['lang']]->id)) {
+                    throw new \RuntimeException(get_string('message_language_id_unavailable_error', 'mod_diplomasafe'));
+                }
+                $language = $languages[$default_field['lang']];
                 $default_fields_mapper = template_factory::get_default_fields_mapper();
-                $default_fields_mapper->store($template->id, $default_field);
+                $default_fields_mapper->store($template->id, $language->id, $default_field);
             }
 
             $transaction->allow_commit();
@@ -114,9 +130,9 @@ class mapper
      * @throws \dml_exception
      */
     private function update(template $template) : bool {
-        $repo = template_factory::get_repository();
-        $template = $repo->get_by_idnumber($template->idnumber);
-        if (!$template->exists()) {
+        if (!$this->db->record_exists(self::TABLE, [
+            'id' => $template->id
+        ])) {
             throw new \RuntimeException('The template does not exist. Can\'t update!');
         }
         return $this->db->update_record(self::TABLE, (object)[

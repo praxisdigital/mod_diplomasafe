@@ -71,6 +71,8 @@ $string['message_api_error_subject'] = 'API error';
 $string['message_api_error_body'] = 'The following error occurred in the API: {$a}';
 $string['message_language_please_select_error'] = 'Please select a language';
 $string['message_template_please_select_error'] = 'Please select a template';
+$string['message_template_id_unavailable_error'] = 'Template ID unavailable. Template could not be stored';
+$string['message_language_id_unavailable_error'] = 'Language ID unavailable. Template could not be stored';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';

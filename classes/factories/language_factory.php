@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\factories;
 
 use mod_diplomasafe\factory;
+use mod_diplomasafe\languages\mapper;
 use mod_diplomasafe\languages\repository;
 
 defined('MOODLE_INTERNAL') || die();
@@ -25,5 +26,12 @@ class language_factory extends factory
      */
     public static function get_repository() : repository {
         return new repository(self::get_db());
+    }
+
+    /**
+     * @return mapper
+     */
+    public static function get_mapper() : mapper {
+        return new mapper(self::get_db());
     }
 }

@@ -8,9 +8,7 @@
 
 namespace mod_diplomasafe\entities;
 
-use mod_diplomasafe\collections\default_template_fields;
 use mod_diplomasafe\collections\template_default_field_values;
-use mod_diplomasafe\collections\template_fields;
 use mod_diplomasafe\entity;
 
 defined('MOODLE_INTERNAL') || die();

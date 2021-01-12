@@ -40,32 +40,39 @@ class mapper
 
     /**
      * @param int $template_id
+     * @param int $language_id
      * @param array $default_field
      *
+     * @return void
      * @throws \dml_exception
      */
-    public function store(int $template_id, array $default_field) : void {
+    public function store(int $template_id, int $language_id, array $default_field) : void {
 
         $field_type_id = Template::get_field_type_id_by_key($default_field['key']);
 
-        // Store default template fields
-        if (!$this->db->record_exists(self::TABLE, [
-            'template_id' => $template_id
-        ])) {
-            /*
-            // Todo: Store template fields in the DB. FIX ERROR WHEN ENABLED !!!
+        $field_id = $this->db->get_field(self::TABLE, 'id', [
+            'template_id' => $template_id,
+            'language_id' => $language_id,
+            'type' => $field_type_id
+        ]);
+
+        $field_exists = $field_id ? true : false;
+
+        if (!$field_exists) {
             $this->db->insert_record(self::TABLE, (object)[
-                'language_id' => '', // Todo: Insert language ID here
+                'template_id' => $template_id,
+                'language_id' => $language_id,
                 'type' => $field_type_id,
                 'value' => $default_field['value']
             ]);
-            */
+        } else {
+            $this->db->update_record(self::TABLE, (object)[
+                'id' => $field_id,
+                'template_id' => $template_id,
+                'language_id' => $language_id,
+                'type' => $field_type_id,
+                'value' => $default_field['value']
+            ]);
         }
-        $this->db->update_record(self::TABLE, (object)[
-            'id' => $template_id,
-            'language_id' => '', // Todo: Insert language ID here
-            'type' => $field_type_id,
-            'value' => $default_field['value']
-        ]);
     }
 }

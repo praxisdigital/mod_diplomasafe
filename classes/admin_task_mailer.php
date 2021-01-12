@@ -12,6 +12,8 @@ use core\message\message;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once $CFG->dirroot . '/user/lib.php';
+
 /**
  * Class
  *
@@ -27,10 +29,10 @@ class admin_task_mailer
     /**
      * @param string $capability
      *
-     * @return array
+     * @return void
      */
-    private function load_recipients_with_course_capability($capability = 'mod/diplomasafe:receive_api_error_mail') : array {
-        $mail_recipients = [];
+    private function load_recipients_with_course_capability($capability = 'mod/diplomasafe:receive_api_error_mail') : void {
+        $mail_recipient_user_ids = [];
         $courses = get_courses();
         foreach ($courses as $course) {
             if ((int)$course->id === 1) {
@@ -39,10 +41,11 @@ class admin_task_mailer
             $course_context = \context_course::instance($course->id);
             $enrolled_users = get_enrolled_users($course_context, $capability);
             foreach ($enrolled_users as $enrolled_user) {
-                $mail_recipients[$enrolled_user->id] = $enrolled_user;
+                $mail_recipient_user_ids[$enrolled_user->id] = $enrolled_user->id;
             }
         }
-        $this->recipients = array_values(array_unique($mail_recipients));
+
+        $this->recipients = user_get_users_by_id(array_values($mail_recipient_user_ids))[0] ?? [];
     }
 
     /**
@@ -60,12 +63,12 @@ class admin_task_mailer
     }
 
     /**
-     * @param \stdClass $recipient
+     * @param int $recipient
      * @param string $error_message
      *
      * @throws \coding_exception
      */
-    public function send_to_one(\stdClass $recipient, string $error_message) : void {
+    public function send_to_one(int $recipient, string $error_message) : void {
         $message = new message('api_error');
         $message->component = 'mod_diplomasafe';
         $message->name = 'api_error';

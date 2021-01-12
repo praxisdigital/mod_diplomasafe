@@ -4,6 +4,7 @@ namespace mod_diplomasafe\templates\api;
 use mod_diplomasafe\api_pagination;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\language_factory;
 
 /**
  * @developer   Johnny Drud
@@ -60,12 +61,26 @@ class repository
         $response = json_decode($this->client->get($url), true);
         $templates = $response['templates'];
 
+        $languages_repository = language_factory::get_repository();
+        $languages = $languages_repository->get_all();
+
+        $language_mapper = language_factory::get_mapper();
+
         foreach ($templates as $template) {
+
+            $default_language_key = $template['default_language'];
+            if (!$languages->key_exists($default_language_key)) {
+                $language_id = $language_mapper->create($default_language_key);
+            } else {
+                $language = $languages_repository->get_by_key($default_language_key);
+                $language_id = $language->id;
+            }
+
             $this->templates[] = new template([
                 'organisation_id' => $template['organization_id'],
-                'default_language_id' => 0, // Todo: Not available in the API but it will be added
+                'default_language_id' => $language_id,
                 'idnumber' => $template['id'],
-                'name' => '-- Findes ikke i API lige nu --',
+                'name' => $template['extra_name'],
                 'is_valid' => 0, // Todo: Figure out if valid. Not valid if there are other fields than the ones mapped
                 'default_fields' => template::extract_default_fields($template)
             ]);

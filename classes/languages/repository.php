@@ -52,4 +52,16 @@ class repository
     public function get_all() : languages {
         return new languages();
     }
+
+    /**
+     * @param string $key
+     *
+     * @return array
+     * @throws \dml_exception
+     */
+    public function get_by_key(string $key) : object {
+        return $this->db->get_record(self::TABLE, [
+            'name' => $key
+        ]);
+    }
 }
