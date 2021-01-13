@@ -8,6 +8,8 @@
 
 namespace mod_diplomasafe\entities;
 
+use mod_diplomasafe\entity;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -15,38 +17,32 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\entities
  *
- * @property $template
- * @property $course_id
- * @property $user_id
+ * @property template $template
+ * @property int $course_id
+ * @property int $user_id
  *
  */
-class diploma
+class diploma extends entity
 {
     /**
-     * @var template
+     * @return mixed|void
      */
-    private $template;
-
-    /**
-     * @var int
-     */
-    private $course_id;
-
-    /**
-     * @var int
-     */
-    private $user_id;
+    public function set_data() {
+        $this->data = [
+            'id' => null,
+            'template' => null,
+            'course_id' => null,
+            'user_id' => null,
+        ];
+    }
 
     /**
      * Constructor
      *
-     * @param template $template
-     * @param int $course_id
-     * @param int $user_id
+     * @param $params
      */
-    public function __construct(template $template, int $course_id, int $user_id) {
-        $this->template = $template;
-        $this->course_id = $course_id;
-        $this->user_id = $user_id;
+    public function __construct($params) {
+        $required_params = ['template', 'course_id', 'user_id'];
+        $this->process_params($params, $required_params);
     }
 }

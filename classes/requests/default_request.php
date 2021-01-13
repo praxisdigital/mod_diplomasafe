@@ -20,6 +20,8 @@ use mod_diplomasafe\request;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once $CFG->dirroot . '/completion/completion_completion.php';
+
 /**
  * Class
  *

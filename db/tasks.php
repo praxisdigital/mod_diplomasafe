@@ -9,10 +9,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = [
     [
-        'classname' => 'mod_diplomasafe\task\courses_completed_create_diplomas',
+        'classname' => 'mod_diplomasafe\task\process_queue_items',
         'blocking' => 0,
-        'minute' => '0',
-        'hour' => '0',
+        'minute' => '*',
+        'hour' => '*',
         'day' => '*',
         'dayofweek' => '*',
         'month' => '*',

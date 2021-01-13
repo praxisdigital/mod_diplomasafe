@@ -39,7 +39,7 @@ abstract class factory {
      */
     public static function get_api_client() : \curl {
 
-        $config = new diplomasafe_config(get_config('mod_diplomasafe'));
+        $config = self::get_api_config();
 
         $curl = new \curl();
         $curl->setHeader([
@@ -50,5 +50,17 @@ abstract class factory {
         ]);
 
         return $curl;
+    }
+
+    /**
+     * @return diplomasafe_config
+     * @throws \dml_exception
+     * @throws client\exceptions\base_url_not_set
+     * @throws client\exceptions\current_environment_invalid
+     * @throws client\exceptions\current_environment_not_set
+     * @throws client\exceptions\personal_access_token_not_set
+     */
+    public static function get_api_config() : diplomasafe_config {
+        return new diplomasafe_config(get_config('mod_diplomasafe'));
     }
 }

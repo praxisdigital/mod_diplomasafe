@@ -2,6 +2,7 @@
 namespace mod_diplomasafe\diplomas\api;
 
 use mod_diplomasafe\admin_task_mailer;
+use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\entities\diploma;
 
 /**
@@ -27,12 +28,18 @@ class mapper
     private $client;
 
     /**
+     * @var diplomasafe_config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @param \curl $client
      */
-    public function __construct(\curl $client) {
+    public function __construct(\curl $client, diplomasafe_config $config) {
         $this->client = $client;
+        $this->config = $config;
     }
 
     /**
@@ -42,13 +49,28 @@ class mapper
      * @throws \coding_exception
      */
     public function create(diploma $diploma) : array {
-        $admin_task_mailer = new admin_task_mailer();
-        try {
-            // Todo: Issue the diploma here
-            //return $this->client->post('/diplomas');
-        } catch (\Exception $e) {
-            $admin_task_mailer->send_to_all($e->getMessage());
-            throw new \RuntimeException($e->getMessage());
+        // Todo: Add to mustache template or load as object list
+        $payload = '
+        {
+            "template_id": "' . $diploma->template->idnumber . '",
+            "organization_id": "' . $diploma->template->organisation_id . '",
+            "diplomas": [
+            {
+                    "recipient_email": "sample@example.mail",
+                    "recipient_name": "Sample Name",
+                    "language_code": "en-US",
+                    "issue_date": "2021-01-12",
+                    "no_claim_mail": 0,
+                    "diploma_fields": {
+                        "5": "Sample Value"
+                    }
+            }]
         }
+        ';
+        // Issue diploma
+
+        // Todo: Throw exception if the request is timed out
+
+        return json_decode($this->client->post($this->config->get_base_url() . '/diplomas', $payload), true);
     }
 }

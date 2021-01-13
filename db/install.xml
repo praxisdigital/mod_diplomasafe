@@ -69,10 +69,10 @@
         <INDEX NAME="type" UNIQUE="false" FIELDS="type"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="diplomasafe_diploma_fields" COMMENT="The diploma fields from Diplomasafe.">
+    <TABLE NAME="diplomasafe_dipl_fields" COMMENT="The mapping of custom Moodle fields to Diplomasafe diploma fields.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="customfield_shortname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The Moodle custom field shortname"/>
         <FIELD NAME="test_idnumber" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="prod_idnumber" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
@@ -80,6 +80,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
+        <INDEX NAME="customfield_shortname" UNIQUE="false" FIELDS="customfield_shortname"/>
         <INDEX NAME="test_idnumber" UNIQUE="false" FIELDS="test_idnumber"/>
         <INDEX NAME="prod_idnumber" UNIQUE="false" FIELDS="prod_idnumber"/>
       </INDEXES>
@@ -89,11 +90,11 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Pending = 0, Running = 1, Successful = 2, Failed = 3" />
         <FIELD NAME="message" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="time_modified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="last_run" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="last_run" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="last_mail_sent" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

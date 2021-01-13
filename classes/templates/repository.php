@@ -9,7 +9,6 @@
 namespace mod_diplomasafe\templates;
 
 use mod_diplomasafe\collections\templates;
-use mod_diplomasafe\entities\null_template;
 use mod_diplomasafe\entities\template;
 
 defined('MOODLE_INTERNAL') || die();
@@ -71,9 +70,14 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_id(int $template_id) : template {
-        return new template($this->db->get_record(self::TABLE, [
+
+        $record = (array)$this->db->get_record(self::TABLE, [
             'id' => $template_id
-        ], '*', MUST_EXIST));
+        ]);
+
+        $this->validate_record($record, 'id', $template_id);
+
+        return new template($record);
     }
 
     /**
@@ -93,8 +97,39 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_idnumber(string $template_idnumber) : template {
-        return new template((array)$this->db->get_record(self::TABLE, [
+
+        $record = (array)$this->db->get_record(self::TABLE, [
             'idnumber' => $template_idnumber
-        ], '*'));
+        ]);
+
+        $this->validate_record($record, 'idnumber', $template_idnumber);
+
+        return new template($record);
+    }
+
+    /**
+     * @param int $course_id
+     *
+     * @return template
+     * @throws \dml_exception
+     */
+    public function get_by_course_id(int $course_id) : template {
+        $template_id = $this->db->get_field('diplomasafe', 'template_id', [
+            'course' => $course_id
+        ]);
+
+        return $this->get_by_id($template_id);
+    }
+
+    /**
+     * @param array $record
+     * @param string $field
+     * @param string $identifier
+     */
+    private function validate_record(array $record, $field = '', $identifier = '') : void {
+        if ((isset($record[0]) && $record[0] === false) || empty($record)) {
+            // Todo: Add language string
+            throw new \RuntimeException('A template doesn\'t exist for the field "' . $field . '" with the value "' . $identifier . '". Check if this template really exists in the DB.');
+        }
     }
 }

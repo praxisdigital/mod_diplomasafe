@@ -20,6 +20,17 @@ defined('MOODLE_INTERNAL') || die();
 class cron_tasks
 {
     /**
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public static function process_queue() : void {
+        $queue = new queue();
+        $queue->add_failed();
+        // Todo: Remove "true". Do not output exception on live. We want to allow the script to continue if exceptions occurs
+        $queue->process_pending(true);
+    }
+
+    /**
      * @throws \dml_exception
      * @throws \moodle_exception
      * @throws client\exceptions\base_url_not_set
