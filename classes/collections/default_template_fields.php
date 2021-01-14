@@ -20,7 +20,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\collections
  */
-class template_default_field_values extends collection
+class default_template_fields extends collection
 {
     /**
      * @var array

@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\entities;
 
 use mod_diplomasafe\entity;
+use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
@@ -50,6 +51,10 @@ class diploma extends entity
      * @param $params
      *
      * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function __construct($params) {
         $required_params = ['template', 'course_id', 'user_id'];
@@ -62,12 +67,13 @@ class diploma extends entity
 
     /**
      * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     private function load_fields() : void {
-        $diploma_fields_repo = template_factory::get_fields_repository();
-        $this->fields = $diploma_fields_repo->get_data_by_language(
-            $this->template,
-            $this->language
-        );
+        $diploma_fields_repo = diploma_factory::get_fields_repository();
+        $this->fields = $diploma_fields_repo->get_field_data($this);
     }
 }

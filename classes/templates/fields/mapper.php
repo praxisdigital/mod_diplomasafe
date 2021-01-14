@@ -41,19 +41,19 @@ class mapper
     /**
      * @param int $template_id
      * @param int $language_id
-     * @param array $default_field
+     * @param array $field
      *
      * @return void
      * @throws \dml_exception
      */
-    public function store(int $template_id, int $language_id, array $default_field) : void {
+    public function store(int $template_id, int $language_id, array $field) : void {
 
-        $field_type_id = Template::get_field_type_id_by_key($default_field['key']);
+        $field_code = Template::get_field_code_by_foreign_key($field['key']);
 
         $field_id = $this->db->get_field(self::TABLE, 'id', [
             'template_id' => $template_id,
             'language_id' => $language_id,
-            'type' => $field_type_id
+            'field_code' => $field_code
         ]);
 
         $field_exists = $field_id ? true : false;
@@ -62,16 +62,16 @@ class mapper
             $this->db->insert_record(self::TABLE, (object)[
                 'template_id' => $template_id,
                 'language_id' => $language_id,
-                'type' => $field_type_id,
-                'value' => $default_field['value']
+                'field_code' => $field_code,
+                'value' => $field['value']
             ]);
         } else {
             $this->db->update_record(self::TABLE, (object)[
                 'id' => $field_id,
                 'template_id' => $template_id,
                 'language_id' => $language_id,
-                'type' => $field_type_id,
-                'value' => $default_field['value']
+                'field_code' => $field_code,
+                'value' => $field['value']
             ]);
         }
     }

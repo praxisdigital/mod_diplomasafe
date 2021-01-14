@@ -8,8 +8,10 @@
 
 namespace mod_diplomasafe\templates\fields;
 
+use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\entities\language;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -46,17 +48,16 @@ class repository
      * @return array
      * @throws \dml_exception
      */
-    public function get_data_by_language(template $template, language $language) : array {
+    public function get_template_texts_by_language(template $template, language $language) : array {
         $records = $this->db->get_records(self::TABLE, [
             'template_id' => $template->id,
             'language_id' => $language->id
         ]);
 
-        $diploma_fields = [];
+        $template_texts = [];
         foreach ($records as $record) {
-            $diploma_fields[$record->field_code] = $record->value;
+            $template_texts[$record->field_code] = $record->value;
         }
-
-        return $diploma_fields;
+        return $template_texts;
     }
 }

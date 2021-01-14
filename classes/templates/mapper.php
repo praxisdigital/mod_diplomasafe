@@ -1,6 +1,7 @@
 <?php
 namespace mod_diplomasafe\templates;
 
+use mod_diplomasafe\collections\default_template_fields;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\collections\template_default_field_values;
 use mod_diplomasafe\factories\template_factory;
@@ -71,7 +72,6 @@ class mapper
                 throw new \RuntimeException(get_string('message_template_id_unavailable_error', 'mod_diplomasafe'));
             }
 
-            /** @var template_default_field_values $default_fieldss */
             $language_keys = $template->default_fields->get_available_language_keys();
 
             // Store language keys
@@ -93,8 +93,8 @@ class mapper
                     throw new \RuntimeException(get_string('message_language_id_unavailable_error', 'mod_diplomasafe'));
                 }
                 $language = $languages[$default_field['lang']];
-                $default_fields_mapper = template_factory::get_default_fields_mapper();
-                $default_fields_mapper->store($template->id, $language->id, $default_field);
+                $fields_mapper = template_factory::get_fields_mapper();
+                $fields_mapper->store($template->id, $language->id, $default_field);
             }
 
             $transaction->allow_commit();

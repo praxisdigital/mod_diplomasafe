@@ -138,6 +138,17 @@ class queue
                 }
                 $template_repository = template_factory::get_repository();
                 $template = $template_repository->get_by_course_id($queue_item->course_id);
+
+                if (!$template->is_valid()) {
+                    throw new \RuntimeException(
+                        get_string('message_template_not_valid', 'mod_diplomasafe', [
+                            'template_id' => $template->id,
+                            'user_id' => $queue_item->user_id,
+                            'course_id' => $queue_item->course_id
+                        ])
+                    );
+                }
+
                 $language = $language_repository->get_by_id($template->default_language_id);
 
                 $diploma = new diploma([

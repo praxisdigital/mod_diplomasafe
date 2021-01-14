@@ -39,10 +39,6 @@ class default_request extends request implements request_interface
 
         global $DB, $PAGE;
 
-
-        cron_tasks::process_queue();
-
-
         // Course_module ID, or
         $module_id = optional_param('id', 0, PARAM_INT);
 

@@ -4,6 +4,7 @@ namespace mod_diplomasafe\templates\api;
 use mod_diplomasafe\api_pagination;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\language_factory;
 
 /**
@@ -68,6 +69,8 @@ class repository
 
         foreach ($templates as $template) {
 
+            $diploma_fields = $template['diploma_fields'] ?? [];
+
             $default_language_key = $template['default_language'];
             if (!$languages->key_exists($default_language_key)) {
                 $language_id = $language_mapper->create($default_language_key);
@@ -76,13 +79,18 @@ class repository
                 $language_id = $language->id;
             }
 
+            $remote_field_ids = [];
+            foreach ($diploma_fields as $diploma_field) {
+                $remote_field_ids[] = $diploma_field['id'];
+            }
+
             $this->templates[] = new template([
                 'organisation_id' => $template['organization_id'],
                 'default_language_id' => $language_id,
                 'idnumber' => $template['id'],
                 'name' => $template['extra_name'],
-                'is_valid' => 0, // Todo: Figure out if valid. Not valid if there are other fields than the ones mapped
-                'default_fields' => template::extract_default_fields($template)
+                'default_fields' => template::extract_default_fields($template),
+                'diploma_fields' => $remote_field_ids
             ]);
         }
 

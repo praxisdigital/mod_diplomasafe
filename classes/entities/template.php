@@ -8,8 +8,10 @@
 
 namespace mod_diplomasafe\entities;
 
-use mod_diplomasafe\collections\template_default_field_values;
+use mod_diplomasafe\collections\default_template_fields;
+use mod_diplomasafe\collections\template_field_values;
 use mod_diplomasafe\entity;
+use mod_diplomasafe\factories\diploma_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -23,8 +25,8 @@ defined('MOODLE_INTERNAL') || die();
  * @property $default_language_id
  * @property $idnumber
  * @property $name
- * @property $is_valid
- * @property template_default_field_values $default_fields
+ * @property bool $is_valid
+ * @property default_template_fields $default_fields
  */
 class template extends entity
 {
@@ -70,10 +72,42 @@ class template extends entity
      * Constructor
      *
      * @param $params
+     *
+     * @throws \dml_exception
      */
     public function __construct($params) {
-        $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name', 'is_valid'];
+        $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name'];
         $this->process_params($params, $required_params);
+
+        $this->data['is_valid'] = false;
+        if (!empty($params['diploma_fields'])) {
+            $this->has_other_diploma_fields_than_mapped($params['diploma_fields']);
+        }
+    }
+
+    /**
+     * @param array $remote_field_ids
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    private function has_other_diploma_fields_than_mapped(array $remote_field_ids) : bool {
+
+        $diploma_fields_repo = diploma_factory::get_fields_repository();
+        $mapped_field_ids = $diploma_fields_repo->get_field_ids();
+
+        $has_other = false;
+        foreach ($remote_field_ids as $remote_field_id) {
+            if (!in_array($remote_field_id, $mapped_field_ids, true)) {
+                $has_other = true;
+            }
+        }
+
+        if (!$has_other) {
+            $this->data['is_valid'] = true;
+        }
+
+        return $has_other;
     }
 
     /**
@@ -84,20 +118,27 @@ class template extends entity
     }
 
     /**
-     * @param array $template_payload
-     *
-     * @return template_default_field_values
+     * @return mixed
      */
-    public static function extract_default_fields(array $template_payload) : template_default_field_values {
-        return new template_default_field_values(self::TEMPLATE_BASE_LANGUAGE_FIELDS, $template_payload);
+    public function is_valid() : bool {
+        return $this->data['is_valid'];
     }
 
     /**
-     * @param string $base_field_key
+     * @param array $template_payload
      *
-     * @return null
+     * @return default_template_fields
      */
-    public static function get_field_type_id_by_key(string $base_field_key) : ?int {
-        return self::TEMPLATE_BASE_LANGUAGE_FIELDS[$base_field_key] ?? null;
+    public static function extract_default_fields(array $template_payload) : default_template_fields {
+        return new default_template_fields(self::TEMPLATE_BASE_LANGUAGE_FIELDS, $template_payload);
+    }
+
+    /**
+     * @param string $field_foreign_key
+     *
+     * @return null|string
+     */
+    public static function get_field_code_by_foreign_key(string $field_foreign_key) : ?string {
+        return self::TEMPLATE_BASE_LANGUAGE_FIELDS[$field_foreign_key] ?? null;
     }
 }

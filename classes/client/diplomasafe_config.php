@@ -37,6 +37,13 @@ class diplomasafe_config{
     }
 
     /**
+     * @return bool
+     */
+    public function is_test_environment() : bool {
+        return $this->get_environment() === 'test';
+    }
+
+    /**
      * The personal access token generated here: https://demo-admin.diplomasafe.net/en-US/auth-user
      * @return string
      */
