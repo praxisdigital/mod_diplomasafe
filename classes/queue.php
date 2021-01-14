@@ -140,18 +140,12 @@ class queue
                 $template = $template_repository->get_by_course_id($queue_item->course_id);
                 $language = $language_repository->get_by_id($template->default_language_id);
 
-                // Todo: Do not hardcode these diploma fields
-                $fields = [
-                    "5" => "Sample Value"
-                ];
-
                 $diploma = new diploma([
                     'template' => $template,
                     'course_id' => $queue_item->course_id,
                     'user_id' => $queue_item->user_id,
                     'issue_date' => date('Y-m-d'),
-                    'language_code' => $language->name,
-                    'fields' => $fields
+                    'language' => $language
                 ]);
 
                 $diploma_mapper = diploma_factory::get_api_mapper();

@@ -28,9 +28,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 class template extends entity
 {
-    public const TEMPLATE_BASE_TITLE_FIELD = 1;
-    public const TEMPLATE_BASE_DESCRIPTION_FIELD = 2;
-    public const TEMPLATE_BASE_SHORT_DESCRIPTION_FIELD = 3;
+    public const TEMPLATE_BASE_TITLE_FIELD = 'title';
+    public const TEMPLATE_BASE_DESCRIPTION_FIELD = 'description';
+    public const TEMPLATE_BASE_SHORT_DESCRIPTION_FIELD = 'description_short';
 
     /**
      * Each field is an array in the following format.

@@ -10,6 +10,7 @@ namespace mod_diplomasafe\languages;
 
 use mod_diplomasafe\collections\languages;
 use mod_diplomasafe\entities\language;
+use mod_diplomasafe\factories\diploma_factory;
 
 defined('MOODLE_INTERNAL') || die();
 

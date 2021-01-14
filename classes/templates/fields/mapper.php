@@ -6,7 +6,7 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
-namespace mod_diplomasafe\templates\default_fields;
+namespace mod_diplomasafe\templates\fields;
 
 use mod_diplomasafe\entities\template;
 

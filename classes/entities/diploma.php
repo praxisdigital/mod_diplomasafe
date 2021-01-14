@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\entities;
 
 use mod_diplomasafe\entity;
+use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -22,7 +23,7 @@ defined('MOODLE_INTERNAL') || die();
  * @property int $course_id
  * @property int $user_id
  * @property string $issue_date
- * @property string $language_code
+ * @property language $language
  * @property array $fields
  *
  */
@@ -38,7 +39,7 @@ class diploma extends entity
             'course_id' => null,
             'user_id' => null,
             'issue_date' => null,
-            'language_code' => null,
+            'language' => null,
             'fields' => []
         ];
     }
@@ -47,9 +48,26 @@ class diploma extends entity
      * Constructor
      *
      * @param $params
+     *
+     * @throws \dml_exception
      */
     public function __construct($params) {
         $required_params = ['template', 'course_id', 'user_id'];
         $this->process_params($params, $required_params);
+
+        if (!empty($this->template->id) && !empty($this->language->id)) {
+            $this->load_fields();
+        }
+    }
+
+    /**
+     * @throws \dml_exception
+     */
+    private function load_fields() : void {
+        $diploma_fields_repo = template_factory::get_fields_repository();
+        $this->fields = $diploma_fields_repo->get_data_by_language(
+            $this->template,
+            $this->language
+        );
     }
 }

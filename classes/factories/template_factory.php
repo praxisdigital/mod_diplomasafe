@@ -10,7 +10,8 @@ namespace mod_diplomasafe\factories;
 
 use mod_diplomasafe\templates\mapper;
 use mod_diplomasafe\templates\api\repository as api_repository;
-use mod_diplomasafe\templates\default_fields\mapper as default_fields_mapper;
+use mod_diplomasafe\templates\fields\mapper as fields_mapper;
+use mod_diplomasafe\templates\fields\repository as fields_repository;
 use mod_diplomasafe\factory;
 use mod_diplomasafe\templates\repository;
 
@@ -48,9 +49,16 @@ class template_factory extends factory
     }
 
     /**
-     * @return default_fields_mapper
+     * @return fields_mapper
      */
-    public static function get_default_fields_mapper() : default_fields_mapper {
-        return new default_fields_mapper(self::get_db());
+    public static function get_fields_mapper() : fields_mapper {
+        return new fields_mapper(self::get_db());
+    }
+
+    /**
+     * @return fields_repository
+     */
+    public static function get_fields_repository() : fields_repository {
+        return new fields_repository(self::get_db());
     }
 }
