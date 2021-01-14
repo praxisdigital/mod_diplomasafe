@@ -18,7 +18,7 @@ class diplomasafe_config{
     /**
      * We only want to hold the config for diplomasafe
      * diplomasafe_config constructor.
-     * @param \stdClass $config_data
+     *
      * @throws base_url_not_set
      * @throws current_environment_invalid
      * @throws current_environment_not_set

@@ -1,7 +1,7 @@
 <?php
 /**
  * @developer   Johnny Drud
- * @date        04-01-2021
+ * @date        14-01-2021
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
@@ -18,15 +18,9 @@ defined('MOODLE_INTERNAL') || die();
  * @package mod_diplomasafe\entities
  *
  * @property int $id
- * @property template $template
- * @property int $course_id
- * @property int $user_id
- * @property string $issue_date
- * @property string $language_code
- * @property array $fields
- *
+ * @property string $name
  */
-class diploma extends entity
+class language extends entity
 {
     /**
      * @return mixed|void
@@ -34,12 +28,7 @@ class diploma extends entity
     public function set_data() {
         $this->data = [
             'id' => null,
-            'template' => null,
-            'course_id' => null,
-            'user_id' => null,
-            'issue_date' => null,
-            'language_code' => null,
-            'fields' => []
+            'name' => ''
         ];
     }
 
@@ -49,7 +38,9 @@ class diploma extends entity
      * @param $params
      */
     public function __construct($params) {
-        $required_params = ['template', 'course_id', 'user_id'];
+        $required_params = [
+            'name'
+        ];
         $this->process_params($params, $required_params);
     }
 }

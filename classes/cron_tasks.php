@@ -36,7 +36,6 @@ class cron_tasks
      * @throws client\exceptions\base_url_not_set
      * @throws client\exceptions\current_environment_invalid
      * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\invalid_argument_exception
      * @throws client\exceptions\personal_access_token_not_set
      */
     public static function create_templates() : void {

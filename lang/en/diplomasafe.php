@@ -73,10 +73,12 @@ $string['message_language_please_select_error'] = 'Please select a language';
 $string['message_template_please_select_error'] = 'Please select a template';
 $string['message_template_id_unavailable_error'] = 'Template ID unavailable. Template could not be stored';
 $string['message_language_id_unavailable_error'] = 'Language ID unavailable. Template could not be stored';
+$string['message_invalid_response_from_endpoint'] = 'Invalid response. Endpoint: {$a->endpoint}. Response: {$a->response}';
+$string['message_user_could_not_be_found'] = 'The user with ID "{$a}" could not be found. Can\'t create the diploma';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
-$string['cron_courses_completed_create_diplomas'] = 'Create diplomas when courses are completed';
+$string['cron_process_queue'] = 'Process the queue for creating diplomas';
 
 // Templates view
 $string['view_templates_list_title'] = 'Templates';

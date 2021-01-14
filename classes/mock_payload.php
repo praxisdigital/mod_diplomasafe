@@ -27,13 +27,13 @@ class mock_payload
             'template_id' => 't4ab241160738670c7f4daaea97f33794e80567c9',
             'diplomas' => [
                 [
-                    'recipient_email' => 'jdr@praxis.dk',
-                    'recipient_name' => 'Testbruger',
-                    'language_code' => 'da-DK',
+                    'recipient_email' => 'sample@mail.dk',
+                    'recipient_name' => 'Test user',
+                    'language_code' => 'en-US',
                     'issue_date' => '2021-01-06',
                     'no_claim_mail' => 0,
                     'diploma_fields' => [
-                        //'course_num' => 'Kursusnummer her'
+                        '5' => 'Field value'
                     ]
                 ]
             ]

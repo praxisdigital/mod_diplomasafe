@@ -46,7 +46,11 @@ abstract class factory {
             'Authorization: Bearer ' . $config->get_private_token(),
             'Content-type: application/json',
             'Accept: application/json',
-            'Expect:'
+        ]);
+
+        $curl->setopt([
+            'CURLOPT_TIMEOUT' => 10,
+            'CURLOPT_CONNECTTIMEOUT' => 10
         ]);
 
         return $curl;

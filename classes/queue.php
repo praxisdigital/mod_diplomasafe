@@ -12,6 +12,7 @@ use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\queue_item;
 use mod_diplomasafe\factories\diploma_factory;
+use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\factories\queue_factory;
 use mod_diplomasafe\factories\template_factory;
 
@@ -123,6 +124,7 @@ class queue
      * @throws \dml_exception
      */
     public function process_pending($output_exception = false) : void {
+        $language_repository = language_factory::get_repository();
         $admin_task_mailer = new admin_task_mailer();
         $i = 1;
         do {
@@ -136,11 +138,22 @@ class queue
                 }
                 $template_repository = template_factory::get_repository();
                 $template = $template_repository->get_by_course_id($queue_item->course_id);
+                $language = $language_repository->get_by_id($template->default_language_id);
+
+                // Todo: Do not hardcode these diploma fields
+                $fields = [
+                    "5" => "Sample Value"
+                ];
+
                 $diploma = new diploma([
                     'template' => $template,
                     'course_id' => $queue_item->course_id,
-                    'user_id' => $queue_item->user_id
+                    'user_id' => $queue_item->user_id,
+                    'issue_date' => date('Y-m-d'),
+                    'language_code' => $language->name,
+                    'fields' => $fields
                 ]);
+
                 $diploma_mapper = diploma_factory::get_api_mapper();
                 $diploma_mapper->create($diploma);
                 $this->set_status($queue_item, queue_item::QUEUE_ITEM_STATUS_SUCCESSFUL);

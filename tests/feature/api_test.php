@@ -5,11 +5,8 @@ namespace mod_diplomasafe\tests\feature;
 use curl;
 use dml_exception;
 use advanced_testcase;
-use mod_diplomasafe\client\diplomasafe_client;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\client\exceptions\base_url_not_set;
-use mod_diplomasafe\client\adapters\moodle_curl_request_adapter;
-use mod_diplomasafe\client\exceptions\invalid_argument_exception;
 use mod_diplomasafe\client\exceptions\current_environment_invalid;
 use mod_diplomasafe\client\exceptions\current_environment_not_set;
 use mod_diplomasafe\client\exceptions\personal_access_token_not_set;
@@ -38,7 +35,6 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
      * @throws current_environment_invalid
      * @throws current_environment_not_set
      * @throws dml_exception
-     * @throws invalid_argument_exception
      * @throws personal_access_token_not_set
      */
     public function setUp(): void{

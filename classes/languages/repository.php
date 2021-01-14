@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\languages;
 
 use mod_diplomasafe\collections\languages;
+use mod_diplomasafe\entities\language;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -54,14 +55,26 @@ class repository
     }
 
     /**
-     * @param string $key
+     * @param int $id
      *
-     * @return array
+     * @return language
      * @throws \dml_exception
      */
-    public function get_by_key(string $key) : object {
-        return $this->db->get_record(self::TABLE, [
+    public function get_by_id(int $id) : language {
+        return new language((array)$this->db->get_record(self::TABLE, [
+            'id' => $id
+        ]));
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return language
+     * @throws \dml_exception
+     */
+    public function get_by_key(string $key) : language {
+        return new language((array)$this->db->get_record(self::TABLE, [
             'name' => $key
-        ]);
+        ]));
     }
 }

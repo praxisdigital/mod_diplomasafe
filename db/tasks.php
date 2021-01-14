@@ -9,7 +9,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = [
     [
-        'classname' => 'mod_diplomasafe\task\process_queue_items',
+        'classname' => 'mod_diplomasafe\task\process_queue',
         'blocking' => 0,
         'minute' => '*',
         'hour' => '*',

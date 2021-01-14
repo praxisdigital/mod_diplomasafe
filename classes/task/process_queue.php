@@ -26,7 +26,7 @@ class process_queue extends scheduled_task
      * @throws coding_exception
      */
     public function get_name() {
-        return get_string('cron_process_queue_items', 'mod_diplomasafe');
+        return get_string('cron_process_queue', 'mod_diplomasafe');
     }
 
     /**
