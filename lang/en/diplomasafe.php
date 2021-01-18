@@ -52,6 +52,13 @@ $string['settings_test_personal_access_token'] = 'Personal Access Token (test si
 $string['settings_test_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
 $string['settings_prod_personal_access_token'] = 'Personal Access Token (production site)';
 $string['settings_prod_personal_access_token_desc'] = 'Create token here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://live-admin.diplomasafe.net/en-US/auth-user</a>';
+$string['settings_api_timeout'] = 'API timeout';
+$string['settings_api_timeout_desc'] = 'The timeout in seconds';
+$string['settings_queue_amount_to_process'] = 'Queue items to process';
+$string['settings_queue_amount_to_process_desc'] = 'The number of queue items to process each time the queue is triggered by the cron job.';
+
+// Default view
+$string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';
 
 // Default form
 $string['select_default_option_language'] = 'Select language';
@@ -78,6 +85,9 @@ $string['message_user_could_not_be_found'] = 'The user with ID "{$a}" could not 
 $string['message_template_not_valid'] = 'The template "{$a->template_id}" is not valid. Can\'t create the diploma for 
 the user "{$a->user_id}" in the course "{$a->course_id}". This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
+$string['message_template_invalid'] = 'The selected template "{$a}" is not valid. This error may occur if other diploma fields than the mapped 
+ones exists remotely.';
+$string['can_not_find_template'] = 'Can not find the template.';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';

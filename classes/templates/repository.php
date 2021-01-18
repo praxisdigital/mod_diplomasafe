@@ -69,6 +69,7 @@ class repository
      * @param int $template_id
      *
      * @return template
+     * @throws \coding_exception
      * @throws \dml_exception
      */
     public function get_by_id(int $template_id) : template {
@@ -77,7 +78,7 @@ class repository
             'id' => $template_id
         ]);
 
-        $this->validate_record($record, 'id', $template_id);
+        $this->validate_record($record);
 
         return new template($record);
     }
@@ -96,6 +97,7 @@ class repository
      * @param string $template_idnumber
      *
      * @return template
+     * @throws \coding_exception
      * @throws \dml_exception
      */
     public function get_by_idnumber(string $template_idnumber) : template {
@@ -104,7 +106,7 @@ class repository
             'idnumber' => $template_idnumber
         ]);
 
-        $this->validate_record($record, 'idnumber', $template_idnumber);
+        $this->validate_record($record);
 
         return new template($record);
     }
@@ -113,6 +115,7 @@ class repository
      * @param int $course_id
      *
      * @return template
+     * @throws \coding_exception
      * @throws \dml_exception
      */
     public function get_by_course_id(int $course_id) : template {
@@ -124,14 +127,30 @@ class repository
     }
 
     /**
-     * @param array $record
-     * @param string $field
-     * @param string $identifier
+     * @param int $module_id
+     *
+     * @return template
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
-    private function validate_record(array $record, $field = '', $identifier = '') : void {
+    public function get_by_module_id(int $module_id) : template {
+        $template_id = $this->db->get_field('diplomasafe', 'template_id', [
+            'id' => $module_id
+        ]);
+
+        return $this->get_by_id($template_id);
+    }
+
+    /**
+     * @param array $record
+     *
+     * @throws \coding_exception
+     */
+    private function validate_record(array $record) : void {
         if ((isset($record[0]) && $record[0] === false) || empty($record)) {
-            // Todo: Add language string
-            throw new \RuntimeException('A template doesn\'t exist for the field "' . $field . '" with the value "' . $identifier . '". Check if this template really exists in the DB.');
+            throw new \RuntimeException(
+                get_string('can_not_find_template', 'mod_diplomasafe')
+            );
         }
     }
 }

@@ -49,8 +49,8 @@ abstract class factory {
         ]);
 
         $curl->setopt([
-            'CURLOPT_TIMEOUT' => 10,
-            'CURLOPT_CONNECTTIMEOUT' => 10
+            'CURLOPT_TIMEOUT' => $config->get_timeout(),
+            'CURLOPT_CONNECTTIMEOUT' => $config->get_timeout()
         ]);
 
         return $curl;

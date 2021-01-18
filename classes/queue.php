@@ -26,15 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 class queue
 {
     /**
-     * The number of pending items to process each time
-     * the queue is being executed. 0 means process all
-     * items.
-     *
-     * @const
-     */
-    public const BATCH_SIZE = 0;
-
-    /**
      * @var \mod_diplomasafe\queue\mapper
      */
     private $mapper;
@@ -50,11 +41,21 @@ class queue
     private $pending_items;
 
     /**
+     * @var client\diplomasafe_config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @throws \dml_exception
+     * @throws client\exceptions\base_url_not_set
+     * @throws client\exceptions\current_environment_invalid
+     * @throws client\exceptions\current_environment_not_set
+     * @throws client\exceptions\personal_access_token_not_set
      */
     public function __construct() {
+        $this->config = factory::get_api_config();
         $this->mapper = queue_factory::get_queue_mapper();
         $this->repo = queue_factory::get_queue_repository();
         $this->pending_items = $this->repo->get_pending_items();
@@ -127,13 +128,16 @@ class queue
         $language_repository = language_factory::get_repository();
         $admin_task_mailer = new admin_task_mailer();
         $i = 1;
+
+        $amount_to_process = $this->config->get_queue_amount_to_process();
+
         do {
             $queue_item = $this->get_current();
             if ($queue_item === false) {
                 break;
             }
             try {
-                if ($i > self::BATCH_SIZE && self::BATCH_SIZE !== 0) {
+                if ($i > $amount_to_process && $amount_to_process !== 0) {
                     break;
                 }
                 $template_repository = template_factory::get_repository();

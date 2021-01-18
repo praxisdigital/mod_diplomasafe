@@ -72,42 +72,10 @@ class template extends entity
      * Constructor
      *
      * @param $params
-     *
-     * @throws \dml_exception
      */
     public function __construct($params) {
         $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name'];
         $this->process_params($params, $required_params);
-
-        $this->data['is_valid'] = false;
-        if (!empty($params['diploma_fields'])) {
-            $this->has_other_diploma_fields_than_mapped($params['diploma_fields']);
-        }
-    }
-
-    /**
-     * @param array $remote_field_ids
-     *
-     * @return bool
-     * @throws \dml_exception
-     */
-    private function has_other_diploma_fields_than_mapped(array $remote_field_ids) : bool {
-
-        $diploma_fields_repo = diploma_factory::get_fields_repository();
-        $mapped_field_ids = $diploma_fields_repo->get_field_ids();
-
-        $has_other = false;
-        foreach ($remote_field_ids as $remote_field_id) {
-            if (!in_array($remote_field_id, $mapped_field_ids, true)) {
-                $has_other = true;
-            }
-        }
-
-        if (!$has_other) {
-            $this->data['is_valid'] = true;
-        }
-
-        return $has_other;
     }
 
     /**

@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\requests;
 
+use mappings\moodle_course_date;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\contracts\request_interface;
 use mod_diplomasafe\cron_tasks;

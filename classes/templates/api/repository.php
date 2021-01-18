@@ -90,7 +90,7 @@ class repository
                 'idnumber' => $template['id'],
                 'name' => $template['extra_name'],
                 'default_fields' => template::extract_default_fields($template),
-                'diploma_fields' => $remote_field_ids
+                'is_valid' => !$this->has_other_diploma_fields_than_mapped($remote_field_ids)
             ]);
         }
 
@@ -100,5 +100,26 @@ class repository
         }
 
         return $this->templates;
+    }
+
+    /**
+     * @param array $remote_field_ids
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    private function has_other_diploma_fields_than_mapped(array $remote_field_ids) : bool {
+
+        $diploma_fields_repo = diploma_factory::get_fields_repository();
+        $mapped_field_ids = $diploma_fields_repo->get_field_ids();
+
+        $has_other = false;
+        foreach ($remote_field_ids as $remote_field_id) {
+            if (!in_array($remote_field_id, $mapped_field_ids, true)) {
+                $has_other = true;
+            }
+        }
+
+        return $has_other;
     }
 }

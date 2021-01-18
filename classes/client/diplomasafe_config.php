@@ -133,4 +133,18 @@ class diplomasafe_config{
             throw new personal_access_token_not_set($message);
         }
     }
+
+    /**
+     * @return int
+     */
+    public function get_timeout() : int {
+        return $this->config->api_timeout;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_queue_amount_to_process() : int {
+        return $this->config->queue_amount_to_process;
+    }
 }

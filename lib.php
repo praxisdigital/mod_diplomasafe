@@ -22,6 +22,9 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_diplomasafe\factories\template_factory;
+use mod_diplomasafe\output\diplomasafe;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -129,4 +132,31 @@ function diplomasafe_extend_navigation($diplomasafenode, $course, $module, $cm) 
  * @param navigation_node $diplomasafenode {@see navigation_node}
  */
 function diplomasafe_extend_settings_navigation($settingsnav, $diplomasafenode = null) {
+}
+
+/**
+ * Overwrites the content in the course-module object
+ *
+ * @param cm_info $cm
+ * @throws coding_exception
+ * @throws dml_exception
+ * @throws moodle_exception
+ */
+function diplomasafe_cm_info_view(cm_info $cm) {
+    if ($cm->uservisible) {
+        global $PAGE;
+        $renderer = $PAGE->get_renderer('mod_diplomasafe');
+        try {
+            $template_repo = template_factory::get_repository();
+            $template = $template_repo->get_by_module_id($cm->instance);
+            if (!$template->is_valid()) {
+                throw new RuntimeException(get_string('message_template_invalid', 'mod_diplomasafe', $template->name));
+            }
+        } catch (RuntimeException $e) {
+            $context_course = context_course::instance($cm->course);
+            if (!has_capability('mod/assignment:submit', $context_course)) {
+                $cm->set_content($renderer->render(new diplomasafe($e->getMessage())));
+            }
+        }
+    }
 }

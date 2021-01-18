@@ -80,4 +80,16 @@ if ($ADMIN->fulltree) {
     $description = get_string('settings_prod_personal_access_token_desc', $component);
     $default = '';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
+
+    $name = $component . '/api_timeout';
+    $title = get_string('settings_api_timeout', $component);
+    $description = get_string('settings_api_timeout_desc', $component);
+    $default = 10;
+    $settings->add(new admin_setting_configtext($name, $title, $description, $default));
+
+    $name = $component . '/queue_amount_to_process';
+    $title = get_string('settings_queue_amount_to_process', $component);
+    $description = get_string('settings_queue_amount_to_process_desc', $component);
+    $default = 20;
+    $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 }
