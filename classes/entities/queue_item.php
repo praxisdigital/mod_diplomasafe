@@ -62,4 +62,39 @@ class queue_item extends entity
         ];
         $this->process_params($params, $required_params);
     }
+
+    /**
+     * @param int $status
+     *
+     * @return array
+     * @throws \coding_exception
+     */
+    public static function status_to_array(int $status) : array {
+        switch ($status) {
+            case self::QUEUE_ITEM_STATUS_PENDING:
+                return [
+                    'type' => 'secondary',
+                    'text' => get_string('status_pending', 'mod_diplomasafe')
+                ];
+            case self::QUEUE_ITEM_STATUS_RUNNING:
+                return [
+                    'type' => 'primary',
+                    'text' => get_string('status_running', 'mod_diplomasafe')
+                ];
+            case self::QUEUE_ITEM_STATUS_SUCCESSFUL:
+                return [
+                    'type' => 'success',
+                    'text' => get_string('status_successful', 'mod_diplomasafe')
+                ];
+            case self::QUEUE_ITEM_STATUS_FAILED:
+                return [
+                    'type' => 'danger',
+                    'text' => get_string('status_failed', 'mod_diplomasafe')
+                ];
+        }
+        return [
+            'type' => 'danger',
+            'text' => get_string('missing_or_invalid_status', 'mod_diplomasafe')
+        ];
+    }
 }

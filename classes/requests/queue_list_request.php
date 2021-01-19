@@ -1,7 +1,7 @@
 <?php
 /**
  * @developer   Johnny Drud
- * @date        06-01-2021
+ * @date        19-01-2021
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
@@ -9,7 +9,7 @@
 namespace mod_diplomasafe\requests;
 
 use mod_diplomasafe\contracts\request_interface;
-use mod_diplomasafe\output\templates_list;
+use mod_diplomasafe\output\queue_list;
 use mod_diplomasafe\request;
 
 defined('MOODLE_INTERNAL') || die();
@@ -17,13 +17,14 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class
  *
- * @package mod_diplomasafe\templates_list_request
+ * @package mod_diplomasafe\requests
  */
-class templates_list_request extends request implements request_interface
+class queue_list_request extends request implements request_interface
 {
     /**
      * @return \renderable
      * @throws \coding_exception
+     * @throws \dml_exception
      * @throws \moodle_exception
      * @throws \require_login_exception
      */
@@ -37,6 +38,6 @@ class templates_list_request extends request implements request_interface
 
         $this->page_setup($page_url);
 
-        return new templates_list();
+        return new queue_list();
     }
 }

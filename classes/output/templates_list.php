@@ -10,7 +10,6 @@ namespace mod_diplomasafe\output;
 
 use mod_diplomasafe\collections\templates;
 use renderer_base;
-use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -19,14 +18,14 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\output
  */
-class templates_list_output implements \renderable, \templatable
+class templates_list implements \renderable, \templatable
 {
     /**
      * @param renderer_base $output
      *
-     * @return array|stdClass|void
+     * @return array
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $output) : array {
         return [
             'templates' => new templates()
         ];

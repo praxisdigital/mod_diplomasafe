@@ -83,16 +83,6 @@ class mapper
             ]
         ];
 
-        /*
-        $fields_repo = template_factory::get_fields_repository();
-        $field_data = $fields_repo->get_data_by_language($diploma->template, $diploma->language);
-
-        echo 'Template: ' . $diploma->template->id . '<br>';
-        echo 'Language: ' . $diploma->language->id . '<br>';
-        echo '<pre>' . print_r($field_data, true) . '</pre>';
-        echo '<pre>' . print_r($payload, true) . '</pre>'; die;
-        */
-
         $response = json_decode(
             $this->client->post($this->config->get_base_url() . $endpoint, json_encode($payload)
         ), true);

@@ -1,0 +1,11 @@
+.diplomasafe-container.view-queue-list .resubmit {
+  white-space: nowrap; }
+
+.diplomasafe-container.view-queue-list th.center {
+  text-align: center; }
+
+.diplomasafe-container.view-queue-list td.center {
+  text-align: center; }
+
+.diplomasafe-container.view-queue-list td .badge {
+  margin-bottom: 5px; }

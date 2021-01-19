@@ -1,0 +1,20 @@
+.diplomasafe-container {
+    &.view-queue-list {
+        .resubmit {
+            white-space: nowrap;
+        }
+        th {
+            &.center {
+                text-align: center;
+            }
+        }
+        td {
+            &.center {
+                text-align: center;
+            }
+            .badge {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

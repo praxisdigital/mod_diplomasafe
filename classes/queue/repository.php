@@ -61,19 +61,29 @@ class repository
     }
 
     /**
+     * @param array $statuses
+     * @param string $order_by
+     *
      * @return queue_items
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_pending_items() : queue_items {
+    public function get_all($statuses = [], $order_by = 'id DESC') : queue_items {
+
         $sql = /** @lang mysql */'
         SELECT *
         FROM {' . self::TABLE . '}
-        WHERE status = :status_pending
-        ORDER BY id
-        ';
-        $records = $this->db->get_records_sql($sql, [
-            'status_pending' => queue_item::QUEUE_ITEM_STATUS_PENDING
-        ]);
+        WHERE 1 ';
+
+        $sql_params = [];
+        if (!empty($statuses)) {
+            [$in_sql, $sql_params] = $this->db->get_in_or_equal(array_values($statuses), SQL_PARAMS_NAMED);
+            $sql .= 'AND status ' . $in_sql;
+        }
+
+        $sql .= 'ORDER BY ' . $order_by;
+
+        $records = $this->db->get_records_sql($sql, $sql_params);
 
         if (empty($records)) {
             return new queue_items([]);
@@ -85,5 +95,14 @@ class repository
         }
 
         return new queue_items($pending_items);
+    }
+
+    /**
+     * @return queue_items
+     * @throws \dml_exception
+     * @throws \coding_exception
+     */
+    public function get_pending_items() : queue_items {
+        return $this->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING], 'id ASC');
     }
 }

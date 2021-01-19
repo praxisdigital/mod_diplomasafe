@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\controllers;
 
 use mod_diplomasafe\requests\default_request;
+use mod_diplomasafe\requests\queue_list_request;
 use mod_diplomasafe\requests\templates_list_request;
 
 defined('MOODLE_INTERNAL') || die();
@@ -48,6 +49,9 @@ class dispatcher
         switch ($dispatch_request) {
             case 'templates_list':
                 $request = new templates_list_request($this->page);
+                break;
+            case 'queue_list':
+                $request = new queue_list_request($this->page);
                 break;
             case 'default':
             default: {

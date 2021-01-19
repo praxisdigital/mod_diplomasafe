@@ -39,7 +39,8 @@ $string['settings_templates_header'] = 'Views';
 $string['settings_templates_information'] = '';
 $string['settings_templates'] = 'Environment';
 $string['settings_templates_desc'] = 'Determines if you are testing or in production';
-$string['settings_show_templates'] = 'Show templates';
+$string['settings_templates'] = 'Templates';
+$string['settings_queue'] = 'Diploma queue';
 $string['settings_api_client_header'] = 'API Client settings';
 $string['settings_api_client_information'] = 'Setting are provided by Diplomasafe here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
 $string['settings_environment'] = 'Environment';
@@ -98,12 +99,34 @@ $string['can_not_find_template'] = 'Can not find the template.';
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
 $string['cron_process_queue'] = 'Process the queue for creating diplomas';
 
+// Statuses
+$string['status_pending'] = 'Pending';
+$string['status_running'] = 'Running';
+$string['status_successful'] = 'Successful';
+$string['status_failed'] = 'Failed';
+$string['missing_or_invalid_status'] = 'Missing or invalid status';
+
 // Templates view
 $string['view_templates_list_title'] = 'Templates';
 $string['view_templates_list_header'] = $string['view_templates_list_title'];
+$string['view_templates_list_th_id'] = 'ID';
 $string['view_templates_list_th_name'] = 'Navn';
 $string['view_templates_list_th_organisation_id'] = 'Organization ID';
 $string['view_templates_list_th_default_language_id'] = 'Default language';
 $string['view_templates_list_th_idnumber'] = 'ID number';
 $string['view_templates_list_th_is_valid'] = 'Valid';
 $string['view_templates_list_back'] = 'Back to settings';
+
+// Queue view
+$string['view_queue_list_header'] = 'Diploma queue';
+$string['view_queue_list_th_id'] = 'ID';
+$string['view_queue_list_th_course'] = 'Course';
+$string['view_queue_list_th_user'] = 'User';
+$string['view_queue_list_th_status'] = 'Status';
+$string['view_queue_list_th_message'] = 'Message';
+$string['view_queue_list_th_time_created'] = 'Time created';
+$string['view_queue_list_th_last_run'] = 'Last run';
+$string['view_queue_list_th_last_mail_sent'] = 'Last mail sent';
+$string['view_queue_readd'] = 'Readd';
+$string['view_queue_list_back'] = 'Back to settings';
+

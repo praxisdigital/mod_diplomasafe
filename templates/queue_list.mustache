@@ -1,0 +1,58 @@
+<h2>{{#str}}view_queue_list_header, mod_diplomasafe{{/str}}</h2>
+<div class="diplomasafe-container view-queue-list mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="center">{{#str}}view_queue_list_th_id, mod_diplomasafe{{/str}}</th>
+                <th class="center">{{#str}}view_queue_list_th_course, mod_diplomasafe{{/str}}</th>
+                <th class="center">{{#str}}view_queue_list_th_user, mod_diplomasafe{{/str}}</th>
+                <th class="center">{{#str}}view_queue_list_th_status, mod_diplomasafe{{/str}}</th>
+                <th>{{#str}}view_queue_list_th_message, mod_diplomasafe{{/str}}</th>
+                <th>{{#str}}view_queue_list_th_time_created, mod_diplomasafe{{/str}}</th>
+                <th>{{#str}}view_queue_list_th_last_run, mod_diplomasafe{{/str}}</th>
+                <th>{{#str}}view_queue_list_th_last_mail_sent, mod_diplomasafe{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#queue_items}}
+            <tr data-id="{{id}}">
+                <td class="center">{{id}}</td>
+                <td class="center">
+                    <a href="/course/view.php?id={{course_id}}">
+                        {{course_id}}
+                    </a>
+                </td>
+                <td class="center">
+                    <a href="/user/profile.php?id={{user_id}}">
+                    {{user_id}}
+                    </a>
+                </td>
+                <td class="center">
+                    <span class="badge badge-{{status_item.type}}">
+                        {{status_item.text}}
+                    </span>
+                    {{#allow_readd}}
+                        <div class="resubmit">
+                            <button class="btn btn-default btn-sm">
+                                <i class="fa fa-plus"></i> {{#str}}view_queue_readd, mod_diplomasafe{{/str}}
+                            </button>
+                        </div>
+                    {{/allow_readd}}
+                </td>
+                <td>{{message}}</td>
+                <td>{{time_created_formatted}}</td>
+                <td>{{last_run_formatted}}</td>
+                <td>{{last_mail_sent_formatted}}</td>
+            </tr>
+        {{/queue_items}}
+        </tbody>
+    </table>
+    <div>
+        <a class="btn btn-default" href="/admin/settings.php?section=modsettingdiplomasafe">
+            <i class="fa fa-arrow-left"></i> {{#str}}view_queue_list_back, mod_diplomasafe{{/str}}
+        </a>
+    </div>
+    <pre>
+        {{message}}
+    </pre>
+</div>

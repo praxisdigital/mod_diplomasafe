@@ -38,11 +38,20 @@ if ($ADMIN->fulltree) {
     $heading = get_string('settings_templates_header', $component);
     $information = get_string('settings_templates_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
-    $name = $component . '/show_templates';
-    $heading = get_string('settings_show_templates', $component);
+    $name = $component . '/templates';
+    $heading = get_string('settings_templates', $component);
     $setting = new admin_setting_link($name, $heading,
         new moodle_url('/mod/diplomasafe/view.php', [
             'view' => 'templates_list'
+        ])
+    );
+    $settings->add($setting);
+
+    $name = $component . '/queue';
+    $heading = get_string('settings_queue', $component);
+    $setting = new admin_setting_link($name, $heading,
+        new moodle_url('/mod/diplomasafe/view.php', [
+            'view' => 'queue_list'
         ])
     );
     $settings->add($setting);
