@@ -22,9 +22,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_duration extends mapping implements mapping_interface
 {
-    public const REMOTE_ID_TEST = 302;
-    public const REMOTE_ID_PROD = 233;
-
     /**
      * @return string
      * @throws \dml_exception
@@ -33,20 +30,12 @@ class moodle_duration extends mapping implements mapping_interface
      * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
-    public function get_data(): string {
+    public function get_value(): string {
         $config = factory::get_api_config();
 
         $duration_field_code = $config->get_duration_custom_field_code();
         $repository = custom_field_factory::get_customfield_repository($this->course->id);
 
         return $repository->get_field_data($duration_field_code);
-    }
-
-    public function get_remote_id(): string {
-        $config = factory::get_api_config();
-        if (!$config->is_test_environment()) {
-            return self::REMOTE_ID_TEST;
-        }
-        return self::REMOTE_ID_PROD;
     }
 }

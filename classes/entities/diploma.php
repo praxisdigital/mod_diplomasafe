@@ -67,13 +67,9 @@ class diploma extends entity
 
     /**
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     private function load_fields() : void {
         $diploma_fields_repo = diploma_factory::get_fields_repository();
-        $this->fields = $diploma_fields_repo->get_field_data($this);
+        $this->fields = $diploma_fields_repo->get_fields_key_value($this->course_id);
     }
 }

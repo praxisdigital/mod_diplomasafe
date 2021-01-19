@@ -33,7 +33,10 @@ class diploma_factory extends factory
         return new api_mapper(self::get_api_client(), self::get_api_config());
     }
 
+    /**
+     * @return fields_repository
+     */
     public static function get_fields_repository() : fields_repository  {
-        return new fields_repository(self::get_db(), self::get_api_config());
+        return new fields_repository();
     }
 }

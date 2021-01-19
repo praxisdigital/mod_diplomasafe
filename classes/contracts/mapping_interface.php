@@ -20,7 +20,7 @@ interface mapping_interface
     /**
      * @return string
      */
-    public function get_data() : string;
+    public function get_value() : string;
 
     /**
      * @return string

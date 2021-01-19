@@ -8,10 +8,7 @@
 
 namespace mod_diplomasafe\requests;
 
-use mod_diplomasafe\factories\mapping_factory;
-use mod_diplomasafe\factory;
-use mod_diplomasafe\mapping;
-use mod_diplomasafe\mappings\moodle_course_date;
+use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\contracts\request_interface;
 use mod_diplomasafe\output\default_output;
 use mod_diplomasafe\request;

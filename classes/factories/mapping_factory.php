@@ -34,15 +34,15 @@ class mapping_factory
      */
     public static function make(string $type, int $course_id) : mapping_interface {
         switch ($type) {
-            case mapping::COURSE_DATE:
+            case mapping::MOODLE_COURSE_DATE:
                 return new moodle_course_date($course_id);
-            case mapping::COURSE_PERIOD:
+            case mapping::MOODLE_COURSE_PERIOD:
                 return new moodle_course_period($course_id);
-            case mapping::COURSE_DURATION:
+            case mapping::MOODLE_DURATION:
                 return new moodle_duration($course_id);
-            case mapping::COURSE_INSTRUCTOR:
+            case mapping::MOODLE_INSTRUCTOR:
                 return new moodle_instructor($course_id);
-            case mapping::COURSE_LOCATION:
+            case mapping::MOODLE_LOCATION:
                 return new moodle_location($course_id);
             default:
                 throw new \RuntimeException('No or invalid mapping defined');

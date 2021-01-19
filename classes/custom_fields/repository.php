@@ -38,8 +38,8 @@ class repository
      *
      * @return mixed|string
      */
-    public function get_field_data(string $field_code)
-    {
+    public function get_field_data(string $field_code): string {
+
         $handler = course_handler::create();
 
         $datas = $handler->get_instance_data($this->course_id);

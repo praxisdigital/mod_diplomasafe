@@ -69,22 +69,6 @@
         <INDEX NAME="field_code" UNIQUE="false" FIELDS="field_code"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="diplomasafe_dipl_fields" COMMENT="The mapping of custom Moodle fields to Diplomasafe diploma fields.">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="field_code" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The Moodle custom field shortname"/>
-        <FIELD NAME="test_idnumber" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="prod_idnumber" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
-      <INDEXES>
-        <INDEX NAME="field_code" UNIQUE="false" FIELDS="field_code"/>
-        <INDEX NAME="test_idnumber" UNIQUE="false" FIELDS="test_idnumber"/>
-        <INDEX NAME="prod_idnumber" UNIQUE="false" FIELDS="prod_idnumber"/>
-      </INDEXES>
-    </TABLE>
     <TABLE NAME="diplomasafe_queue" COMMENT="The queue for creating diplomas via the API.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>

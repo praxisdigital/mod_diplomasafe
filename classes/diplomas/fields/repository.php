@@ -8,8 +8,9 @@
 
 namespace mod_diplomasafe\diplomas\fields;
 
-use mod_diplomasafe\client\diplomasafe_config;
-use mod_diplomasafe\entities\diploma;
+use mod_diplomasafe\factories\mapping_factory;
+use mod_diplomasafe\factory;
+use mod_diplomasafe\mapping;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -21,41 +22,32 @@ defined('MOODLE_INTERNAL') || die();
 class repository
 {
     /**
-     * @const string
+     * @var array
      */
-    private const TABLE = 'diplomasafe_map_dipl_fields';
+    private $diploma_fields;
 
     /**
-     * @var \moodle_database
+     * @var array
      */
-    private $db;
-
-    /**
-     * @var diplomasafe_config
-     */
-    private $config;
+    private $diploma_key_value = [];
 
     /**
      * Constructor
-     *
-     * @param \moodle_database $db
-     * @param diplomasafe_config $config
      */
-    public function __construct(\moodle_database $db, diplomasafe_config $config) {
-        $this->db = $db;
-        $this->config = $config;
+    public function __construct() {
+        $this->diploma_fields = mapping::MAPPING_FIELDS;
     }
 
     /**
-     * @return array
+     * @param int $course_id
+     *
      * @throws \dml_exception
      */
-    public function get_field_ids() : array {
-        $field = 'prod_idnumber';
-        if ($this->config->is_test_environment()) {
-            $field = 'test_idnumber';
+    private function extract_field_data(int $course_id): void {
+        foreach ($this->diploma_fields as $diploma_field) {
+            $mapping = mapping_factory::make($diploma_field['field_code'], $course_id);
+            $this->diploma_key_value[$mapping->get_remote_id()] = $mapping->get_value();
         }
-        return array_keys($this->db->get_records(self::TABLE, null, '', $field));
     }
 
     /**
@@ -66,32 +58,36 @@ class repository
      * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
-    public function get_field_data(diploma $diploma) : array {
-
-        $mapped_fields = $this->db->get_records(self::TABLE);
-
-        foreach ($mapped_fields as $mapped_field) {
-
-            $field_id = $mapped_field->prod_idnumber;
-            if ($this->config->is_test_environment()) {
-                $field_id = $mapped_field->test_idnumber;
+    public function get_field_ids() : array {
+        $config = factory::get_api_config();
+        $field_ids = [];
+        foreach ($this->diploma_fields as $diploma_field) {
+            if ($config->is_test_environment()) {
+                $field_ids[] = $diploma_field['test_idnumber'] ?? '';
+                continue;
             }
-
-            // The IDs
-            //$diploma->user_id
-            //$diploma->course_id
-
-            // Todo: Extract data from Moodle based on the field code
-
-            // moodle_course_date		        [Course startdate]
-            // moodle_course_period		        [Course startdate] – [Course enddate]
-            // moodle_duration		            Moodle admin skal oprette et brugerkonfigureret felt (course custom field) som mappes af moodle admin i opsætningen af pluginnet.
-            // moodle_location		            Moodle admin skal oprette et brugerkonfigureret felt (course custom field) som mappes af moodle admin i opsætningen af pluginnet.
-            // moodle_instructor		        Der oprettes en ny rettighed med betegnelsen ”Diplomasafeinstrucor”, der default knyttes til rollearketypen ”Teacher” . Alle brugere tilmeldt kurset med denne rettighed medsendes som undervisere i en liste adskilt med komma.
-
-            $diploma_fields[$field_id] = ''; // Todo: Add value here
+            $field_ids[] = $diploma_field['prod_idnumber'] ?? '';
         }
+        return $field_ids;
+    }
 
-        return $diploma_fields;
+    /**
+     * @return array|array[]
+     */
+    public function get_fields() : array {
+        return $this->diploma_fields;
+    }
+
+    /**
+     * @param int $course_id
+     *
+     * @return array
+     * @throws \dml_exception
+     */
+    public function get_fields_key_value(int $course_id) : array {
+        if (empty($this->diploma_key_value)) {
+            $this->extract_field_data($course_id);
+        }
+        return $this->diploma_key_value;
     }
 }
