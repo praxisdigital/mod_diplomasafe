@@ -35,7 +35,7 @@ $string['pluginadministration'] = 'Diplomasafe Administration';
 $string['show_description'] = 'Show description';
 
 // Settings
-$string['settings_templates_header'] = 'Overview';
+$string['settings_templates_header'] = 'Views';
 $string['settings_templates_information'] = '';
 $string['settings_templates'] = 'Environment';
 $string['settings_templates_desc'] = 'Determines if you are testing or in production';
@@ -56,6 +56,11 @@ $string['settings_api_timeout'] = 'API timeout';
 $string['settings_api_timeout_desc'] = 'The timeout in seconds';
 $string['settings_queue_amount_to_process'] = 'Queue items to process';
 $string['settings_queue_amount_to_process_desc'] = 'The number of queue items to process each time the queue is triggered by the cron job.';
+$string['settings_moodle_duration_field'] = 'Moodle duration field';
+$string['settings_moodle_duration_field_desc'] = 'Select the field to use for duration.';
+$string['settings_moodle_location_field'] = 'Moodle location field';
+$string['settings_moodle_location_field_desc'] = 'Select the field to use for location';
+$string['settings_select_custom_field'] = 'Select custom field';
 
 // Default view
 $string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';

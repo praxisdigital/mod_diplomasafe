@@ -42,4 +42,12 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ]
     ],
+    'mod/diplomasafe:diplomasafeinstructor' => [
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+        ]
+    ],
 ];

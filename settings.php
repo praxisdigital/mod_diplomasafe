@@ -27,6 +27,8 @@ use mod_diplomasafe\settings\admin_setting_link;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $DB;
+
 if ($ADMIN->fulltree) {
     // https://docs.moodle.org/dev/Admin_settings
 
@@ -92,4 +94,29 @@ if ($ADMIN->fulltree) {
     $description = get_string('settings_queue_amount_to_process_desc', $component);
     $default = 20;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
+
+    $name = $component . '/moodle_duration_field';
+    $title = get_string('settings_moodle_duration_field', $component);
+    $description = get_string('settings_moodle_duration_field_desc', $component);
+    $custom_fields = $DB->get_records('customfield_field', null, 'shortname', 'id, shortname');
+    $default = '';
+    $options = [
+        '' => get_string('settings_select_custom_field', 'mod_diplomasafe')
+    ];
+    foreach ($custom_fields as $custom_field) {
+         $options[$custom_field->shortname] = $custom_field->shortname;
+    }
+    $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
+
+    $name = $component . '/moodle_location_field';
+    $title = get_string('settings_moodle_location_field', $component);
+    $description = get_string('settings_moodle_location_field_desc', $component);
+    $default = '';
+    $options = [
+        '' => get_string('settings_select_custom_field', 'mod_diplomasafe')
+    ];
+    foreach ($custom_fields as $custom_field) {
+        $options[$custom_field->shortname] = $custom_field->shortname;
+    }
+    $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 }

@@ -18,7 +18,12 @@ defined('MOODLE_INTERNAL') || die();
 interface mapping_interface
 {
     /**
-     * @return array
+     * @return string
      */
-    public function get_data() : array;
+    public function get_data() : string;
+
+    /**
+     * @return string
+     */
+    public function get_remote_id() : string;
 }

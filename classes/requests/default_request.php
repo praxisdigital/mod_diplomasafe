@@ -8,20 +8,15 @@
 
 namespace mod_diplomasafe\requests;
 
-use mappings\moodle_course_date;
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\factories\mapping_factory;
+use mod_diplomasafe\factory;
+use mod_diplomasafe\mapping;
+use mod_diplomasafe\mappings\moodle_course_date;
 use mod_diplomasafe\contracts\request_interface;
-use mod_diplomasafe\cron_tasks;
-use mod_diplomasafe\entities\diploma;
-use mod_diplomasafe\entities\template;
-use mod_diplomasafe\factories\diploma_factory;
-use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\output\default_output;
 use mod_diplomasafe\request;
 
 defined('MOODLE_INTERNAL') || die();
-
-require_once $CFG->dirroot . '/completion/completion_completion.php';
 
 /**
  * Class

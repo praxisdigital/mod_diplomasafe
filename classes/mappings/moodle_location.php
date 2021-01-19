@@ -6,9 +6,12 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
-namespace mappings;
+namespace mod_diplomasafe\mappings;
 
 use mod_diplomasafe\contracts\mapping_interface;
+use mod_diplomasafe\factories\custom_field_factory;
+use mod_diplomasafe\factory;
+use mod_diplomasafe\mapping;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -17,12 +20,41 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mappings
  */
-class moodle_location implements mapping_interface
+class moodle_location extends mapping implements mapping_interface
 {
+    public const REMOTE_ID_TEST = 303;
+    public const REMOTE_ID_PROD = 234;
+
     /**
-     * @return array
+     * @return string
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
-    public function get_data(): array {
-        // TODO: Implement get_data() method.
+    public function get_data(): string {
+        $config = factory::get_api_config();
+
+        $location_field_code = $config->get_location_custom_field_code();
+        $repository = custom_field_factory::get_customfield_repository($this->course->id);
+
+        return $repository->get_field_data($location_field_code);
+    }
+
+    /**
+     * @return string
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     */
+    public function get_remote_id(): string {
+        $config = factory::get_api_config();
+        if (!$config->is_test_environment()) {
+            return self::REMOTE_ID_TEST;
+        }
+        return self::REMOTE_ID_PROD;
     }
 }

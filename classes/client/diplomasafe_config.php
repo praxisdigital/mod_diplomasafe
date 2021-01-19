@@ -147,4 +147,18 @@ class diplomasafe_config{
     public function get_queue_amount_to_process() : int {
         return $this->config->queue_amount_to_process;
     }
+
+    /**
+     * @return string
+     */
+    public function get_duration_custom_field_code() : string {
+        return $this->config->moodle_duration_field;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_location_custom_field_code() : string {
+        return $this->config->moodle_location_field;
+    }
 }
