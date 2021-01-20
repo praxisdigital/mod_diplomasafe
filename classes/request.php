@@ -57,7 +57,7 @@ abstract class request
             $this->page->set_heading($title);
             $this->page->set_title($title);
         }
-        $this->page->set_url($url);
 
+        $this->page->set_url($url);
     }
 }

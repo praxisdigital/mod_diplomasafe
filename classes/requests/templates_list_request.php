@@ -29,6 +29,8 @@ class templates_list_request extends request implements request_interface
      */
     public function process(): \renderable {
 
+        require_capability('mod/diplomasafe:access_admin_views', \context_system::instance());
+
         $view = required_param('view', PARAM_TEXT);
 
         $page_url = new \moodle_url('/mod/diplomasafe/view.php', [

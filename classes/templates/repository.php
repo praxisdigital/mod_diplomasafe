@@ -149,7 +149,7 @@ class repository
     private function validate_record(array $record) : void {
         if ((isset($record[0]) && $record[0] === false) || empty($record)) {
             throw new \RuntimeException(
-                get_string('can_not_find_template', 'mod_diplomasafe')
+                get_string('message_can_not_find_template', 'mod_diplomasafe')
             );
         }
     }

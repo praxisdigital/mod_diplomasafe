@@ -105,4 +105,16 @@ class repository
     public function get_pending_items() : queue_items {
         return $this->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING], 'id ASC');
     }
+
+    /**
+     * @param int $item_id
+     *
+     * @return queue_item
+     * @throws \dml_exception
+     */
+    public function get_by_id(int $item_id) : queue_item {
+        return new queue_item((array)$this->db->get_record(self::TABLE, [
+            'id' => $item_id
+        ]));
+    }
 }

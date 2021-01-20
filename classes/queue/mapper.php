@@ -88,4 +88,16 @@ class mapper
 
         return $this->db->update_record(self::TABLE, (object)$record);
     }
+
+    /**
+     * @param queue_item $queue_item
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    public function delete(queue_item $queue_item) : bool {
+        return $this->db->delete_records(self::TABLE, [
+            'id' => $queue_item->id
+        ]);
+    }
 }

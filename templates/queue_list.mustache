@@ -11,6 +11,7 @@
                 <th>{{#str}}view_queue_list_th_time_created, mod_diplomasafe{{/str}}</th>
                 <th>{{#str}}view_queue_list_th_last_run, mod_diplomasafe{{/str}}</th>
                 <th>{{#str}}view_queue_list_th_last_mail_sent, mod_diplomasafe{{/str}}</th>
+                <th class="center">{{#str}}view_queue_list_th_delete, mod_diplomasafe{{/str}}</th>
             </tr>
         </thead>
         <tbody>
@@ -33,9 +34,10 @@
                     </span>
                     {{#allow_readd}}
                         <div class="resubmit">
-                            <button class="btn btn-default btn-sm">
-                                <i class="fa fa-plus"></i> {{#str}}view_queue_readd, mod_diplomasafe{{/str}}
-                            </button>
+                            <a class="btn btn-default btn-sm" href="/mod/diplomasafe/view.php?view=queue_list&action=add_again&id={{id}}"
+                            title="{{#str}}view_queue_add_again, mod_diplomasafe{{/str}}">
+                                <i class="fa fa-plus"></i>
+                            </a>
                         </div>
                     {{/allow_readd}}
                 </td>
@@ -43,6 +45,13 @@
                 <td>{{time_created_formatted}}</td>
                 <td>{{last_run_formatted}}</td>
                 <td>{{last_mail_sent_formatted}}</td>
+                <td class="center">
+                    <a class="btn btn-default btn-sm"
+                       href="/mod/diplomasafe/view.php?view=queue_list&action=delete&id={{id}}"
+                       id="delete-button" data-confirm-deletion="{{#str}}confirm_deletion, mod_diplomasafe{{/str}}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
             </tr>
         {{/queue_items}}
         </tbody>

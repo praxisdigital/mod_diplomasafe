@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// Basic
 $string['pluginname'] = 'Diplomasafe';
 $string['modulename'] = $string['pluginname'];
 $string['modulenameplural'] = $string['pluginname'];
@@ -32,7 +33,6 @@ $string['modulename_help'] = 'Diplomasafe is an integration between Moodle and D
 $string['diplomasafename_help'] = '';
 $string['diplomasafename'] = 'Name';
 $string['pluginadministration'] = 'Diplomasafe Administration';
-$string['show_description'] = 'Show description';
 
 // Settings
 $string['settings_templates_header'] = 'Views';
@@ -63,7 +63,7 @@ $string['settings_moodle_location_field'] = 'Moodle location field';
 $string['settings_moodle_location_field_desc'] = 'Select the field to use for location';
 $string['settings_select_custom_field'] = 'Select custom field';
 
-// Default view
+// Single view
 $string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';
 
 // Default form
@@ -77,6 +77,8 @@ $string['ajax_error_occurred'] = 'An error occurred. Could not fetch data';
 // Capabilities
 $string['diplomasafe:addinstance'] = 'Add instance';
 $string['diplomasafe:receive_api_error_mail'] = 'Receive API mail with error messages';
+$string['diplomasafe:diplomasafeinstructor'] = 'Diplomasafe instructor';
+$string['diplomasafe:access_admin_views'] = 'Access admin views';
 
 // Messages
 $string['messageprovider:api_error'] = 'API error notification';
@@ -93,7 +95,10 @@ the user "{$a->user_id}" in the course "{$a->course_id}". This error may occur i
 ones exists remotely.';
 $string['message_template_invalid'] = 'The selected template "{$a}" is not valid. This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
-$string['can_not_find_template'] = 'Can not find the template.';
+$string['message_can_not_find_template'] = 'Can not find the template.';
+$string['message_item_created'] = 'Item created';
+$string['message_item_deleted'] = 'Item deleted';
+$string['message_invalid_action'] = 'Invalid action "{$a}"';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
@@ -127,6 +132,10 @@ $string['view_queue_list_th_message'] = 'Message';
 $string['view_queue_list_th_time_created'] = 'Time created';
 $string['view_queue_list_th_last_run'] = 'Last run';
 $string['view_queue_list_th_last_mail_sent'] = 'Last mail sent';
-$string['view_queue_readd'] = 'Readd';
+$string['view_queue_list_th_delete'] = 'Delete';
+$string['view_queue_add_again'] = 'Add again';
 $string['view_queue_list_back'] = 'Back to settings';
 
+// Other
+$string['show_description'] = 'Show description';
+$string['confirm_deletion'] = 'Please confirm deletion';
