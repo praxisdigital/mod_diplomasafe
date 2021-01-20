@@ -15,6 +15,24 @@
             .badge {
                 margin-bottom: 5px;
             }
+            .item {
+                &-course {
+                    max-width: 150px;
+                }
+                &-user {
+                    max-width: 150px;
+                }
+                &-message {
+                    max-width: 300px;
+                }
+            }
+            .nowrap {
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .ellipsis {
+                text-overflow: ellipsis;
+            }
         }
     }
 }

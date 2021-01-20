@@ -19,14 +19,18 @@
             <tr data-id="{{id}}">
                 <td class="center">{{id}}</td>
                 <td class="center">
-                    <a href="/course/view.php?id={{course_id}}">
-                        {{course_id}}
-                    </a>
+                    <div class="item-course nowrap ellipsis" title="{{course_fullname}}">
+                        <a href="/course/view.php?id={{course_id}}">
+                            {{course_fullname}}
+                        </a>
+                    </div>
                 </td>
                 <td class="center">
-                    <a href="/user/profile.php?id={{user_id}}">
-                    {{user_id}}
-                    </a>
+                    <div class="item-user nowrap ellipsis" title="{{user_fullname}}">
+                        <a href="/user/profile.php?id={{user_id}}">
+                            {{user_fullname}}
+                        </a>
+                    </div>
                 </td>
                 <td class="center">
                     <span class="badge badge-{{status_item.type}}">
@@ -41,7 +45,11 @@
                         </div>
                     {{/allow_readd}}
                 </td>
-                <td>{{message}}</td>
+                <td>
+                    <div class="item-message nowrap ellipsis" title="{{message}}">
+                        {{message}}
+                    </div>
+                </td>
                 <td>{{time_created_formatted}}</td>
                 <td>{{last_run_formatted}}</td>
                 <td>{{last_mail_sent_formatted}}</td>

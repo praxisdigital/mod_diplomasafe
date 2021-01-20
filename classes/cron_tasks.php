@@ -25,9 +25,9 @@ class cron_tasks
      */
     public static function process_queue() : void {
         $queue = new queue();
-        $queue->add_failed();
-        // Todo: Remove "true". Do not output exception on live. We want to allow the script to continue if exceptions occurs
-        $queue->process_pending(true);
+        $output_exception = factory::get_api_config()
+            ->is_test_environment();
+        $queue->process_pending($output_exception);
     }
 
     /**

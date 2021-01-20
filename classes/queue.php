@@ -143,6 +143,7 @@ class queue
                     throw new \RuntimeException(
                         get_string('message_template_not_valid', 'mod_diplomasafe', [
                             'template_id' => $template->id,
+                            'template_name' => $template->name,
                             'user_id' => $queue_item->user_id,
                             'course_id' => $queue_item->course_id
                         ])

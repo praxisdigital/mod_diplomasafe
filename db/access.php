@@ -16,7 +16,7 @@
 
 /**
  * @package    mod_diplomasafe
- * @copyright  2020 - onwards Diplomasafe {@link https://diplomasafe.com}
+ * @copyright  2021 - onwards Diplomasafe {@link https://diplomasafe.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -71,8 +71,10 @@ class repository
     public function get_all($statuses = [], $order_by = 'id DESC') : queue_items {
 
         $sql = /** @lang mysql */'
-        SELECT *
-        FROM {' . self::TABLE . '}
+        SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, c.fullname course_fullname 
+        FROM {' . self::TABLE . '} q
+        LEFT JOIN {course} c ON c.id = q.course_id
+        LEFT JOIN {user} u ON u.id = q.user_id
         WHERE 1 ';
 
         $sql_params = [];

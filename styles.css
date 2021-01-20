@@ -1,11 +1,21 @@
 .diplomasafe-container.view-queue-list .resubmit {
   white-space: nowrap; }
-
 .diplomasafe-container.view-queue-list th.center {
   text-align: center; }
-
 .diplomasafe-container.view-queue-list td.center {
   text-align: center; }
-
 .diplomasafe-container.view-queue-list td .badge {
   margin-bottom: 5px; }
+.diplomasafe-container.view-queue-list td .item-course {
+  max-width: 150px; }
+.diplomasafe-container.view-queue-list td .item-user {
+  max-width: 150px; }
+.diplomasafe-container.view-queue-list td .item-message {
+  max-width: 300px; }
+.diplomasafe-container.view-queue-list td .nowrap {
+  white-space: nowrap;
+  overflow: hidden; }
+.diplomasafe-container.view-queue-list td .ellipsis {
+  text-overflow: ellipsis; }
+
+/*# sourceMappingURL=styles.css.map */

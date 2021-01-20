@@ -90,14 +90,14 @@ $string['message_template_id_unavailable_error'] = 'Template ID unavailable. Tem
 $string['message_language_id_unavailable_error'] = 'Language ID unavailable. Template could not be stored';
 $string['message_invalid_response_from_endpoint'] = 'Invalid response. Endpoint: {$a->endpoint}. Response: {$a->response}';
 $string['message_user_could_not_be_found'] = 'The user with ID "{$a}" could not be found. Can\'t create the diploma';
-$string['message_template_not_valid'] = 'The template "{$a->template_id}" is not valid. Can\'t create the diploma for 
-the user "{$a->user_id}" in the course "{$a->course_id}". This error may occur if other diploma fields than the mapped 
+$string['message_template_not_valid'] = 'The template "{$a->template_name}" (ID {$a->template_id}) is not valid. Can\'t create the diploma for 
+the user with ID {$a->user_id} in the course with ID {$a->course_id}. This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
 $string['message_template_invalid'] = 'The selected template "{$a}" is not valid. This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
 $string['message_can_not_find_template'] = 'Can not find the template.';
-$string['message_item_created'] = 'Item created';
-$string['message_item_deleted'] = 'Item deleted';
+$string['message_item_created'] = 'New item added to the queue';
+$string['message_item_deleted'] = 'Item deleted from the queue';
 $string['message_invalid_action'] = 'Invalid action "{$a}"';
 
 // Cron
