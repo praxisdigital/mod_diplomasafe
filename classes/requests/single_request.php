@@ -70,6 +70,6 @@ class single_request extends request implements request_interface
         $PAGE->set_heading(format_string($course->fullname));
         $PAGE->set_context($modulecontext);
 
-        return new single($this->page, $module_id);
+        return new single($this->get_page(), $module_id);
     }
 }

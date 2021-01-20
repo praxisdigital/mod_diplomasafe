@@ -32,6 +32,7 @@ class templates_list_request extends request implements request_interface
         require_capability('mod/diplomasafe:access_admin_views', \context_system::instance());
 
         $view = required_param('view', PARAM_TEXT);
+        $page_number = optional_param('page', 0, PARAM_INT);
 
         $page_url = new \moodle_url('/mod/diplomasafe/view.php', [
             'view' => $view,
@@ -39,6 +40,6 @@ class templates_list_request extends request implements request_interface
 
         $this->page_setup($page_url);
 
-        return new templates_list();
+        return new templates_list($this->get_output(), $page_number);
     }
 }

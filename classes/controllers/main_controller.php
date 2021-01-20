@@ -32,7 +32,6 @@ class main_controller
      *
      * @param \moodle_page $page
      * @param \bootstrap_renderer $output
-     * @param $config
      */
     public function __construct(\moodle_page $page, \bootstrap_renderer $output) {
         $this->page = $page;
@@ -46,7 +45,7 @@ class main_controller
      * @throws \moodle_exception
      */
     public function dispatch(string $view): void {
-        $dispatcer = new dispatcher($this->page);
+        $dispatcer = new dispatcher($this->page, $this->output);
 
         $template = $dispatcer->dispatch($view);
         $renderer = $this->page->get_renderer('mod_diplomasafe');

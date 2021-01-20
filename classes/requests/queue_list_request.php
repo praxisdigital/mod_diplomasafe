@@ -44,6 +44,7 @@ class queue_list_request extends request implements request_interface
         require_capability('mod/diplomasafe:access_admin_views', \context_system::instance());
 
         $view = required_param('view', PARAM_TEXT);
+        $page_number = optional_param('page', 0, PARAM_INT);
 
         $action = optional_param('action', '', PARAM_TEXT);
         $id = optional_param('id' , 0, PARAM_INT);
@@ -63,7 +64,7 @@ class queue_list_request extends request implements request_interface
 
         $this->page_setup($page_url);
 
-        return new queue_list($this->page);
+        return new queue_list($this->get_page(), $this->get_output(), $page_number);
     }
 
     /**

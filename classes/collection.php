@@ -108,4 +108,14 @@ class collection implements \ArrayAccess, \Iterator, \Countable
     public function to_array(): array{
         return $this->data;
     }
+
+    /**
+     * @param int $from
+     * @param int $to
+     *
+     * @return array
+     */
+    public function limit(int $from, int $to): array {
+        return array_values(array_slice($this->data, $from, $to));
+    }
 }

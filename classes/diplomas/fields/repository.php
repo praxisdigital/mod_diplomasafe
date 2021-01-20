@@ -59,7 +59,7 @@ class repository
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function get_field_ids() : array {
-        $config = factory::get_api_config();
+        $config = factory::get_config();
         $field_ids = [];
         foreach ($this->diploma_fields as $diploma_field) {
             if ($config->is_test_environment()) {

@@ -128,4 +128,10 @@ if ($ADMIN->fulltree) {
         $options[$custom_field->shortname] = $custom_field->shortname;
     }
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
+
+    $name = $component . '/item_count_per_page';
+    $title = get_string('settings_item_count_per_page', $component);
+    $description = get_string('settings_item_count_per_page_desc', $component);
+    $default = 10;
+    $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 }

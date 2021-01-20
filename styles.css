@@ -1,21 +1,27 @@
-.diplomasafe-container.view-queue-list .resubmit {
-  white-space: nowrap; }
-.diplomasafe-container.view-queue-list th.center {
+.diplomasafe-container th.center {
   text-align: center; }
-.diplomasafe-container.view-queue-list td.center {
+
+.diplomasafe-container td.center {
   text-align: center; }
-.diplomasafe-container.view-queue-list td .badge {
-  margin-bottom: 5px; }
-.diplomasafe-container.view-queue-list td .item-course {
-  max-width: 150px; }
-.diplomasafe-container.view-queue-list td .item-user {
-  max-width: 150px; }
-.diplomasafe-container.view-queue-list td .item-message {
-  max-width: 300px; }
-.diplomasafe-container.view-queue-list td .nowrap {
+
+.diplomasafe-container td .nowrap {
   white-space: nowrap;
   overflow: hidden; }
-.diplomasafe-container.view-queue-list td .ellipsis {
+
+.diplomasafe-container td .ellipsis {
   text-overflow: ellipsis; }
 
-/*# sourceMappingURL=styles.css.map */
+.diplomasafe-container.view-queue-list .resubmit {
+  white-space: nowrap; }
+
+.diplomasafe-container.view-queue-list td .badge {
+  margin-bottom: 5px; }
+
+.diplomasafe-container.view-queue-list td .item-course {
+  max-width: 150px; }
+
+.diplomasafe-container.view-queue-list td .item-user {
+  max-width: 150px; }
+
+.diplomasafe-container.view-queue-list td .item-message {
+  max-width: 300px; }

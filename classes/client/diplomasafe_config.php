@@ -161,4 +161,11 @@ class diplomasafe_config{
     public function get_location_custom_field_code() : string {
         return $this->config->moodle_location_field;
     }
+
+    /**
+     * @return int
+     */
+    public function get_item_count_per_page() : int {
+        return $this->config->item_count_per_page;
+    }
 }

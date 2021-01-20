@@ -31,7 +31,7 @@ class moodle_location extends mapping implements mapping_interface
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function get_value(): string {
-        $config = factory::get_api_config();
+        $config = factory::get_config();
 
         $location_field_code = $config->get_location_custom_field_code();
         $repository = custom_field_factory::get_customfield_repository($this->course->id);

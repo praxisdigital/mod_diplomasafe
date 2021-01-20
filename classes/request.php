@@ -20,15 +20,22 @@ abstract class request
     /**
      * @var \moodle_page
      */
-    protected $page;
+    private $page;
+
+    /**
+     * @var object
+     */
+    private $output;
 
     /**
      * Constructor
      *
      * @param \moodle_page $page
+     * @param object $output
      */
-    public function __construct(\moodle_page $page) {
+    public function __construct(\moodle_page $page, object $output) {
         $this->page = $page;
+        $this->output = $output;
     }
 
     /**
@@ -59,5 +66,19 @@ abstract class request
         }
 
         $this->page->set_url($url);
+    }
+
+    /**
+     * @return \moodle_page
+     */
+    public function get_page() : \moodle_page {
+        return $this->page;
+    }
+
+    /**
+     * @return object
+     */
+    public function get_output() : object {
+        return $this->output;
     }
 }

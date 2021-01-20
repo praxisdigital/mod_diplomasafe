@@ -25,7 +25,7 @@ class cron_tasks
      */
     public static function process_queue() : void {
         $queue = new queue();
-        $output_exception = factory::get_api_config()
+        $output_exception = factory::get_config()
             ->is_test_environment();
         $queue->process_pending($output_exception);
     }

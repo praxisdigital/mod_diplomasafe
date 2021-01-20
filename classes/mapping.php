@@ -101,7 +101,7 @@ abstract class mapping
         $reflect = new \ReflectionClass($this);
         $mapping_class = $reflect->getShortName();
 
-        $config = factory::get_api_config();
+        $config = factory::get_config();
         if ($config->is_test_environment()) {
             return self::MAPPING_FIELDS[$mapping_class]['test_idnumber'] ?? '';
         }

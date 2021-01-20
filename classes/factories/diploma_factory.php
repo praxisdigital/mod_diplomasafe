@@ -30,7 +30,7 @@ class diploma_factory extends factory
      * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public static function get_api_mapper() : api_mapper {
-        return new api_mapper(self::get_api_client(), self::get_api_config());
+        return new api_mapper(self::get_api_client(), self::get_config());
     }
 
     /**

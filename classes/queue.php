@@ -55,7 +55,7 @@ class queue
      * @throws client\exceptions\personal_access_token_not_set
      */
     public function __construct() {
-        $this->config = factory::get_api_config();
+        $this->config = factory::get_config();
         $this->mapper = queue_factory::get_queue_mapper();
         $this->repo = queue_factory::get_queue_repository();
         $this->pending_items = $this->repo->get_pending_items();

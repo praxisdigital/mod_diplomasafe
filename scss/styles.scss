@@ -1,17 +1,26 @@
 .diplomasafe-container {
+    th {
+        &.center {
+            text-align: center;
+        }
+    }
+    td {
+        &.center {
+            text-align: center;
+        }
+        .nowrap {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .ellipsis {
+            text-overflow: ellipsis;
+        }
+    }
     &.view-queue-list {
         .resubmit {
             white-space: nowrap;
         }
-        th {
-            &.center {
-                text-align: center;
-            }
-        }
         td {
-            &.center {
-                text-align: center;
-            }
             .badge {
                 margin-bottom: 5px;
             }
@@ -25,13 +34,6 @@
                 &-message {
                     max-width: 300px;
                 }
-            }
-            .nowrap {
-                white-space: nowrap;
-                overflow: hidden;
-            }
-            .ellipsis {
-                text-overflow: ellipsis;
             }
         }
     }
