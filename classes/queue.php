@@ -114,10 +114,6 @@ class queue
         return $this->mapper->update($queue_item);
     }
 
-    public function add_failed() : void {
-        // Todo: Add failed items to the queue to be executed again
-    }
-
     /**
      * @param bool $output_exception
      *
