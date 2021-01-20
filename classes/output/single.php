@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\output
  */
-class default_output implements \renderable, \templatable
+class single implements \renderable, \templatable
 {
     /**
      * @var \moodle_page

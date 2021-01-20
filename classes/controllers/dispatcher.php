@@ -8,7 +8,7 @@
 
 namespace mod_diplomasafe\controllers;
 
-use mod_diplomasafe\requests\default_request;
+use mod_diplomasafe\requests\single_request;
 use mod_diplomasafe\requests\queue_list_request;
 use mod_diplomasafe\requests\templates_list_request;
 
@@ -55,7 +55,7 @@ class dispatcher
                 break;
             case 'default':
             default: {
-                $request = new default_request($this->page);
+                $request = new single_request($this->page);
                 break;
             }
         }

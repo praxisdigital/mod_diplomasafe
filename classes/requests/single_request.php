@@ -8,9 +8,8 @@
 
 namespace mod_diplomasafe\requests;
 
-use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\contracts\request_interface;
-use mod_diplomasafe\output\default_output;
+use mod_diplomasafe\output\single;
 use mod_diplomasafe\request;
 
 defined('MOODLE_INTERNAL') || die();
@@ -20,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package mod_diplomasafe\requests
  */
-class default_request extends request implements request_interface
+class single_request extends request implements request_interface
 {
     /**
      * @return \renderable
@@ -70,6 +69,6 @@ class default_request extends request implements request_interface
         $PAGE->set_heading(format_string($course->fullname));
         $PAGE->set_context($modulecontext);
 
-        return new default_output($this->page, $module_id);
+        return new single($this->page, $module_id);
     }
 }
