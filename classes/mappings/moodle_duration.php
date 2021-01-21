@@ -18,6 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class
  *
+ * Get the custom field selected in the settings for the duration.
+ *
  * @package mappings
  */
 class moodle_duration extends mapping implements mapping_interface

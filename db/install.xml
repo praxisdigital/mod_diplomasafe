@@ -52,23 +52,6 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="diplomasafe_template_texts" COMMENT="The texts to insert into templates.">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="template_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="language_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="field_code" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="value" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
-      <INDEXES>
-        <INDEX NAME="template_id" UNIQUE="false" FIELDS="template_id"/>
-        <INDEX NAME="language_id" UNIQUE="false" FIELDS="language_id"/>
-        <INDEX NAME="field_code" UNIQUE="false" FIELDS="field_code"/>
-      </INDEXES>
-    </TABLE>
     <TABLE NAME="diplomasafe_queue" COMMENT="The queue for creating diplomas via the API.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>

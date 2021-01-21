@@ -112,6 +112,17 @@ class repository
     }
 
     /**
+     * @param int $template_id
+     * @param $params
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    public function exists($params) : bool {
+        return $this->db->record_exists(self::TABLE, $params);
+    }
+
+    /**
      * @param int $course_id
      *
      * @return template

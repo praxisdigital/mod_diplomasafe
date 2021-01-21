@@ -10,7 +10,6 @@ namespace mod_diplomasafe\entities;
 
 use mod_diplomasafe\entity;
 use mod_diplomasafe\factories\diploma_factory;
-use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,7 +34,6 @@ class diploma extends entity
      */
     public function set_data() {
         $this->data = [
-            'id' => null,
             'template' => null,
             'course_id' => null,
             'user_id' => null,
@@ -51,10 +49,6 @@ class diploma extends entity
      * @param $params
      *
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function __construct($params) {
         $required_params = ['template', 'course_id', 'user_id'];

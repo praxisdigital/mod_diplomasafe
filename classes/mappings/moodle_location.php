@@ -18,6 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class
  *
+ * Get the custom field selected in the settings for the location.
+ *
  * @package mappings
  */
 class moodle_location extends mapping implements mapping_interface

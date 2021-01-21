@@ -48,6 +48,7 @@ class queue
     /**
      * Constructor
      *
+     * @throws \coding_exception
      * @throws \dml_exception
      * @throws client\exceptions\base_url_not_set
      * @throws client\exceptions\current_environment_invalid
@@ -127,6 +128,9 @@ class queue
 
         $amount_to_process = $this->config->get_queue_amount_to_process();
 
+        mtrace(get_string('message_processing_queue_items', 'mod_diplomasafe'));
+
+        $amount_processed = 0;
         do {
             $queue_item = $this->get_current();
             if ($queue_item === false) {
@@ -138,18 +142,6 @@ class queue
                 }
                 $template_repository = template_factory::get_repository();
                 $template = $template_repository->get_by_course_id($queue_item->course_id);
-
-                if (!$template->is_valid()) {
-                    throw new \RuntimeException(
-                        get_string('message_template_not_valid', 'mod_diplomasafe', [
-                            'template_id' => $template->id,
-                            'template_name' => $template->name,
-                            'user_id' => $queue_item->user_id,
-                            'course_id' => $queue_item->course_id
-                        ])
-                    );
-                }
-
                 $language = $language_repository->get_by_id($template->default_language_id);
 
                 $diploma = new diploma([
@@ -163,14 +155,25 @@ class queue
                 $diploma_mapper = diploma_factory::get_api_mapper();
                 $diploma_mapper->create($diploma);
                 $this->set_status($queue_item, queue_item::QUEUE_ITEM_STATUS_SUCCESSFUL);
-                $i++;
+                mtrace(
+                    get_string('message_item_number', 'mod_diplomasafe', $i)
+                    . get_string('message_diploma_created_successfully', 'mod_diplomasafe', [
+                        'course_id' => $queue_item->course_id,
+                        'user_id' => $queue_item->user_id,
+                    ])
+                );
             } catch (\Exception $e) {
+                mtrace(get_string('message_item_number', 'mod_diplomasafe', $i) . $e->getMessage());
                 $admin_task_mailer->send_to_all($e->getMessage());
                 $this->set_status($queue_item, queue_item::QUEUE_ITEM_STATUS_FAILED, $e->getMessage());
                 if ($output_exception) {
                     throw new \RuntimeException($e->getMessage());
                 }
             }
+            $i++;
+            $amount_processed++;
         } while ($this->get_next());
+
+        mtrace(get_string('message_total_queue_items_processed', 'mod_diplomasafe', $amount_processed));
     }
 }

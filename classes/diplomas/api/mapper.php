@@ -23,6 +23,8 @@ require_once $CFG->dirroot . '/user/lib.php';
  */
 class mapper
 {
+    public const ENDPOINT = '/diplomas';
+
     /**
      * @var \curl
      */
@@ -49,11 +51,14 @@ class mapper
      *
      * @return bool
      * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     * @throws \moodle_exception
      */
     public function create(diploma $diploma) : bool {
-
-        $endpoint = '/diplomas';
-
         $users = user_get_users_by_id([$diploma->user_id]);
 
         if (empty($users[$diploma->user_id])) {
@@ -83,8 +88,29 @@ class mapper
             ]
         ];
 
+        $templates_repository = template_factory::get_api_repository();
+        $response = $templates_repository->get_one($diploma->template);
+
+        $remote_field_ids = [];
+        foreach ($response['diploma_fields'] as $diploma_field) {
+            $remote_field_ids[] = $diploma_field['id'];
+        }
+
+        $remote_fields_without_local_mapping = $templates_repository->other_diploma_fields_than_mapped(
+            $remote_field_ids
+        );
+
+        // Check if any of the remote fields are missing local mapping
+        if (!empty($remote_fields_without_local_mapping)) {
+            throw new \RuntimeException(
+                get_string('message_remote_diploma_fields_missing_local_mapping',
+                'mod_diplomasafe', implode($remote_fields_without_local_mapping)
+                )
+            );
+        }
+
         $response = json_decode(
-            $this->client->post($this->config->get_base_url() . $endpoint, json_encode($payload)
+            $this->client->post($this->config->get_base_url() . self::ENDPOINT, json_encode($payload)
         ), true);
 
         if (!isset($response['countIssued'])) {
@@ -93,7 +119,7 @@ class mapper
                     'message_invalid_response_from_endpoint',
                     'mod_diplomasafe',
                     (object)[
-                        'endpoint' => $endpoint,
+                        'endpoint' => self::ENDPOINT,
                         'response' => json_encode($response)
                     ]
                 )

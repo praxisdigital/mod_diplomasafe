@@ -63,8 +63,7 @@ class template extends entity
             'default_language_id' => null,
             'idnumber' => '',
             'name' => '',
-            'is_valid' => false,
-            'template_texts' => []
+            'is_valid' => false
         ];
     }
 
@@ -99,14 +98,5 @@ class template extends entity
      */
     public static function extract_default_fields(array $template_payload) : default_template_fields {
         return new default_template_fields(self::TEMPLATE_BASE_LANGUAGE_FIELDS, $template_payload);
-    }
-
-    /**
-     * @param string $field_foreign_key
-     *
-     * @return null|string
-     */
-    public static function get_field_code_by_foreign_key(string $field_foreign_key) : ?string {
-        return self::TEMPLATE_BASE_LANGUAGE_FIELDS[$field_foreign_key] ?? null;
     }
 }

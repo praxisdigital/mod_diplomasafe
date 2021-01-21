@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe;
 
+use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
@@ -25,9 +26,7 @@ class cron_tasks
      */
     public static function process_queue() : void {
         $queue = new queue();
-        $output_exception = factory::get_config()
-            ->is_test_environment();
-        $queue->process_pending($output_exception);
+        $queue->process_pending();
     }
 
     /**
@@ -46,13 +45,39 @@ class cron_tasks
 
         $templates = $api_repo->get_all();
 
+        $total_templates_count = count($templates);
+
+        mtrace(get_string('message_remote_templates_to_store', 'mod_diplomasafe', $total_templates_count));
+
+        $stored_templates_count = 0;
+
+        $i = 1;
         foreach ($templates as $template) {
+            $valid_text = get_string('message_marked_as_invalid', 'mod_diplomasafe');
             try {
+                /** @var template $template */
                 $mapper->store($template);
+                if ($template->is_valid()) {
+                    $valid_text = get_string('message_marked_as_valid', 'mod_diplomasafe');
+                }
+                mtrace(
+                    $i . ') ' . get_string('message_template_stored_successfully', 'mod_diplomasafe') .
+                    ' - ' . $valid_text
+                );
+                $stored_templates_count++;
             } catch (\Exception $e) {
                 $admin_task_mailer->send_to_all($e->getMessage());
+                mtrace(
+                    $i . ') ' . $e->getMessage()
+                );
                 throw new \RuntimeException($e->getMessage());
             }
+            $i++;
         }
+
+        mtrace(get_string('message_remote_templates_stored', 'mod_diplomasafe', [
+            'stored_count' => $stored_templates_count,
+            'total_count' => $total_templates_count
+        ]));
     }
 }

@@ -22,6 +22,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class repository
 {
+    public const ENDPOINT = '/templates';
+
     /**
      * @var \curl
      */
@@ -33,12 +35,19 @@ class repository
     private $templates = [];
 
     /**
+     * @var diplomasafe_config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @param \curl $client
+     * @param diplomasafe_config $config
      */
-    public function __construct(\curl $client) {
+    public function __construct(\curl $client, diplomasafe_config $config) {
         $this->client = $client;
+        $this->config = $config;
     }
 
     /**
@@ -56,7 +65,7 @@ class repository
 
         if ($url === '') {
             $config = new diplomasafe_config(get_config('mod_diplomasafe'));
-            $url = $config->get_base_url() . '/templates';
+            $url = $config->get_base_url() . self::ENDPOINT;
         }
 
         $response = json_decode($this->client->get($url), true);
@@ -103,23 +112,50 @@ class repository
     }
 
     /**
+     * @param template $template
+     *
+     * @return mixed
+     */
+    public function get_one(template $template) {
+        $template_endpoint = self::ENDPOINT . '/' . $template->idnumber;
+        return json_decode($this->client->get($this->config->get_base_url() . $template_endpoint), true);
+    }
+
+    /**
      * @param array $remote_field_ids
      *
      * @return bool
      * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
-    private function has_other_diploma_fields_than_mapped(array $remote_field_ids) : bool {
+    public function other_diploma_fields_than_mapped(array $remote_field_ids) : array {
 
         $diploma_fields_repo = diploma_factory::get_fields_repository();
         $mapped_field_ids = $diploma_fields_repo->get_field_ids();
 
-        $has_other = false;
+        $remote_fields_without_local_mapping = [];
         foreach ($remote_field_ids as $remote_field_id) {
             if (!in_array($remote_field_id, $mapped_field_ids, true)) {
-                $has_other = true;
+                $remote_fields_without_local_mapping[$remote_field_id] = $remote_field_id;
             }
         }
+        return array_values($remote_fields_without_local_mapping);
+    }
 
-        return $has_other;
+    /**
+     * @param $remote_field_ids
+     *
+     * @return bool
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     */
+    public function has_other_diploma_fields_than_mapped($remote_field_ids) : bool {
+        return !empty($this->other_diploma_fields_than_mapped($remote_field_ids));
     }
 }

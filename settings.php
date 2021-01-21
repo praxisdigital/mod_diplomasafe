@@ -132,6 +132,6 @@ if ($ADMIN->fulltree) {
     $name = $component . '/item_count_per_page';
     $title = get_string('settings_item_count_per_page', $component);
     $description = get_string('settings_item_count_per_page_desc', $component);
-    $default = 10;
+    $default = 20;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 }

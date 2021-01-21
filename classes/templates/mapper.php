@@ -57,14 +57,13 @@ class mapper
 
         try {
             // Store template
-            $template_id = template_factory::get_repository()
-                ->get_by_idnumber($template->idnumber)->id;
-
-            $template_exists = $template_id ? true : false;
-            if (!$template_exists) {
+            if (!template_factory::get_repository()->exists([
+                'idnumber' => $template->idnumber
+            ])) {
                 $template->id = $this->create($template);
             } else {
-                $template->id = $template_id;
+                $template->id = template_factory::get_repository()
+                    ->get_by_idnumber($template->idnumber)->id;
                 $this->update($template);
             }
 
@@ -83,18 +82,6 @@ class mapper
                         'name' => $language_key
                     ]);
                 }
-            }
-
-            $languages = $this->db->get_records(self::TABLE_LANGUAGES, null, '', 'name, id');
-
-            // Store default fields
-            foreach ($template->default_fields as $default_field) {
-                if (!isset($languages[$default_field['lang']]->id)) {
-                    throw new \RuntimeException(get_string('message_language_id_unavailable_error', 'mod_diplomasafe'));
-                }
-                $language = $languages[$default_field['lang']];
-                $fields_mapper = template_factory::get_fields_mapper();
-                $fields_mapper->store($template->id, $language->id, $default_field);
             }
 
             $transaction->allow_commit();

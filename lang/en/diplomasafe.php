@@ -90,17 +90,27 @@ $string['message_language_please_select_error'] = 'Please select a language';
 $string['message_template_please_select_error'] = 'Please select a template';
 $string['message_template_id_unavailable_error'] = 'Template ID unavailable. Template could not be stored';
 $string['message_language_id_unavailable_error'] = 'Language ID unavailable. Template could not be stored';
-$string['message_invalid_response_from_endpoint'] = 'Invalid response. Endpoint: {$a->endpoint}. Response: {$a->response}';
+$string['message_invalid_response_from_endpoint'] = 'Error: Invalid response from webservice. Endpoint: {$a->endpoint}. Response: {$a->response}';
 $string['message_user_could_not_be_found'] = 'The user with ID "{$a}" could not be found. Can\'t create the diploma';
 $string['message_template_not_valid'] = 'The template "{$a->template_name}" (ID {$a->template_id}) is not valid. Can\'t create the diploma for 
 the user with ID {$a->user_id} in the course with ID {$a->course_id}. This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
-$string['message_template_invalid'] = 'The selected template "{$a}" is not valid. This error may occur if other diploma fields than the mapped 
+$string['message_template_invalid'] = 'The selected template with ID {$a} is not valid. This error may occur if other diploma fields than the mapped 
 ones exists remotely.';
-$string['message_can_not_find_template'] = 'Can not find the template.';
+$string['message_can_not_find_template'] = 'Can not find the template. Did you remember the following? 1) Run the cron job to import the templates. 2) Select one of the imported templates for the module in the course?';
 $string['message_item_created'] = 'New item added to the queue';
 $string['message_item_deleted'] = 'Item deleted from the queue';
-$string['message_invalid_action'] = 'Invalid action "{$a}"';
+$string['message_invalid_action'] = 'Invalid action: {$a}';
+$string['message_diploma_created_successfully'] = 'Issuing diploma for course ID: {$a->course_id} and user ID: {$a->user_id}. Diploma created successfully.';
+$string['message_processing_queue_items'] = 'Processing queue items ...';
+$string['message_total_queue_items_processed'] = 'Total queue items processed: {$a}';
+$string['message_item_number'] = 'Item {$a}) ';
+$string['message_remote_diploma_fields_missing_local_mapping'] = 'The following remote diploma field(s) are missing local mapping(s): {$a}';
+$string['message_template_stored_successfully'] = 'Template stored successfully';
+$string['message_remote_templates_to_store'] = 'Remote templates to store: {$a}';
+$string['message_remote_templates_stored'] = 'Remote templates stored: {$a->stored_count}/{$a->total_count}';
+$string['message_marked_as_valid'] = 'Marked as valid';
+$string['message_marked_as_invalid'] = 'Marked as invalid';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
