@@ -112,7 +112,6 @@ class repository
     }
 
     /**
-     * @param int $template_id
      * @param $params
      *
      * @return bool

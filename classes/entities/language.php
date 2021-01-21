@@ -43,4 +43,13 @@ class language extends entity
         ];
         $this->process_params($params, $required_params);
     }
+
+    /**
+     * @param string $language_code
+     *
+     * @return void
+     */
+    public static function set_locale(string $language_code) : void {
+        setlocale(LC_TIME, $language_code . '.UTF-8');
+    }
 }

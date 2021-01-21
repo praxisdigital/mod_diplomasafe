@@ -9,7 +9,6 @@
 namespace mod_diplomasafe\requests;
 
 use mod_diplomasafe\contracts\request_interface;
-use mod_diplomasafe\cron_tasks;
 use mod_diplomasafe\output\single;
 use mod_diplomasafe\request;
 
