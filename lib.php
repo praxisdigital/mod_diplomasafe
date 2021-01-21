@@ -62,9 +62,7 @@ function diplomasafe_add_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timecreated = time();
 
-    $id = $DB->insert_record('diplomasafe', $moduleinstance);
-
-    return $id;
+    return $DB->insert_record('diplomasafe', $moduleinstance);
 }
 
 /**

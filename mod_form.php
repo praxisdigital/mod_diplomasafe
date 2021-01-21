@@ -69,6 +69,7 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
         $mform->addElement('html', $html);
         $mform->addElement('hidden', 'template_id', $this->_customdata['template_id'] ?? '');
         $mform->setType('template_id', PARAM_INT);
+        $mform->addRule('template_id', get_string('required'), 'required');
 
         // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('diplomasafename', 'mod_diplomasafe'), array('size' => '64'));
@@ -92,5 +93,22 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Add standard buttons.
         $this->add_action_buttons();
+    }
+
+    /**
+     * @param array $data
+     * @param array $files
+     *
+     * @return array
+     * @throws coding_exception
+     */
+    function validation($data, $files) {
+
+        $errors = [];
+        if (empty($data['template_id'])) {
+            $errors['template_id'] = get_string('required');
+        }
+
+        return $errors;
     }
 }
