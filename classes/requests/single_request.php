@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\requests;
 
 use mod_diplomasafe\contracts\request_interface;
+use mod_diplomasafe\event\course_module_viewed;
 use mod_diplomasafe\output\single;
 use mod_diplomasafe\request;
 
@@ -51,23 +52,22 @@ class single_request extends request implements request_interface
 
         require_login($course, true, $cm);
 
-        $modulecontext = \context_module::instance($cm->id);
+        $module_context = \context_module::instance($cm->id);
 
-        // PTODO: Fix course_module_viewed event
-        //$event = \mod_diplomasafe\event\course_module_viewed::create(array(
-        //    'objectid' => $module_instance->id,
-        //    'context' => $modulecontext
-        //));
-        //$event->add_record_snapshot('course', $course);
-        //$event->add_record_snapshot('diplomasafe', $module_instance);
-        //$event->trigger();
+        $event = course_module_viewed::create(array(
+            'objectid' => $module_instance->id,
+            'context' => $module_context
+        ));
+        $event->add_record_snapshot('course', $course);
+        $event->add_record_snapshot('diplomasafe', $module_instance);
+        $event->trigger();
 
         $PAGE->set_url('/mod/diplomasafe/view.php', [
             'id' => $cm->id
         ]);
         $PAGE->set_title(format_string($module_instance->name));
         $PAGE->set_heading(format_string($course->fullname));
-        $PAGE->set_context($modulecontext);
+        $PAGE->set_context($module_context);
 
         return new single($this->get_page(), $module_id);
     }
