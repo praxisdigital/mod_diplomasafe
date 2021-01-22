@@ -1,55 +1,59 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
 /**
- * All the steps to restore mod_diplomasafe are defined here.
- *
- * @package     mod_diplomasafe
- * @category    restore
- * @copyright   2020 Diplomasafe <info@diplomasafe.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @developer   Johnny Drud
+ * @date        22-01-2021
+ * @company     https://diplomasafe.com
+ * @copyright   2021 Diplomasafe ApS
  */
+
+use mod_diplomasafe\helpers;
 
 defined('MOODLE_INTERNAL') || die();
 
-// For more information about the backup and restore process, please visit:
-// https://docs.moodle.org/dev/Backup_2.0_for_developers
-// https://docs.moodle.org/dev/Restore_2.0_for_developers
-
 /**
+ * To be able to retrieve data faster via get_fast_modinfo we save the cmid instead of the id of the actual instance.
+ * That also does, that we only have one field to backup, instead of two. The downside is that the backup / restore is
+ * a little more complex.
+ *
  * Defines the structure step to restore one mod_diplomasafe activity.
  */
-class restore_diplomasafe_activity_structure_step extends restore_activity_structure_step {
+class restore_diplomasafe_activity_structure_step extends restore_activity_structure_step{
 
-    /**
-     * Defines the structure to be restored.
-     *
-     * @return restore_path_element[].
-     */
-    protected function define_structure() {
-        $paths = array();
-        $userinfo = $this->get_setting_value('userinfo');
+	protected function define_structure() {
 
-        return $this->prepare_activity_structure($paths);
-    }
+		$paths = array();
+		$paths[] = new restore_path_element('diplomasafe', '/activity/diplomasafe');
 
-    /**
-     * Defines post-execution actions.
-     */
-    protected function after_execute() {
-        return;
-    }
+		// Return the paths wrapped into standard activity structure
+		return $this->prepare_activity_structure($paths);
+	}
+
+	/**
+	 * @param $data
+	 * @throws base_step_exception
+	 * @throws dml_exception
+	 */
+	protected function process_diplomasafe($data) { global $DB;
+
+		$data = (object)$data;
+		$oldid = $data->id;
+
+		$data->module = $this->task->get_moduleid();
+		$data->course = $this->get_courseid();
+
+		$now = time();
+		$data->timecreated = $now;
+		$data->timemodified = $now;
+
+		// Insert the diplomasafe record
+		$newitemid = $DB->insert_record('diplomasafe', $data);
+
+		// Immediately after inserting "activity" record, call this
+		$this->apply_activity_instance($newitemid);
+	}
+
+	protected function after_execute() {
+
+		$this->add_related_files('mod_diplomasafe', 'content', null);
+	}
 }
