@@ -82,7 +82,6 @@ class mapper
                     'recipient_name' => $user->firstname . ' ' . $user->lastname,
                     'language_code' => $diploma->language->name,
                     'issue_date' => $diploma->issue_date,
-                    'no_claim_mail' => 0,
                     'diploma_fields' => $diploma->fields
                 ]
             ]

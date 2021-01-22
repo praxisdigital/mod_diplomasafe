@@ -66,6 +66,23 @@ class repository
     }
 
     /**
+     * @return template
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public function get_first_valid() : template {
+
+        $sql = /** @lang mysql */'
+        SELECT * FROM {' . self::TABLE . '} WHERE is_valid = 1 LIMIT 1';
+
+        $record = (array)$this->db->get_record_sql($sql);
+
+        $this->validate_record($record);
+
+        return new template($record);
+    }
+
+    /**
      * @param int $template_id
      *
      * @return template

@@ -30,6 +30,9 @@ class cron_tasks
     }
 
     /**
+     * @param bool $output_debug_info
+     *
+     * @throws \coding_exception
      * @throws \dml_exception
      * @throws \moodle_exception
      * @throws client\exceptions\base_url_not_set
@@ -37,7 +40,7 @@ class cron_tasks
      * @throws client\exceptions\current_environment_not_set
      * @throws client\exceptions\personal_access_token_not_set
      */
-    public static function create_templates() : void {
+    public static function create_templates($output_debug_info = true) : void {
         $api_repo = template_factory::get_api_repository();
         $mapper = template_factory::get_mapper();
 
@@ -47,7 +50,9 @@ class cron_tasks
 
         $total_templates_count = count($templates);
 
-        mtrace(get_string('message_remote_templates_to_store', 'mod_diplomasafe', $total_templates_count));
+        if ($output_debug_info) {
+            mtrace(get_string('message_remote_templates_to_store', 'mod_diplomasafe', $total_templates_count));
+        }
 
         $stored_templates_count = 0;
 
@@ -60,24 +65,30 @@ class cron_tasks
                 if ($template->is_valid()) {
                     $valid_text = get_string('message_marked_as_valid', 'mod_diplomasafe');
                 }
-                mtrace(
-                    $i . ') ' . get_string('message_template_stored_successfully', 'mod_diplomasafe') .
-                    ' - ' . $valid_text
-                );
+                if ($output_debug_info) {
+                    mtrace(
+                        $i . ') ' . get_string('message_template_stored_successfully', 'mod_diplomasafe') .
+                        ' - ' . $valid_text
+                    );
+                }
                 $stored_templates_count++;
             } catch (\Exception $e) {
                 $admin_task_mailer->send_to_all($e->getMessage());
-                mtrace(
-                    $i . ') ' . $e->getMessage()
-                );
+                if ($output_debug_info) {
+                    mtrace(
+                        $i . ') ' . $e->getMessage()
+                    );
+                }
                 throw new \RuntimeException($e->getMessage());
             }
             $i++;
         }
 
-        mtrace(get_string('message_remote_templates_stored', 'mod_diplomasafe', [
-            'stored_count' => $stored_templates_count,
-            'total_count' => $total_templates_count
-        ]));
+        if ($output_debug_info) {
+            mtrace(get_string('message_remote_templates_stored', 'mod_diplomasafe', [
+                'stored_count' => $stored_templates_count,
+                'total_count' => $total_templates_count
+            ]));
+        }
     }
 }

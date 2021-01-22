@@ -1,10 +1,11 @@
 <?php
+/**
+ * @developer   Johnny Drud
+ * @date        22-01-2021
+ * @company     https://diplomasafe.com
+ * @copyright   2021 Diplomasafe ApS
+ */
 
-namespace mod_diplomasafe\tests\feature;
-
-use curl;
-use dml_exception;
-use advanced_testcase;
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\client\exceptions\base_url_not_set;
 use mod_diplomasafe\client\exceptions\current_environment_invalid;
@@ -16,19 +17,8 @@ use mod_diplomasafe\factories\template_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once("$CFG->libdir/externallib.php");
-
-/**
- *
- * TESTS IN THIS CLASS IS DEPENDING OF REAL DATA FROM THE SETTINGS IN YOUR REAL MOODLE TO BE ABLE TO CONNECT TO
- * DIPLOMASAFE. PLEASE MAKE SURE YOU HAVE ENTERED ALL DATA FOR THE TEST API
- *
- * Class mod_diplomasafe_api_testcase
- * @testdox Testcase for the API features
- */
-class mod_diplomasafe_api_testcase extends advanced_testcase {
-
+class api_testcase extends advanced_testcase
+{
     /**
      * @var curl
      */
@@ -53,7 +43,7 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
 
         // THIS SQL NEEDS THE mdl_ PREFIX - DO NOT REMOVE
         $REAL_DATA = $DB->get_records_sql_menu(
-            /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
+        /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
         );
 
         if(empty($REAL_DATA['test_base_url']) || empty($REAL_DATA['test_personal_access_token'])){
@@ -83,16 +73,51 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
     }
 
     /**
+     * Issuing a diploma requires at least one template is
+     * synced. Therefore we need to sync the templates and
+     * use the first valid template to issue the diploma
+     * in the same test.
+     *
      * @test
      */
-    public function can_fetch_templates(): void {
+    public function can_sync_templates_and_issue_diploma(): void {
 
         $this->resetAfterTest();
 
-        $content = json_decode($this->client->get($this->config->get_base_url() . '/templates'), true);
+        cron_tasks::create_templates(false);
+
+        $template_repo = template_factory::get_repository();
+        $template = $template_repo->get_first_valid();
+
+        self::assertTrue($template->is_valid());
+
+        $diploma_fields_repo = diploma_factory::get_fields_repository();
+        $diploma_field_ids = $diploma_fields_repo->get_field_ids();
+
+        $diploma_fields = [];
+        foreach ($diploma_field_ids as $diploma_field_id) {
+            $diploma_fields[$diploma_field_id] = '';
+        }
+
+        $payload = (object)[
+            'template_id' => $template->idnumber,
+            'organization_id' => $template->organisation_id,
+            'diplomas' => [
+                (object)[
+                    'recipient_email' => 'test@email.com',
+                    'recipient_name' => 'Test user',
+                    'language_code' => 'en-US',
+                    'issue_date' => date('Y-m-d'),
+                    'diploma_fields' => $diploma_fields
+                ]
+            ]
+        ];
+
+        $content = json_decode($this->client->post($this->config->get_base_url() . '/diplomas', json_encode($payload)), true);
+
         $info = $this->client->get_info();
 
         self::assertSame(200, (int)$info['http_code']);
-        self::assertArrayHasKey('pagination', $content);
+        self::assertSame(1, (int)$content['countIssued']);
     }
 }
