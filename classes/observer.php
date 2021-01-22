@@ -37,7 +37,7 @@ class observer
                 $queue = new queue();
                 $queue->push(new queue_item([
                     'course_id' => $course_completed->courseid,
-                    'user_id' => $course_completed->userid,
+                    'user_id' => $course_completed->relateduserid,
                     'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
                     'time_created' => $now,
                     'time_modified' => $now,

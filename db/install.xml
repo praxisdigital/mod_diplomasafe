@@ -52,7 +52,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="diplomasafe_queue" COMMENT="The queue for creating diplomas via the API.">
+    <TABLE NAME="diplomasafe_queue" COMMENT="The queue for issuing diplomas via the API.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>

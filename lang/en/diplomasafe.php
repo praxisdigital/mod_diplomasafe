@@ -110,7 +110,7 @@ $string['message_marked_as_invalid'] = 'Marked as invalid';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
-$string['cron_process_queue'] = 'Process the queue for creating diplomas';
+$string['cron_process_queue'] = 'Process the queue for issuing diplomas';
 
 // Statuses
 $string['status_pending'] = 'Pending';

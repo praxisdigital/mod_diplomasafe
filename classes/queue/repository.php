@@ -50,7 +50,7 @@ class repository
         SELECT id
         FROM {' . self::TABLE . '}
         WHERE course_id = :course_id AND user_id = :user_id AND
-        status != :status_pending && status != :status_running
+        (status = :status_pending OR status = :status_running)
         ';
         return $this->db->record_exists_sql($sql, [
             'course_id' => $queue_item->course_id,
