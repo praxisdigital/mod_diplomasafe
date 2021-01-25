@@ -34,7 +34,7 @@ class observer
                 $template_repository = template_factory::get_repository();
                 $template_repository->get_by_course_id($course_completed->courseid);
                 $now = time();
-                $queue = new queue();
+                $queue = new queue(factory::get_config());
                 $queue->push(new queue_item([
                     'course_id' => $course_completed->courseid,
                     'user_id' => $course_completed->relateduserid,

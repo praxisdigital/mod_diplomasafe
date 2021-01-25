@@ -25,7 +25,7 @@ class cron_tasks
      * @throws \dml_exception
      */
     public static function process_queue() : void {
-        $queue = new queue();
+        $queue = new queue(factory::get_config());
         $queue->process_pending();
     }
 

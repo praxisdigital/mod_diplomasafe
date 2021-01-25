@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe;
 
+use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\queue_item;
@@ -41,22 +42,15 @@ class queue
     private $pending_items;
 
     /**
-     * @var client\diplomasafe_config
-     */
-    private $config;
-
-    /**
      * Constructor
+     *
+     * @param diplomasafe_config $config
      *
      * @throws \coding_exception
      * @throws \dml_exception
-     * @throws client\exceptions\base_url_not_set
-     * @throws client\exceptions\current_environment_invalid
-     * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\personal_access_token_not_set
      */
-    public function __construct() {
-        $this->config = factory::get_config();
+    public function __construct(diplomasafe_config $config) {
+        $this->config = $config;
         $this->mapper = queue_factory::get_queue_mapper();
         $this->repo = queue_factory::get_queue_repository();
         $this->pending_items = $this->repo->get_pending_items();
@@ -65,12 +59,14 @@ class queue
     /**
      * @param queue_item $queue_item
      *
+     * @return ?int
      * @throws \dml_exception
      */
-    public function push(queue_item $queue_item) : void {
+    public function push(queue_item $queue_item) : ?int {
         if (!$this->is_being_processed($queue_item)) {
-            $this->mapper->create($queue_item);
+            return $this->mapper->create($queue_item);
         }
+        return null;
     }
 
     /**

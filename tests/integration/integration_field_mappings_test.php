@@ -10,7 +10,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class
  */
-class integration_field__mapping_testcase extends advanced_testcase
+class integration_field_mapping_testcase extends advanced_testcase
 {
     /**
      * @test
