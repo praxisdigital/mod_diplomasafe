@@ -39,14 +39,16 @@ class mod_diplomasafe_integration_languages_testcase extends advanced_testcase
 
     /**
      * @test
+     *
+     * @throws dml_exception
      */
     public function can_add_language() : void {
 
         $this->resetAfterTest();
 
-        $insert_id = $this->languages_mapper->create('da-DK');
+        $insert_id = $this->languages_mapper->create('en-US');
         $created_language = $this->languages_repo->get_by_id($insert_id);
 
-        $this->assertEquals('da-DK', $created_language->name);
+        self::assertEquals('en-US', $created_language->name);
     }
 }

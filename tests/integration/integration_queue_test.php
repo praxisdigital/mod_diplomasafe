@@ -91,7 +91,7 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 
         $pending_queue_items = $this->queue_repo->get_all(queue_item::QUEUE_ITEM_STATUS_PENDING);
 
-        $this->assertCount(1, $pending_queue_items);
+        self::assertCount(1, $pending_queue_items);
     }
 
     /**
@@ -146,6 +146,6 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 
         $pending_queue_items = $this->queue_repo->get_all(queue_item::QUEUE_ITEM_STATUS_PENDING);
 
-        $this->assertCount(1, $pending_queue_items);
+        self::assertCount(1, $pending_queue_items);
     }
 }

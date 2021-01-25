@@ -54,6 +54,9 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 
     /**
      * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function can_add_template() : void {
 
@@ -63,11 +66,14 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 
         $created_template = $this->templates_repo->get_by_id($insert_id);
 
-        $this->assertTrue($created_template->exists());
+        self::assertTrue($created_template->exists());
     }
 
     /**
      * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function can_update_template() : void {
 
@@ -82,11 +88,13 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 
         $template = $this->templates_repo->get_by_id($insert_id);
 
-        $this->assertEquals($other_template_name, $template->name);
+        self::assertEquals($other_template_name, $template->name);
     }
 
     /**
      * @test
+     *
+     * @throws dml_exception
      */
     public function can_get_templates_list() : void {
 
@@ -97,6 +105,6 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 
         $templates = $this->templates_repo->get_all();
 
-        $this->assertCount(2, $templates);
+        self::assertCount(2, $templates);
     }
 }

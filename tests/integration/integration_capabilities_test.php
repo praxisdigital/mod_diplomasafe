@@ -53,13 +53,13 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
         $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability();
 
         // We expect 3 unique users to be found since one of the three users are added in both courses
-        $this->assertCount(3, $recipients_to_receive_mail);
+        self::assertCount(3, $recipients_to_receive_mail);
     }
 
     /**
      * @test
      */
-    public function admin_mail_receivers_not_student() : void {
+    public function admin_mail_receivers_not_students() : void {
 
         $this->resetAfterTest();
 
@@ -69,6 +69,6 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
         $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability();
 
         // We expect 0 unique users to be found since students should not receive admin mails
-        $this->assertCount(0, $recipients_to_receive_mail);
+        self::assertCount(0, $recipients_to_receive_mail);
     }
 }
