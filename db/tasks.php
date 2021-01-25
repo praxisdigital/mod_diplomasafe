@@ -21,8 +21,8 @@ $tasks = [
     [
         'classname' => 'mod_diplomasafe\task\store_diploma_templates',
         'blocking' => 0,
-        'minute' => '0',
-        'hour' => '0',
+        'minute' => '*/5',
+        'hour' => '*',
         'day' => '*',
         'dayofweek' => '*',
         'month' => '*',
