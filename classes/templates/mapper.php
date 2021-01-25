@@ -100,7 +100,7 @@ class mapper
      * @return int
      * @throws \dml_exception
      */
-    private function create(template $template) : int {
+    public function create(template $template) : int {
         return $this->db->insert_record(self::TABLE, (object)[
             'organisation_id' => $template->organisation_id,
             'default_language_id' => $template->default_language_id,
@@ -116,7 +116,7 @@ class mapper
      * @return bool
      * @throws \dml_exception
      */
-    private function update(template $template) : bool {
+    public function update(template $template) : bool {
         if (!$this->db->record_exists(self::TABLE, [
             'id' => $template->id
         ])) {
