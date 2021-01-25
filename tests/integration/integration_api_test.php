@@ -6,6 +6,8 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\client\exceptions\base_url_not_set;
 use mod_diplomasafe\client\exceptions\current_environment_invalid;
@@ -15,9 +17,17 @@ use mod_diplomasafe\cron_tasks;
 use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\template_factory;
 
-defined('MOODLE_INTERNAL') || die();
-
-class api_testcase extends advanced_testcase
+/**
+ * Class
+ *
+ * TESTS IN THIS CLASS IS DEPENDING OF REAL DATA FROM THE SETTINGS IN YOUR
+ * REAL MOODLE TO BE ABLE TO CONNECT TO DIPLOMASAFE. PLEASE MAKE SURE YOU
+ * HAVE ENTERED ALL DATA FOR THE TEST API.
+ *
+ * @testdox Testcase for the API features
+ * @package mod_diplomasafe\tests
+ */
+class mod_diplomasafe_integration_api_testcase extends advanced_testcase
 {
     /**
      * @var curl
@@ -30,6 +40,14 @@ class api_testcase extends advanced_testcase
     private $config;
 
     /**
+     * @return \moodle_database
+     */
+    private function get_db() : \moodle_database {
+        global $DB;
+        return $DB;
+    }
+
+    /**
      * @throws \coding_exception
      * @throws base_url_not_set
      * @throws current_environment_invalid
@@ -37,12 +55,12 @@ class api_testcase extends advanced_testcase
      * @throws dml_exception
      * @throws personal_access_token_not_set
      */
-    public function setUp(): void{
+    public function setUp() : void {
 
-        global $DB;
+        $db = $this->get_db();
 
         // THIS SQL NEEDS THE mdl_ PREFIX - DO NOT REMOVE
-        $REAL_DATA = $DB->get_records_sql_menu(
+        $REAL_DATA = $db->get_records_sql_menu(
         /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
         );
 

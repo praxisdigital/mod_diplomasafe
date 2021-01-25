@@ -5,16 +5,20 @@
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\templates\mapper;
+use mod_diplomasafe\templates\repository;
 
 /**
  * Class
+ *
+ * @package mod_diplomasafe\tests
  */
-class integration_templates_testcase extends advanced_testcase
+class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 {
     /**
      * @var mapper
@@ -22,7 +26,7 @@ class integration_templates_testcase extends advanced_testcase
     private $templates_mapper;
 
     /**
-     * @var \mod_diplomasafe\templates\repository
+     * @var repository
      */
     private $templates_repo;
 

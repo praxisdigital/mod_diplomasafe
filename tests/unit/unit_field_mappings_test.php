@@ -12,6 +12,8 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
+ *
+ * @package mod_diplomasafe\tests
  */
 class unit_field_mapping_testcase extends advanced_testcase
 {

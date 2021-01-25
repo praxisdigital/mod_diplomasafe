@@ -6,6 +6,8 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 use mod_diplomasafe\client\diplomasafe_config;
 use mod_diplomasafe\entities\queue_item;
 use mod_diplomasafe\factories\queue_factory;
@@ -13,12 +15,12 @@ use mod_diplomasafe\queue;
 use mod_diplomasafe\queue\mapper;
 use mod_diplomasafe\queue\repository;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class
+ *
+ * @package mod_diplomasafe\tests
  */
-class integration_queue_testcase extends advanced_testcase
+class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 {
     /**
      * @var mapper
@@ -71,6 +73,9 @@ class integration_queue_testcase extends advanced_testcase
 
     /**
      * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function can_push_item_to_queue() : void {
 
@@ -91,6 +96,9 @@ class integration_queue_testcase extends advanced_testcase
 
     /**
      * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function can_delete_item_from_queue() : void {
 
@@ -113,6 +121,9 @@ class integration_queue_testcase extends advanced_testcase
 
     /**
      * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function can_not_push_to_queue_if_duplicates() : void {
 

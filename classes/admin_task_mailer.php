@@ -29,9 +29,9 @@ class admin_task_mailer
     /**
      * @param string $capability
      *
-     * @return void
+     * @return array
      */
-    private function load_recipients_with_course_capability($capability = 'mod/diplomasafe:receive_api_error_mail') : void {
+    public function load_recipients_with_course_capability($capability = 'mod/diplomasafe:receive_api_error_mail') : array {
         $mail_recipient_user_ids = [];
         $courses = get_courses();
         foreach ($courses as $course) {
@@ -44,8 +44,7 @@ class admin_task_mailer
                 $mail_recipient_user_ids[$enrolled_user->id] = $enrolled_user->id;
             }
         }
-
-        $this->recipients = user_get_users_by_id(array_values($mail_recipient_user_ids))[0] ?? [];
+        return user_get_users_by_id(array_values($mail_recipient_user_ids)) ?? [];
     }
 
     /**
@@ -55,7 +54,7 @@ class admin_task_mailer
      */
     public function send_to_all(string $error_message) : void {
         if (!$this->recipients_exists()) {
-            $this->load_recipients_with_course_capability();
+            $this->recipients = $this->load_recipients_with_course_capability();
         }
         foreach ($this->recipients as $recipient) {
             $this->send_to_one($recipient, $error_message);

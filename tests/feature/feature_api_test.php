@@ -1,6 +1,14 @@
 <?php
+/**
+ * @developer   Johnny Drud
+ * @date        25-01-2021
+ * @company     https://diplomasafe.com
+ * @copyright   2021 Diplomasafe ApS
+ */
 
 namespace mod_diplomasafe\tests\feature;
+
+defined('MOODLE_INTERNAL') || die();
 
 use curl;
 use dml_exception;
@@ -10,25 +18,22 @@ use mod_diplomasafe\client\exceptions\base_url_not_set;
 use mod_diplomasafe\client\exceptions\current_environment_invalid;
 use mod_diplomasafe\client\exceptions\current_environment_not_set;
 use mod_diplomasafe\client\exceptions\personal_access_token_not_set;
-use mod_diplomasafe\cron_tasks;
-use mod_diplomasafe\factories\diploma_factory;
-use mod_diplomasafe\factories\template_factory;
-
-defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once("$CFG->libdir/externallib.php");
 
 /**
+ * Class
  *
- * TESTS IN THIS CLASS IS DEPENDING OF REAL DATA FROM THE SETTINGS IN YOUR REAL MOODLE TO BE ABLE TO CONNECT TO
- * DIPLOMASAFE. PLEASE MAKE SURE YOU HAVE ENTERED ALL DATA FOR THE TEST API
+ * TESTS IN THIS CLASS IS DEPENDING OF REAL DATA FROM THE SETTINGS IN YOUR
+ * REAL MOODLE TO BE ABLE TO CONNECT TO DIPLOMASAFE. PLEASE MAKE SURE YOU
+ * HAVE ENTERED ALL DATA FOR THE TEST API.
  *
- * Class mod_diplomasafe_api_testcase
  * @testdox Testcase for the API features
+ * @package mod_diplomasafe\tests
  */
-class mod_diplomasafe_api_testcase extends advanced_testcase {
-
+class mod_diplomasafe_feature_api_testcase extends advanced_testcase
+{
     /**
      * @var curl
      */
@@ -40,6 +45,14 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
     private $config;
 
     /**
+     * @return \moodle_database
+     */
+    private function get_db() : \moodle_database {
+        global $DB;
+        return $DB;
+    }
+
+    /**
      * @throws \coding_exception
      * @throws base_url_not_set
      * @throws current_environment_invalid
@@ -47,12 +60,12 @@ class mod_diplomasafe_api_testcase extends advanced_testcase {
      * @throws dml_exception
      * @throws personal_access_token_not_set
      */
-    public function setUp(): void{
+    public function setUp() : void {
 
-        global $DB;
+        $db = $this->get_db();
 
         // THIS SQL NEEDS THE mdl_ PREFIX - DO NOT REMOVE
-        $REAL_DATA = $DB->get_records_sql_menu(
+        $REAL_DATA = $db->get_records_sql_menu(
             /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
         );
 
