@@ -16,7 +16,6 @@ use core_privacy\local\request\core_user_data_provider;
 use core_privacy\local\request\core_userlist_provider;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
-use mod_diplomasafe\factories\queue_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,6 +30,9 @@ class provider implements
     core_userlist_provider
 {
     /**
+     * Defines the table with user data. Is displayed in the Moodle administration in:
+     * Site administration => Users => Privacy and policies => Plugin privacy registry
+     *
      * @param collection $collection
      *
      * @return collection
@@ -53,7 +55,7 @@ class provider implements
     }
 
     /**
-     * Define the context to use for the users
+     * Define the context to use for the users.
      *
      * @param int $userid
      *
@@ -66,7 +68,7 @@ class provider implements
     }
 
     /**
-     * To allow exporting user data from the "Data requests" view in the administration
+     * To allow exporting user data from the "Data requests" view in the administration.
      *
      * Notice:
      * Requires the get_contexts_for_userid method to be implemented to work.
@@ -97,6 +99,8 @@ class provider implements
     }
 
     /**
+     * A method for deleting user data (in different contexts).
+     *
      * @param \context $context
      *
      * @throws \dml_exception
@@ -119,6 +123,8 @@ class provider implements
     }
 
     /**
+     * Another method for deleting user data (in different contexts).
+     *
      * @param approved_contextlist $contextlist
      *
      * @throws \dml_exception
@@ -139,6 +145,8 @@ class provider implements
     }
 
     /**
+     * Yet another method for deleting user data.
+     *
      * @param approved_userlist $userlist
      *
      * @throws \coding_exception
@@ -160,6 +168,8 @@ class provider implements
     }
 
     /**
+     * A method for extracting user data.
+     *
      * @param userlist $userlist
      */
     public static function get_users_in_context(userlist $userlist) {

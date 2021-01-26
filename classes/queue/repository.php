@@ -120,25 +120,4 @@ class repository
             'id' => $item_id
         ]));
     }
-
-    /**
-     * @param int $user_id
-     *
-     * @return queue_items
-     * @throws \coding_exception
-     * @throws \dml_exception
-     */
-    public function get_by_user_id(int $user_id) : queue_items {
-
-        $result = $this->db->get_records(self::TABLE, [
-            'user_id' => $user_id
-        ]);
-
-        $queue_items = [];
-        foreach ($result as $row) {
-            $queue_items = new queue_item((array)$row);
-        }
-
-        return new queue_items($queue_items);
-    }
 }
