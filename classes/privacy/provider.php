@@ -53,21 +53,34 @@ class provider implements
     }
 
     /**
+     * Define the context to use for the users
+     *
      * @param int $userid
      *
      * @return contextlist
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
+        $context_list = new contextlist();
+        $context_list->add_user_context($userid);
+        return $context_list;
     }
 
     /**
-     * @param approved_contextlist $contextlist
+     * To allow exporting user data from the "Data requests" view in the administration
      *
+     * Notice:
+     * Requires the get_contexts_for_userid method to be implemented to work.
+     *
+     * @param approved_contextlist $context_list
+     *
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public static function export_user_data(approved_contextlist $contextlist) {
+    public static function export_user_data(approved_contextlist $context_list) {
 
-        $user = $contextlist->get_user();
+        global $DB;
+
+        $user = $context_list->get_user();
 
         if (empty($user->id)) {
             return;
@@ -75,17 +88,12 @@ class provider implements
 
         $user_context = \context_user::instance($user->id);
 
-        $queue_repo = queue_factory::get_queue_repository();
-        $queue_items = $queue_repo->get_by_id($user->id);
+        $records = $DB->get_records('diplomasafe_queue', [
+            'user_id' => $user->id
+        ]);
 
-        $queue_items_for_moodle = [];
-        foreach ($queue_items as $queue_item) {
-            $queue_items_for_moodle[] = (object)$queue_item;
-        }
-
-        writer::with_context($user_context)->export_data([
-            'mod_diploasafe'
-        ], (object)$queue_items_for_moodle);
+        writer::with_context($user_context)
+            ->export_data([get_string('view_queue_list_header', 'mod_diplomasafe')], (object)$records);
     }
 
     /**

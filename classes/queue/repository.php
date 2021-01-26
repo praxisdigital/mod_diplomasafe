@@ -136,7 +136,7 @@ class repository
 
         $queue_items = [];
         foreach ($result as $row) {
-            $queue_items = new queue_item($row);
+            $queue_items = new queue_item((array)$row);
         }
 
         return new queue_items($queue_items);
