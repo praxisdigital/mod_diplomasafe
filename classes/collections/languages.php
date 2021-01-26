@@ -28,10 +28,13 @@ class languages extends collection
     /**
      * Constructor
      *
+     * @param bool $only_available
+     *
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function __construct() {
-        $languages = $this->get_data();
+    public function __construct(bool $only_available = false) {
+        $languages = $this->get_data($only_available);
         foreach ($languages as $language) {
             $this->ids_by_key[$language->name] = $language->id;
         }
@@ -48,11 +51,14 @@ class languages extends collection
     }
 
     /**
+     * @param bool $only_available
+     *
      * @return mixed
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    private function get_data() {
+    private function get_data(bool $only_available = false) {
         return language_factory::get_repository()
-            ->get_all_records();
+            ->get_all_records($only_available);
     }
 }

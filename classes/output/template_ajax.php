@@ -47,11 +47,12 @@ class template_ajax implements \renderable, \templatable
      *
      * @return array|\stdClass|void
      * @throws \dml_exception
+     * @throws \coding_exception
      */
     public function export_for_template(renderer_base $output) {
 
         $templates = template_factory::get_repository()
-            ->get_by_language($this->language_id);
+            ->get_by_language($this->language_id, true);
         $is_disabled = $this->language_id === 0;
 
         $this->set_selected($templates);

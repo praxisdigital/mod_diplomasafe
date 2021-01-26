@@ -64,13 +64,17 @@ $string['settings_moodle_location_field_desc'] = 'Select the field to use for lo
 $string['settings_select_custom_field'] = 'Select custom field';
 $string['settings_item_count_per_page'] = 'Items per page';
 $string['settings_item_count_per_page_desc'] = 'The number of items to show on each page in the admin views. Set to 0 for no limit.';
+$string['setting_available_language_ids'] = 'Available languages';
+$string['setting_available_language_ids_desc'] = 'Select the languages to make available in the course module.';
+$string['setting_available_template_ids'] = 'Available templates';
+$string['setting_available_template_ids_desc'] = 'Select the templates to make available in the course module.';
 
 // Single view
 $string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';
 
 // Default form
-$string['select_default_option_language'] = 'Select language';
-$string['select_default_option_template'] = 'Select template';
+$string['select_default_option_language'] = '- Select language -';
+$string['select_default_option_template'] = '- Select template -';
 $string['label_template'] = 'Template';
 $string['template_help'] = 'Select a template';
 $string['label_language'] = 'Language';

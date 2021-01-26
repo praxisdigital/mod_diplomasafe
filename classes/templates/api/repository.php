@@ -72,7 +72,7 @@ class repository
         $templates = $response['templates'];
 
         $languages_repository = language_factory::get_repository();
-        $languages = $languages_repository->get_all();
+        $languages = $languages_repository->get_all(true);
 
         $language_mapper = language_factory::get_mapper();
 

@@ -23,6 +23,10 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_diplomasafe\entities\language;
+use mod_diplomasafe\entities\template;
+use mod_diplomasafe\factories\language_factory;
+use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\settings\admin_setting_link;
 
 defined('MOODLE_INTERNAL') || die();
@@ -61,52 +65,60 @@ if ($ADMIN->fulltree) {
     $information = get_string('settings_api_client_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
 
-    $name = $component . '/environment';
-    $title = get_string('settings_environment', $component);
-    $description = get_string('settings_environment_desc', $component);
+    $field_identifier = 'environment';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 'test';
     $options = ['test' => 'test', 'prod' => 'prod'];
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 
-    $name = $component . '/test_base_url';
-    $title = get_string('settings_test_base_url', $component);
-    $description = get_string('settings_test_base_url_desc', $component);
+    $field_identifier = 'test_base_url';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 'https://demo-api.diplomasafe.net/api/v1';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/prod_base_url';
-    $title = get_string('settings_prod_base_url', $component);
-    $description = get_string('settings_prod_base_url_desc', $component);
+    $field_identifier = 'prod_base_url';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 'https://live-api.diplomasafe.net/api/v1';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/test_personal_access_token';
-    $title = get_string('settings_test_personal_access_token', $component);
-    $description = get_string('settings_test_personal_access_token_desc', $component);
+    $field_identifier = 'test_personal_access_token';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = '';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/prod_personal_access_token';
-    $title = get_string('settings_prod_personal_access_token', $component);
-    $description = get_string('settings_prod_personal_access_token_desc', $component);
+    $field_identifier = 'prod_personal_access_token';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = '';
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/api_timeout';
-    $title = get_string('settings_api_timeout', $component);
-    $description = get_string('settings_api_timeout_desc', $component);
+    $field_identifier = 'api_timeout';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 10;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/queue_amount_to_process';
-    $title = get_string('settings_queue_amount_to_process', $component);
-    $description = get_string('settings_queue_amount_to_process_desc', $component);
+    $field_identifier = 'queue_amount_to_process';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 20;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
-    $name = $component . '/moodle_duration_field';
-    $title = get_string('settings_moodle_duration_field', $component);
-    $description = get_string('settings_moodle_duration_field_desc', $component);
+    $field_identifier = 'moodle_duration_field';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $custom_fields = $DB->get_records('customfield_field', null, 'shortname', 'id, shortname');
     $default = '';
     $options = [
@@ -117,9 +129,10 @@ if ($ADMIN->fulltree) {
     }
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 
-    $name = $component . '/moodle_location_field';
-    $title = get_string('settings_moodle_location_field', $component);
-    $description = get_string('settings_moodle_location_field_desc', $component);
+    $field_identifier = 'moodle_location_field';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = '';
     $options = [
         '' => get_string('settings_select_custom_field', 'mod_diplomasafe')
@@ -129,9 +142,74 @@ if ($ADMIN->fulltree) {
     }
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $options));
 
-    $name = $component . '/item_count_per_page';
-    $title = get_string('settings_item_count_per_page', $component);
-    $description = get_string('settings_item_count_per_page_desc', $component);
+    $field_identifier = 'item_count_per_page';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     $default = 20;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
+
+    $field_identifier = 'available_language_ids';
+    $languages_repo = language_factory::get_repository();
+    $languages = $languages_repo->get_all();
+    $default_languages = [];
+    $available_languages = [];
+    if ($languages->count() > 0) {
+        foreach ($languages as $language) {
+            /** @var language $language */
+            $default_languages[] = (int)$language->id;
+            $available_languages[(int)$language->id] = $language->name;
+        }
+    }
+    $setting_name = $component . '/' . $field_identifier;
+    $title = get_string('setting_' . $field_identifier, $component);
+    $description = get_string('setting_' . $field_identifier . '_desc', $component);
+    if (empty($available_languages) && empty($default_languages)) {
+        $setting = new admin_setting_configempty(
+            $setting_name,
+            $title,
+            $description
+        );
+    } else {
+        $setting = new admin_setting_configmultiselect(
+            $setting_name,
+            $title,
+            $description,
+            $default_languages,
+            $available_languages
+        );
+    }
+    $settings->add($setting);
+
+    $field_identifier = 'available_template_ids';
+    $templates_repo = template_factory::get_repository();
+    $templates = $templates_repo->get_all();
+    $default_templates = [];
+    $available_templates = [];
+    if ($templates->count() > 0) {
+        foreach ($templates as $template) {
+            /** @var template $template */
+            $default_templates[] = (int)$template->id;
+            $available_templates[(int)$template->id] = $template->name;
+        }
+    }
+    $setting_name = $component . '/' . $field_identifier;
+    $title = get_string('setting_' . $field_identifier, $component);
+    $description = get_string('setting_' . $field_identifier . '_desc', $component);
+    if (empty($available_templates) && empty($default_templates)) {
+        $setting = new admin_setting_configempty(
+            $setting_name,
+            $title,
+            $description
+        );
+    } else {
+        $setting = new admin_setting_configmultiselect(
+            $setting_name,
+            $title,
+            $description,
+            $default_templates,
+            $available_templates
+        );
+    }
+    $settings->add($setting);
 }

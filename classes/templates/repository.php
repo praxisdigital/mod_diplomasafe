@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\templates;
 
 use mod_diplomasafe\collections\templates;
+use mod_diplomasafe\config;
 use mod_diplomasafe\entities\language;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\diploma_factory;
@@ -28,21 +29,30 @@ class repository
     private $db;
 
     /**
+     * @var config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @param \moodle_database $db
+     * @param config $config
      */
-    public function __construct(\moodle_database $db) {
+    public function __construct(\moodle_database $db, config $config) {
         $this->db = $db;
+        $this->config = $config;
     }
 
     /**
      * @param int|null $language_id
+     * @param bool $only_available
      *
      * @return array
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all_records(int $language_id = null) : array {
+    public function get_all_records(int $language_id = null, bool $only_available = false) : array {
         $sql = /** @lang mysql */'
         SELECT t.id, t.organisation_id, l.name default_language, 
         t.idnumber, t.name, t.is_valid
@@ -51,6 +61,14 @@ class repository
         WHERE 1
         ';
         $sql_params = [];
+        if ($only_available) {
+            $available_template_ids = $this->config->get_available_template_ids();
+            if (empty($available_template_ids)) {
+                return [];
+            }
+            [$sql_in, $sql_params] = $this->db->get_in_or_equal($available_template_ids, SQL_PARAMS_NAMED);
+            $sql .= ' AND t.id ' . $sql_in;
+        }
         if ($language_id !== null) {
             $sql .= ' AND t.default_language_id = :language_id';
             $sql_params['language_id'] = $language_id;
@@ -102,12 +120,14 @@ class repository
 
     /**
      * @param $language_id
+     * @param bool $only_available
      *
      * @return templates
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_by_language($language_id) : templates {
-        return new templates($language_id);
+    public function get_by_language($language_id, bool $only_available = false) : templates {
+        return new templates($language_id, $only_available);
     }
 
     /**

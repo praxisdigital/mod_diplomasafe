@@ -10,6 +10,7 @@ namespace mod_diplomasafe\requests;
 
 use mod_diplomasafe\contracts\request_interface;
 use mod_diplomasafe\event\course_module_viewed;
+use mod_diplomasafe\factory;
 use mod_diplomasafe\output\single;
 use mod_diplomasafe\request;
 

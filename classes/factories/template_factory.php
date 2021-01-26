@@ -30,7 +30,7 @@ class template_factory extends factory
     }
 
     public static function get_repository() : repository {
-        return new repository(self::get_db());
+        return new repository(self::get_db(), self::get_config());
     }
 
     /**

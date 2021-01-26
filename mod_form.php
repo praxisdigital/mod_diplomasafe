@@ -52,7 +52,7 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
 
         // Language field
         $languages = language_factory::get_repository()
-            ->get_all();
+            ->get_all(true);
         $languages->sort_asc('name');
         $options = [];
         $options[''] = get_string('select_default_option_language', 'mod_diplomasafe');

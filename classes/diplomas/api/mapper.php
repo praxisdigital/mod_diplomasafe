@@ -83,15 +83,15 @@ class mapper
             ]
         ];
 
-        $templates_repository = template_factory::get_api_repository();
-        $response = $templates_repository->get_one($diploma->template);
+        $templates_api_repo = template_factory::get_api_repository();
+        $response = $templates_api_repo->get_one($diploma->template);
 
         $remote_field_ids = [];
         foreach ($response['diploma_fields'] as $diploma_field) {
             $remote_field_ids[] = $diploma_field['id'];
         }
 
-        $remote_fields_without_local_mapping = $templates_repository->other_diploma_fields_than_mapped(
+        $remote_fields_without_local_mapping = $templates_api_repo->other_diploma_fields_than_mapped(
             $remote_field_ids
         );
 

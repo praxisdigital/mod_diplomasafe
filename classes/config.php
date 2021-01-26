@@ -181,4 +181,18 @@ class config
     public function get_item_count_per_page() : int {
         return $this->config->item_count_per_page;
     }
+
+    /**
+     * @return array
+     */
+    public function get_available_language_ids() : array {
+        return array_filter(explode(',', $this->config->available_language_ids));
+    }
+
+    /**
+     * @return array
+     */
+    public function get_available_template_ids() : array {
+        return array_filter(explode(',', $this->config->available_template_ids));
+    }
 }

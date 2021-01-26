@@ -23,9 +23,14 @@ class language_factory extends factory
 {
     /**
      * @return repository
+     * @throws \dml_exception
+     * @throws \mod_diplomasafe\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
     public static function get_repository() : repository {
-        return new repository(self::get_db());
+        return new repository(self::get_db(), self::get_config());
     }
 
     /**
