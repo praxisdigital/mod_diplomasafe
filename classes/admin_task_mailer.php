@@ -62,12 +62,12 @@ class admin_task_mailer
     }
 
     /**
-     * @param int $recipient
+     * @param object $recipient
      * @param string $error_message
      *
      * @throws \coding_exception
      */
-    public function send_to_one(int $recipient, string $error_message) : void {
+    public function send_to_one(object $recipient, string $error_message) : void {
         $message = new message('api_error');
         $message->component = 'mod_diplomasafe';
         $message->name = 'api_error';
