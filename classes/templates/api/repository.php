@@ -2,7 +2,7 @@
 namespace mod_diplomasafe\templates\api;
 
 use mod_diplomasafe\api_pagination;
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\config;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\language_factory;
@@ -35,7 +35,7 @@ class repository
     private $templates = [];
 
     /**
-     * @var diplomasafe_config
+     * @var config
      */
     private $config;
 
@@ -43,9 +43,9 @@ class repository
      * Constructor
      *
      * @param \curl $client
-     * @param diplomasafe_config $config
+     * @param config $config
      */
-    public function __construct(\curl $client, diplomasafe_config $config) {
+    public function __construct(\curl $client, config $config) {
         $this->client = $client;
         $this->config = $config;
     }
@@ -56,15 +56,15 @@ class repository
      *
      * @return array
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     * @throws \mod_diplomasafe\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
     public function get_all(string $url = '', int $page = 0) : array {
 
         if ($url === '') {
-            $config = new diplomasafe_config(get_config('mod_diplomasafe'));
+            $config = new config(get_config('mod_diplomasafe'));
             $url = $config->get_base_url() . self::ENDPOINT;
         }
 
@@ -124,12 +124,8 @@ class repository
     /**
      * @param array $remote_field_ids
      *
-     * @return bool
+     * @return array
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function other_diploma_fields_than_mapped(array $remote_field_ids) : array {
 
@@ -150,10 +146,6 @@ class repository
      *
      * @return bool
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      */
     public function has_other_diploma_fields_than_mapped($remote_field_ids) : bool {
         return !empty($this->other_diploma_fields_than_mapped($remote_field_ids));

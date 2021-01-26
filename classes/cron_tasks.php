@@ -35,10 +35,6 @@ class cron_tasks
      * @throws \coding_exception
      * @throws \dml_exception
      * @throws \moodle_exception
-     * @throws client\exceptions\base_url_not_set
-     * @throws client\exceptions\current_environment_invalid
-     * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\personal_access_token_not_set
      */
     public static function create_templates($output_debug_info = true) : void {
         $api_repo = template_factory::get_api_repository();

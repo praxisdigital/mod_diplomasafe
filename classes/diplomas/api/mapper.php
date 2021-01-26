@@ -1,7 +1,7 @@
 <?php
 namespace mod_diplomasafe\diplomas\api;
 
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\config;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\output\create_diploma_payload;
@@ -31,7 +31,7 @@ class mapper
     private $client;
 
     /**
-     * @var diplomasafe_config
+     * @var config
      */
     private $config;
 
@@ -39,9 +39,9 @@ class mapper
      * Constructor
      *
      * @param \curl $client
-     * @param diplomasafe_config $config
+     * @param config $config
      */
-    public function __construct(\curl $client, diplomasafe_config $config) {
+    public function __construct(\curl $client, config $config) {
         $this->client = $client;
         $this->config = $config;
     }
@@ -52,10 +52,6 @@ class mapper
      * @return bool
      * @throws \coding_exception
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      * @throws \moodle_exception
      */
     public function create(diploma $diploma) : bool {

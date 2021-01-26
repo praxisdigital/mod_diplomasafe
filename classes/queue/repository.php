@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\queue;
 
+use mod_diplomasafe\collection;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\queue_item;
 
@@ -118,5 +119,26 @@ class repository
         return new queue_item((array)$this->db->get_record(self::TABLE, [
             'id' => $item_id
         ]));
+    }
+
+    /**
+     * @param int $user_id
+     *
+     * @return queue_items
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public function get_by_user_id(int $user_id) : queue_items {
+
+        $result = $this->db->get_records(self::TABLE, [
+            'user_id' => $user_id
+        ]);
+
+        $queue_items = [];
+        foreach ($result as $row) {
+            $queue_items = new queue_item($row);
+        }
+
+        return new queue_items($queue_items);
     }
 }

@@ -92,10 +92,10 @@ abstract class mapping
     /**
      * @return string
      * @throws \dml_exception
-     * @throws client\exceptions\base_url_not_set
-     * @throws client\exceptions\current_environment_invalid
-     * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\personal_access_token_not_set
+     * @throws exceptions\base_url_not_set
+     * @throws exceptions\current_environment_invalid
+     * @throws exceptions\current_environment_not_set
+     * @throws exceptions\personal_access_token_not_set
      */
     public function get_remote_id(): string {
         $reflect = new \ReflectionClass($this);

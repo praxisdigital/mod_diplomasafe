@@ -6,11 +6,11 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
-use mod_diplomasafe\client\diplomasafe_config;
-use mod_diplomasafe\client\exceptions\base_url_not_set;
-use mod_diplomasafe\client\exceptions\current_environment_invalid;
-use mod_diplomasafe\client\exceptions\current_environment_not_set;
-use mod_diplomasafe\client\exceptions\personal_access_token_not_set;
+use mod_diplomasafe\config;
+use mod_diplomasafe\exceptions\base_url_not_set;
+use mod_diplomasafe\exceptions\current_environment_invalid;
+use mod_diplomasafe\exceptions\current_environment_not_set;
+use mod_diplomasafe\exceptions\personal_access_token_not_set;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -51,7 +51,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->is_test_environment = 1;
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals(1, $config->is_test_environment());
     }
@@ -68,7 +68,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
 
         $this->resetAfterTest();
 
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->environment, $config->get_environment());
     }
@@ -86,7 +86,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->api_timeout = 10;
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->api_timeout, $config->get_timeout());
     }
@@ -103,7 +103,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
 
         $this->resetAfterTest();
 
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->test_base_url, $config->get_base_url());
     }
@@ -120,7 +120,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
 
         $this->resetAfterTest();
 
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->test_personal_access_token, $config->get_private_token());
     }
@@ -138,7 +138,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->moodle_duration_field = 'custom_field_a';
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->moodle_duration_field, $config->get_duration_custom_field_code());
     }
@@ -156,7 +156,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->moodle_location_field = 'custom_field_b';
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->moodle_location_field, $config->get_location_custom_field_code());
     }
@@ -174,7 +174,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->item_count_per_page = 20;
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->item_count_per_page, $config->get_item_count_per_page());
     }
@@ -192,7 +192,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $this->resetAfterTest();
 
         $this->required_config_data->queue_amount_to_process = 20;
-        $config = new diplomasafe_config($this->required_config_data);
+        $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->queue_amount_to_process, $config->get_queue_amount_to_process());
     }

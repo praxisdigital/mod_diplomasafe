@@ -31,11 +31,8 @@ class store_diploma_templates extends scheduled_task
 
     /**
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
      * @throws \moodle_exception
+     * @throws coding_exception
      */
     public function execute() {
         cron_tasks::create_templates();

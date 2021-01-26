@@ -82,6 +82,17 @@ $string['diplomasafe:receive_api_error_mail'] = 'Receive API mail with error mes
 $string['diplomasafe:diplomasafeinstructor'] = 'Diplomasafe instructor';
 $string['diplomasafe:access_admin_views'] = 'Access admin views';
 
+// Privacy
+$string['privacy:metadata:diplomasafe_queue'] = 'The table with the queue items for creating diplomas';
+$string['privacy:metadata:mod_diplomasafe:course_id'] = 'The ID of the course';
+$string['privacy:metadata:mod_diplomasafe:user_id'] = 'The ID of the user';
+$string['privacy:metadata:mod_diplomasafe:status'] = 'The queue status (pending, running, successful, failed)';
+$string['privacy:metadata:mod_diplomasafe:message'] = 'The queue message';
+$string['privacy:metadata:mod_diplomasafe:time_created'] = 'The time of creation';
+$string['privacy:metadata:mod_diplomasafe:time_modified'] = 'The time of modification';
+$string['privacy:metadata:mod_diplomasafe:last_run'] = 'The last time this queue item has been run';
+$string['privacy:metadata:mod_diplomasafe:last_mail_sent'] = 'The time the last mail were sent to the manager';
+
 // Messages
 $string['messageprovider:api_error'] = 'API error notification';
 $string['message_api_error_subject'] = 'API error';

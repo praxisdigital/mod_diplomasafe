@@ -8,7 +8,7 @@
 
 namespace mod_diplomasafe\output;
 
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\config;
 use mod_diplomasafe\collections\templates;
 use mod_diplomasafe\factory;
 use renderer_base;

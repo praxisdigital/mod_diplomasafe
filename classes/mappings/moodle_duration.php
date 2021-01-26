@@ -27,10 +27,10 @@ class moodle_duration extends mapping implements mapping_interface
     /**
      * @return string
      * @throws \dml_exception
-     * @throws \mod_diplomasafe\client\exceptions\base_url_not_set
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_invalid
-     * @throws \mod_diplomasafe\client\exceptions\current_environment_not_set
-     * @throws \mod_diplomasafe\client\exceptions\personal_access_token_not_set
+     * @throws \mod_diplomasafe\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
     public function get_value(): string {
         $config = factory::get_config();

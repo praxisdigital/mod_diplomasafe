@@ -1,9 +1,7 @@
 <?php
 namespace mod_diplomasafe;
 
-use mod_diplomasafe\client\adapters\moodle_curl_request_adapter;
-use mod_diplomasafe\client\diplomasafe_client;
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\config;
 
 /**
  * @developer   Johnny Drud
@@ -31,11 +29,8 @@ abstract class factory {
 
     /**
      * @return \curl
+     * @throws \coding_exception
      * @throws \dml_exception
-     * @throws client\exceptions\base_url_not_set
-     * @throws client\exceptions\current_environment_invalid
-     * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\personal_access_token_not_set
      */
     public static function get_api_client() : \curl {
 
@@ -57,14 +52,14 @@ abstract class factory {
     }
 
     /**
-     * @return diplomasafe_config
+     * @return config
      * @throws \dml_exception
-     * @throws client\exceptions\base_url_not_set
-     * @throws client\exceptions\current_environment_invalid
-     * @throws client\exceptions\current_environment_not_set
-     * @throws client\exceptions\personal_access_token_not_set
+     * @throws exceptions\base_url_not_set
+     * @throws exceptions\current_environment_invalid
+     * @throws exceptions\current_environment_not_set
+     * @throws exceptions\personal_access_token_not_set
      */
-    public static function get_config() : diplomasafe_config {
-        return new diplomasafe_config(get_config('mod_diplomasafe'));
+    public static function get_config() : config {
+        return new config(get_config('mod_diplomasafe'));
     }
 }

@@ -1,14 +1,25 @@
 <?php
+/**
+ * @developer   Johnny Drud
+ * @date        26-01-2021
+ * @company     https://diplomasafe.com
+ * @copyright   2021 Diplomasafe ApS
+ */
 
-namespace mod_diplomasafe\client;
+namespace mod_diplomasafe;
 
-use mod_diplomasafe\client\exceptions\base_url_not_set;
-use mod_diplomasafe\client\exceptions\current_environment_invalid;
-use mod_diplomasafe\client\exceptions\current_environment_not_set;
-use mod_diplomasafe\client\exceptions\personal_access_token_not_set;
+use mod_diplomasafe\exceptions\base_url_not_set;
+use mod_diplomasafe\exceptions\current_environment_invalid;
+use mod_diplomasafe\exceptions\current_environment_not_set;
+use mod_diplomasafe\exceptions\personal_access_token_not_set;
 
-class diplomasafe_config{
-
+/**
+ * Class
+ *
+ * @package mod_diplomasafe
+ */
+class config
+{
     /** @var object|\stdClass */
     protected $config;
 
@@ -17,7 +28,7 @@ class diplomasafe_config{
 
     /**
      * We only want to hold the config for diplomasafe
-     * diplomasafe_config constructor.
+     * config constructor.
      *
      * @param \stdClass $config_data
      *

@@ -8,7 +8,7 @@
 
 namespace mod_diplomasafe;
 
-use mod_diplomasafe\client\diplomasafe_config;
+use mod_diplomasafe\config;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\queue_item;
@@ -44,12 +44,12 @@ class queue
     /**
      * Constructor
      *
-     * @param diplomasafe_config $config
+     * @param config $config
      *
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function __construct(diplomasafe_config $config) {
+    public function __construct(config $config) {
         $this->config = $config;
         $this->mapper = queue_factory::get_queue_mapper();
         $this->repo = queue_factory::get_queue_repository();

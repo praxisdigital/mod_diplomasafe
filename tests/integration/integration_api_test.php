@@ -8,11 +8,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_diplomasafe\client\diplomasafe_config;
-use mod_diplomasafe\client\exceptions\base_url_not_set;
-use mod_diplomasafe\client\exceptions\current_environment_invalid;
-use mod_diplomasafe\client\exceptions\current_environment_not_set;
-use mod_diplomasafe\client\exceptions\personal_access_token_not_set;
+use mod_diplomasafe\config;
+use mod_diplomasafe\exceptions\base_url_not_set;
+use mod_diplomasafe\exceptions\current_environment_invalid;
+use mod_diplomasafe\exceptions\current_environment_not_set;
+use mod_diplomasafe\exceptions\personal_access_token_not_set;
 use mod_diplomasafe\cron_tasks;
 use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\template_factory;
@@ -35,7 +35,7 @@ class mod_diplomasafe_integration_api_testcase extends advanced_testcase
     private $client;
 
     /**
-     * @var diplomasafe_config
+     * @var config
      */
     private $config;
 
@@ -75,7 +75,7 @@ class mod_diplomasafe_integration_api_testcase extends advanced_testcase
         set_config('test_base_url', $REAL_DATA['test_base_url'], 'mod_diplomasafe');
         set_config('test_personal_access_token', $REAL_DATA['test_personal_access_token'], 'mod_diplomasafe');
 
-        $this->config = new diplomasafe_config(get_config('mod_diplomasafe'));
+        $this->config = new config(get_config('mod_diplomasafe'));
 
         $this->client = new curl();
         $this->client->setHeader([
