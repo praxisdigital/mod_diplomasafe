@@ -24,26 +24,30 @@ class templates extends collection
      * Constructor
      *
      * @param int|null $language_id
-     * @param bool $only_available
+     * @param array|null $available_template_ids
      *
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function __construct(int $language_id = null, bool $only_available = false) {
-        $data = $this->get_data($language_id, $only_available);
+    public function __construct(int $language_id = null, array $available_template_ids = null) {
+        $data = $this->get_data($language_id, $available_template_ids);
         $this->set($data);
     }
 
     /**
      * @param int|null $language_id
-     * @param bool $only_available
+     * @param array|null $available_template_ids
      *
      * @return mixed
      * @throws \coding_exception
      * @throws \dml_exception
+     * @throws \mod_diplomasafe\exceptions\base_url_not_set
+     * @throws \mod_diplomasafe\exceptions\current_environment_invalid
+     * @throws \mod_diplomasafe\exceptions\current_environment_not_set
+     * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
-    private function get_data(int $language_id = null, bool $only_available = false) {
+    private function get_data(int $language_id = null, array $available_template_ids = null) {
         return template_factory::get_repository()
-            ->get_all_records($language_id, $only_available);
+            ->get_all_records($language_id, $available_template_ids);
     }
 }

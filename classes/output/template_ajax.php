@@ -10,6 +10,7 @@ namespace mod_diplomasafe\output;
 
 use mod_diplomasafe\collections\templates;
 use mod_diplomasafe\factories\template_factory;
+use mod_diplomasafe\factory;
 use renderer_base;
 
 defined('MOODLE_INTERNAL') || die();
@@ -51,8 +52,10 @@ class template_ajax implements \renderable, \templatable
      */
     public function export_for_template(renderer_base $output) {
 
+        $config = factory::get_config();
+
         $templates = template_factory::get_repository()
-            ->get_by_language($this->language_id, true);
+            ->get_by_language($this->language_id, $config->get_available_template_ids());
         $is_disabled = $this->language_id === 0;
 
         $this->set_selected($templates);

@@ -34,29 +34,22 @@ class repository
     private $db;
 
     /**
-     * @var config
-     */
-    private $config;
-
-    /**
      * Constructor
      *
      * @param \moodle_database $db
-     * @param config $config
      */
-    public function __construct(\moodle_database $db, config $config) {
+    public function __construct(\moodle_database $db) {
         $this->db = $db;
-        $this->config = $config;
     }
 
     /**
-     * @param bool $only_available
+     * @param array|null $available_language_ids
      *
      * @return array
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all_records(bool $only_available = false) : array {
+    public function get_all_records(array $available_language_ids = null) : array {
 
         $sql = /** @lang mysql */ '
             SELECT *
@@ -64,8 +57,7 @@ class repository
             WHERE 1';
 
         $sql_params = [];
-        if ($only_available) {
-            $available_language_ids = $this->config->get_available_language_ids();
+        if ($available_language_ids !== null) {
             if (empty($available_language_ids)) {
                 return [];
             }
@@ -77,13 +69,14 @@ class repository
     }
 
     /**
-     * @param bool $only_available
+     * @param array|null $available_language_ids
      *
      * @return languages
+     * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all(bool $only_available = false) : languages {
-        return new languages($only_available);
+    public function get_all(array $available_language_ids = null) : languages {
+        return new languages($available_language_ids);
     }
 
     /**

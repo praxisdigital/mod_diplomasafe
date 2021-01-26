@@ -27,14 +27,42 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
     private $required_config_data;
 
     /**
+     * @return \moodle_database
+     */
+    private function get_db() : \moodle_database {
+        global $DB;
+        return $DB;
+    }
+
+    /**
      * @void
      */
     public function setUp() : void {
+
+        $db = $this->get_db();
+
+        // THIS SQL NEEDS THE mdl_ PREFIX - DO NOT REMOVE
+        $REAL_DATA = $db->get_records_sql_menu(
+        /** @lang mysql */ 'SELECT name, value FROM mdl_config_plugins WHERE `plugin` = "mod_diplomasafe"'
+        );
+
+        if(empty($REAL_DATA['test_base_url']) || empty($REAL_DATA['test_personal_access_token'])){
+            throw new \coding_exception('You must insert the test base url and test private access token under global settings');
+        }
+
+        $environment = 'test';
+
+        /**
+         * Create the settings in the phpu_ table
+         */
+        set_config('environment', $environment, 'mod_diplomasafe'); // Should always run against the test API
+        set_config('test_base_url', $REAL_DATA['test_base_url'], 'mod_diplomasafe');
+        set_config('test_personal_access_token', $REAL_DATA['test_personal_access_token'], 'mod_diplomasafe');
+
         $this->required_config_data = (object)[
-            // Default data to allow test
-            'environment' => 'test',
-            'test_base_url' => 'https://demo-api.diplomasafe.net/api/v1',
-            'test_personal_access_token' => 'dummy_token'
+            'environment' => $environment,
+            'test_base_url' => $REAL_DATA['test_base_url'],
+            'test_personal_access_token' => $REAL_DATA['test_personal_access_token']
         ];
     }
 
@@ -187,7 +215,7 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
      * @throws current_environment_not_set
      * @throws personal_access_token_not_set
      */
-    public function can_queue_amount_to_process() : void {
+    public function can_get_queue_amount_to_process() : void {
 
         $this->resetAfterTest();
 
@@ -195,5 +223,49 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
         $config = new config($this->required_config_data);
 
         self::assertEquals($this->required_config_data->queue_amount_to_process, $config->get_queue_amount_to_process());
+    }
+
+    /**
+     * @test
+     *
+     * @throws base_url_not_set
+     * @throws current_environment_invalid
+     * @throws current_environment_not_set
+     * @throws personal_access_token_not_set
+     */
+    public function can_get_available_language_ids_as_array() : void {
+
+        $this->resetAfterTest();
+
+        $this->required_config_data->available_language_ids = '1,2';
+        $config = new config($this->required_config_data);
+
+        self::assertEquals(explode(
+            ',', $this->required_config_data->available_language_ids
+            ),
+            $config->get_available_language_ids()
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @throws base_url_not_set
+     * @throws current_environment_invalid
+     * @throws current_environment_not_set
+     * @throws personal_access_token_not_set
+     */
+    public function can_get_available_template_ids_as_array() : void {
+
+        $this->resetAfterTest();
+
+        $this->required_config_data->available_template_ids = '1,2';
+        $config = new config($this->required_config_data);
+
+        self::assertEquals(explode(
+            ',', $this->required_config_data->available_template_ids
+        ),
+            $config->get_available_template_ids()
+        );
     }
 }

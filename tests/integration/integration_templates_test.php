@@ -94,6 +94,7 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
     /**
      * @test
      *
+     * @throws coding_exception
      * @throws dml_exception
      */
     public function can_get_templates_list() : void {

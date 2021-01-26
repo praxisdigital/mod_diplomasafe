@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\factories;
 
+use mod_diplomasafe\config;
 use mod_diplomasafe\templates\mapper;
 use mod_diplomasafe\templates\api\repository as api_repository;
 use mod_diplomasafe\factory;
@@ -29,8 +30,11 @@ class template_factory extends factory
         return new mapper(self::get_db());
     }
 
+    /**
+     * @return repository
+     */
     public static function get_repository() : repository {
-        return new repository(self::get_db(), self::get_config());
+        return new repository(self::get_db());
     }
 
     /**

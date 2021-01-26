@@ -23,6 +23,7 @@
  */
 
 use mod_diplomasafe\factories\language_factory;
+use mod_diplomasafe\factory;
 use mod_diplomasafe\output\fieldset_template_field;
 
 defined('MOODLE_INTERNAL') || die();
@@ -50,9 +51,11 @@ class mod_diplomasafe_mod_form extends moodleform_mod {
         // Adding the "general" fieldset, where all the common settings are shown.
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
+        $config = factory::get_config();
+
         // Language field
         $languages = language_factory::get_repository()
-            ->get_all(true);
+            ->get_all($config->get_available_language_ids());
         $languages->sort_asc('name');
         $options = [];
         $options[''] = get_string('select_default_option_language', 'mod_diplomasafe');

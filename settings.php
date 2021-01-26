@@ -23,6 +23,7 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_diplomasafe\config;
 use mod_diplomasafe\entities\language;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\language_factory;

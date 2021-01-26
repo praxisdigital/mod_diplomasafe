@@ -9,10 +9,7 @@
 namespace mod_diplomasafe\templates;
 
 use mod_diplomasafe\collections\templates;
-use mod_diplomasafe\config;
-use mod_diplomasafe\entities\language;
 use mod_diplomasafe\entities\template;
-use mod_diplomasafe\factories\diploma_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -29,30 +26,23 @@ class repository
     private $db;
 
     /**
-     * @var config
-     */
-    private $config;
-
-    /**
      * Constructor
      *
      * @param \moodle_database $db
-     * @param config $config
      */
-    public function __construct(\moodle_database $db, config $config) {
+    public function __construct(\moodle_database $db) {
         $this->db = $db;
-        $this->config = $config;
     }
 
     /**
      * @param int|null $language_id
-     * @param bool $only_available
+     * @param array|null $available_template_ids
      *
      * @return array
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all_records(int $language_id = null, bool $only_available = false) : array {
+    public function get_all_records(int $language_id = null, array $available_template_ids = null) : array {
         $sql = /** @lang mysql */'
         SELECT t.id, t.organisation_id, l.name default_language, 
         t.idnumber, t.name, t.is_valid
@@ -61,8 +51,7 @@ class repository
         WHERE 1
         ';
         $sql_params = [];
-        if ($only_available) {
-            $available_template_ids = $this->config->get_available_template_ids();
+        if ($available_template_ids !== null) {
             if (empty($available_template_ids)) {
                 return [];
             }
@@ -77,10 +66,15 @@ class repository
     }
 
     /**
+     * @param int|null $language_id
+     * @param array|null $available_template_ids
+     *
      * @return templates
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
-    public function get_all() : templates {
-        return new templates();
+    public function get_all(int $language_id = null, array $available_template_ids = null) : templates {
+        return new templates($language_id, $available_template_ids);
     }
 
     /**
@@ -119,15 +113,15 @@ class repository
     }
 
     /**
-     * @param $language_id
-     * @param bool $only_available
+     * @param int $language_id
+     * @param array|null $available_template_ids
      *
      * @return templates
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_by_language($language_id, bool $only_available = false) : templates {
-        return new templates($language_id, $only_available);
+    public function get_by_language(int $language_id, array $available_template_ids = null) : templates {
+        return new templates($language_id, $available_template_ids);
     }
 
     /**

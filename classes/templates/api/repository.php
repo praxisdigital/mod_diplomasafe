@@ -64,15 +64,14 @@ class repository
     public function get_all(string $url = '', int $page = 0) : array {
 
         if ($url === '') {
-            $config = new config(get_config('mod_diplomasafe'));
-            $url = $config->get_base_url() . self::ENDPOINT;
+            $url = $this->config->get_base_url() . self::ENDPOINT;
         }
 
         $response = json_decode($this->client->get($url), true);
         $templates = $response['templates'];
 
-        $languages_repository = language_factory::get_repository();
-        $languages = $languages_repository->get_all(true);
+        $languages_repo = language_factory::get_repository();
+        $languages = $languages_repo->get_all($this->config->get_available_language_ids());
 
         $language_mapper = language_factory::get_mapper();
 
@@ -84,7 +83,7 @@ class repository
             if (!$languages->key_exists($default_language_key)) {
                 $language_id = $language_mapper->create($default_language_key);
             } else {
-                $language = $languages_repository->get_by_key($default_language_key);
+                $language = $languages_repo->get_by_key($default_language_key);
                 $language_id = $language->id;
             }
 

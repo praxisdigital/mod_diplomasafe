@@ -8,6 +8,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_diplomasafe\config;
+use mod_diplomasafe\exceptions\base_url_not_set;
+use mod_diplomasafe\exceptions\current_environment_invalid;
+use mod_diplomasafe\exceptions\current_environment_not_set;
+use mod_diplomasafe\exceptions\personal_access_token_not_set;
 use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\languages\mapper;
 use mod_diplomasafe\languages\repository;
