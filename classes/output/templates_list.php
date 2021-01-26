@@ -51,7 +51,9 @@ class templates_list implements \renderable, \templatable
      */
     public function export_for_template(renderer_base $output) : array {
 
-        $templates = new templates(null, true);
+        $config = factory::get_config();
+
+        $templates = new templates(null, $config->get_available_template_ids());
         $total_count = $templates->count();
 
         $per_page = factory::get_config()->get_item_count_per_page();
