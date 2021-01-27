@@ -138,14 +138,14 @@ $string['missing_or_invalid_status'] = 'Missing or invalid status';
 
 // Setup guide view
 $string['view_setup_guide_header'] = 'Setup guide';
-$string['view_setup_guide_description'] = '<p>This activity allows storing templates and issuing diplomas for Diplomasafe.com.</p>
+$string['view_setup_guide_description'] = '<p>The Diplomasafe activity allows storing templates and issuing diplomas for Diplomasafe.com.</p>
     <ol>
         <li>
             <strong>Add required settings</strong><br>
-            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select environment (live/prod) and add an API token for the environment.</li>
+            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select environment (live/prod) and add an API token.</li>
         <li>
             <strong>Store templates and languages</strong><br>
-            Run the <a href="/admin/tool/task/scheduledtasks.php" target="_blank">scheduled task</a> for storing diploma templates and languages from the API.<br>
+            Run the <a href="/admin/tool/task/schedule_task.php?task=mod_diplomasafe%5Ctask%5Cstore_diploma_templates" target="_blank">scheduled task for storing diploma templates and languages</a> from the API.<br>
             <i>The scheduled task is executed automatically after a period of time.</i>
         </li>
         <li>
@@ -155,11 +155,15 @@ $string['view_setup_guide_description'] = '<p>This activity allows storing templ
         <li>
             <strong>Add course activities</strong><br>
             Add the Diplomasafe activity module to a course and select language and template for the diplomas in the settings of the module.<br>
-            <i>A job will be added to the queue every time a course is completed by a student.</i>
+        </li>
+        <li>
+            <strong>Wait for students to complete courses</strong><br>
+            A job will be added to the queue every time a course is completed by a student.<br>
+            <i>Completion data is calculated when an event is triggered by the <a href="/admin/tool/task/schedule_task.php?task=core%5Ctask%5Ccompletion_regular_task" target="_blank">scheduled task for calculating completion data</a>.</i>
         </li>
         <li>
             <strong>Process queue to generate diplomas</strong><br>
-            The queue is processed by the <a href="/admin/tool/task/scheduledtasks.php" target="_blank">scheduled task</a> for processing the queue.<br>
+            The queue is processed by the <a href="/admin/tool/task/schedule_task.php?task=mod_diplomasafe%5Ctask%5Cprocess_queue" target="_blank">scheduled task for processing the queue</a>. Go to <a href="/mod/diplomasafe/view.php?view=queue_list" target="_blank">the queue</a> to get an overview.<br>
             <i>The scheduled task is executed automatically after a period of time.</i>
         </li>
     </ol>';
