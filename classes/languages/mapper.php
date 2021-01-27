@@ -41,7 +41,9 @@ class mapper
      */
     public function create(string $language_key) : int {
         return $this->db->insert_record(self::TABLE, (object)[
-            'name' => $language_key
+            'name' => trim($language_key)
         ]);
     }
+
+
 }

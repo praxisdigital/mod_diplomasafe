@@ -4,6 +4,7 @@ namespace mod_diplomasafe\templates;
 use mod_diplomasafe\collections\default_template_fields;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\collections\template_default_field_values;
+use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\factories\template_factory;
 
 /**
@@ -55,6 +56,9 @@ class mapper
 
         $transaction = $this->db->start_delegated_transaction();
 
+        $languages_mapper = language_factory::get_mapper();
+        $languages_repo = language_factory::get_repository();
+
         try {
             // Store template
             if (!template_factory::get_repository()->exists([
@@ -75,12 +79,8 @@ class mapper
 
             // Store language keys
             foreach ($language_keys as $language_key) {
-                if (!$this->db->record_exists(self::TABLE_LANGUAGES, [
-                    'name' => $language_key
-                ])) {
-                    $this->db->insert_record(self::TABLE_LANGUAGES, (object)[
-                        'name' => $language_key
-                    ]);
+                if (!$languages_repo->exists($language_key)) {
+                    $languages_mapper->create($language_key);
                 }
             }
 

@@ -52,7 +52,7 @@ class repository
     public function get_all_records(array $available_language_ids = null) : array {
 
         $sql = /** @lang mysql */ '
-            SELECT *
+            SELECT DISTINCT *
             FROM {' . self::TABLE . '}
             WHERE 1';
 
@@ -86,7 +86,9 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_id(int $id) : language {
-        return new language((array)$this->db->get_record(self::TABLE, [
+        $sql =  /** @lang mysql */'
+        SELECT * FROM {' . self::TABLE . '} WHERE id = :id LIMIT 1';
+        return new language((array)$this->db->get_record_sql($sql, [
             'id' => $id
         ]));
     }
@@ -98,8 +100,22 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_key(string $key) : language {
-        return new language((array)$this->db->get_record(self::TABLE, [
-            'name' => $key
+        $sql =  /** @lang mysql */'
+        SELECT * FROM {' . self::TABLE . '} WHERE name = :name LIMIT 1';
+        return new language((array)$this->db->get_record_sql($sql, [
+            'name' => trim($key)
         ]));
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    public function exists(string $key) : bool {
+        return $this->db->record_exists(self::TABLE, [
+            'name' => trim($key)
+        ]);
     }
 }

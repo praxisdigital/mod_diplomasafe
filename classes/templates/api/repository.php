@@ -71,16 +71,14 @@ class repository
         $templates = $response['templates'];
 
         $languages_repo = language_factory::get_repository();
-        $languages = $languages_repo->get_all($this->config->get_available_language_ids());
-
         $language_mapper = language_factory::get_mapper();
 
         foreach ($templates as $template) {
 
             $diploma_fields = $template['diploma_fields'] ?? [];
-
             $default_language_key = $template['default_language'];
-            if (!$languages->key_exists($default_language_key)) {
+
+            if (!$languages_repo->exists($default_language_key)) {
                 $language_id = $language_mapper->create($default_language_key);
             } else {
                 $language = $languages_repo->get_by_key($default_language_key);

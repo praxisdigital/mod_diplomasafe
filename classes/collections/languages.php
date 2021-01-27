@@ -21,11 +21,6 @@ defined('MOODLE_INTERNAL') || die();
 class languages extends collection
 {
     /**
-     * @var array
-     */
-    private $ids_by_key = [];
-
-    /**
      * Constructor
      *
      * @param array|null $available_language_ids
@@ -35,19 +30,7 @@ class languages extends collection
      */
     public function __construct(array $available_language_ids = null) {
         $languages = $this->get_data($available_language_ids);
-        foreach ($languages as $language) {
-            $this->ids_by_key[$language->name] = $language->id;
-        }
         $this->set($languages);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function key_exists(string $key) : bool {
-        return isset($this->ids_by_key[$key]);
     }
 
     /**

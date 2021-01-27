@@ -1,5 +1,5 @@
 <div id="fitem_id_template" class="form-group row fitem diplomasafe-template-wrapper" data-module-id="{{module_id}}">
-    <div class="col-md-3">
+    <div class="col-md-3" style="padding-right: 0;">
         <span class="float-sm-right text-nowrap">
             <abbr class="initialism text-danger" title="{{#str}}required{{/str}}"><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="{{#str}}required{{/str}}" aria-label="{{#str}}required{{/str}}"></i></abbr>
             <a class="btn btn-link p-0" role="button" data-container="body" data-toggle="popover" data-placement="right"
@@ -14,10 +14,8 @@
         </label>
     </div>
     <div class="col-md-9">
-        <div class="diplomasafe-ajax-wrapper">
-            <div id="ajax-result" data-session-key="{{session_key}}">
-                <!-- AJAX output -->
-            </div>
+        <div id="ajax-result" data-session-key="{{session_key}}">
+            <!-- AJAX output -->
         </div>
     </div>
 </div>
