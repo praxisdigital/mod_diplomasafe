@@ -43,7 +43,7 @@ $string['settings_templates_desc'] = 'Determines if you are testing or in produc
 $string['settings_templates'] = 'Templates';
 $string['settings_queue'] = 'Diploma queue';
 $string['settings_api_client_header'] = 'API Client settings';
-$string['settings_api_client_information'] = 'Setting are provided by Diplomasafe here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
+$string['settings_api_client_information'] = 'Settings are provided by Diplomasafe here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
 $string['settings_environment'] = 'Environment';
 $string['settings_environment_desc'] = 'Determines if you are testing or in production.';
 $string['settings_test_base_url'] = 'Base url (test site)';
