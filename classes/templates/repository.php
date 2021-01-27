@@ -86,7 +86,6 @@ class repository
 
         $sql = /** @lang mysql */'
         SELECT * FROM {' . self::TABLE . '} WHERE is_valid = 1 LIMIT 1';
-
         $record = (array)$this->db->get_record_sql($sql);
 
         $this->validate_record($record);
@@ -103,13 +102,27 @@ class repository
      */
     public function get_by_id(int $template_id) : template {
 
-        $record = (array)$this->db->get_record(self::TABLE, [
-            'id' => $template_id
-        ]);
-
+        $record = $this->get_one_record_by_field('id', $template_id);
         $this->validate_record($record);
 
         return new template($record);
+    }
+
+    /**
+     * @param string $field
+     * @param string $value
+     *
+     * @return array
+     * @throws \dml_exception
+     */
+    private function get_one_record_by_field(string $field, string $value) : array {
+
+        $sql = /** @lang mysql */'
+        SELECT * FROM {' . self::TABLE . '} WHERE ' . $field . ' = :' . $field . ' LIMIT 1';
+
+        return (array)$this->db->get_record_sql($sql, [
+            $field => $value
+        ]);
     }
 
     /**
@@ -133,10 +146,7 @@ class repository
      */
     public function get_by_idnumber(string $template_idnumber) : template {
 
-        $record = (array)$this->db->get_record(self::TABLE, [
-            'idnumber' => $template_idnumber
-        ]);
-
+        $record = $this->get_one_record_by_field('idnumber', $template_idnumber);
         $this->validate_record($record);
 
         return new template($record);
@@ -160,8 +170,16 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_course_id(int $course_id) : template {
-        $template_id = $this->db->get_field('diplomasafe', 'template_id', [
-            'course' => $course_id
+
+        $sql = /** @lang mysql */'
+        SELECT d.template_id
+        FROM {diplomasafe} d
+        JOIN {' . self::TABLE . '} t ON d.template_id = t.id
+        WHERE d.course = :course_id
+        LIMIT 1';
+
+        $template_id = $this->db->get_field_sql($sql, [
+            'course_id' => $course_id
         ]);
 
         return $this->get_by_id($template_id);
