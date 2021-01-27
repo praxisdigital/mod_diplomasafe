@@ -39,9 +39,9 @@ if ($ADMIN->fulltree) {
 
     $component = 'mod_diplomasafe';
 
-    $name = $component . '/settings_templates';
-    $heading = get_string('settings_templates_header', $component);
-    $information = get_string('settings_templates_information', $component);
+    $name = $component . '/views';
+    $heading = get_string('settings_views_header', $component);
+    $information = get_string('settings_views_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
     $name = $component . '/templates';
     $heading = get_string('settings_templates', $component);
@@ -62,7 +62,7 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
 
     $name = $component . '/settings';
-    $heading = get_string('settings_templates', $component);
+    $heading = get_string('settings_settings', $component);
     $information = get_string('settings_api_client_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
 

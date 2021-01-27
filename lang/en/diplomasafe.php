@@ -35,8 +35,9 @@ $string['diplomasafename'] = 'Name';
 $string['pluginadministration'] = 'Diplomasafe Administration';
 
 // Settings
-$string['settings_templates_header'] = 'Views';
-$string['settings_templates_information'] = '';
+$string['settings_views_header'] = 'Views';
+$string['settings_views_information'] = '';
+$string['settings_settings'] = 'Settings';
 $string['settings_templates'] = 'Environment';
 $string['settings_templates_desc'] = 'Determines if you are testing or in production.';
 $string['settings_templates'] = 'Templates';
