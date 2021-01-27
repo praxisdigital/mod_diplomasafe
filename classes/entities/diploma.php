@@ -21,6 +21,7 @@ defined('MOODLE_INTERNAL') || die();
  * @property int $id
  * @property template $template
  * @property int $course_id
+ * @property int $module_instance_id
  * @property int $user_id
  * @property string $issue_date
  * @property language $language
@@ -36,6 +37,7 @@ class diploma extends entity
         $this->data = [
             'template' => null,
             'course_id' => null,
+            'module_instance_id' => null,
             'user_id' => null,
             'issue_date' => null,
             'language' => null,

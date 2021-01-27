@@ -55,7 +55,7 @@
     <TABLE NAME="diplomasafe_queue" COMMENT="The queue for issuing diplomas via the API.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="module_instance_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Reference to the ID in the diplomasafe table"/>
         <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Pending = 0, Running = 1, Successful = 2, Failed = 3" />
         <FIELD NAME="message" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
@@ -66,7 +66,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="fk_course_id" TYPE="foreign" FIELDS="course_id" REFTABLE="course" REFFIELDS="id"/>
+        <KEY NAME="fk_module_instance_id" TYPE="foreign" FIELDS="module_instance_id" REFTABLE="diplomasafe" REFFIELDS="id"/>
         <KEY NAME="fk_user_id" TYPE="foreign" FIELDS="user_id" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>

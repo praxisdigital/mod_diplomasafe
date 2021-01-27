@@ -18,7 +18,8 @@ defined('MOODLE_INTERNAL') || die();
  * @package mod_diplomasafe\entities
  *
  * @property $id
- * @property $course_id
+ * @property $course_fullname
+ * @property $module_instance_id
  * @property $user_id
  * @property $status
  * @property $message
@@ -40,7 +41,7 @@ class queue_item extends entity
     public function set_data() {
         $this->data = [
             'id' => null,
-            'course_id' => null,
+            'module_instance_id' => null,
             'user_id' => null,
             'status' => null,
             'message' => '',
@@ -58,7 +59,7 @@ class queue_item extends entity
      */
     public function __construct($params) {
         $required_params = [
-            'course_id', 'user_id', 'status', 'time_modified'
+            'module_instance_id', 'user_id', 'status', 'time_modified'
         ];
         $this->process_params($params, $required_params);
     }

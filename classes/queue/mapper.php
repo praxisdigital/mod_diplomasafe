@@ -43,7 +43,7 @@ class mapper
      */
     public function create(queue_item $queue_item) : int {
         $record = [
-            'course_id' => $queue_item->course_id,
+            'module_instance_id' => $queue_item->module_instance_id,
             'user_id' => $queue_item->user_id,
             'status' => $queue_item->status,
             'time_modified' => $queue_item->time_modified

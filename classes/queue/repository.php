@@ -48,13 +48,14 @@ class repository
      */
     public function is_being_processed(queue_item $queue_item): bool {
         $sql = /** @lang mysql */'
-        SELECT id
-        FROM {' . self::TABLE . '}
-        WHERE course_id = :course_id AND user_id = :user_id AND
-        (status = :status_pending OR status = :status_running)
+        SELECT DISTINCT q.id
+        FROM {' . self::TABLE . '} q
+        LEFT JOIN {diplomasafe} d ON d.id = q.module_instance_id
+        WHERE q.module_instance_id = :module_instance_id AND q.user_id = :user_id AND
+        (q.status = :status_pending OR q.status = :status_running)
         ';
         return $this->db->record_exists_sql($sql, [
-            'course_id' => $queue_item->course_id,
+            'module_instance_id' => $queue_item->module_instance_id,
             'user_id' => $queue_item->user_id,
             'status_pending' => queue_item::QUEUE_ITEM_STATUS_PENDING,
             'status_running' => queue_item::QUEUE_ITEM_STATUS_RUNNING
@@ -72,19 +73,21 @@ class repository
     public function get_all($statuses = [], $order_by = 'id DESC') : queue_items {
 
         $sql = /** @lang mysql */'
-        SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, c.fullname course_fullname 
+        SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, 
+        d.name module_instance_name, c.fullname course_fullname 
         FROM {' . self::TABLE . '} q
-        LEFT JOIN {course} c ON c.id = q.course_id
+        LEFT JOIN {diplomasafe} d ON d.id = q.module_instance_id
+        LEFT JOIN {course} c ON c.id = d.course
         LEFT JOIN {user} u ON u.id = q.user_id
         WHERE 1 ';
 
         $sql_params = [];
         if (!empty($statuses)) {
             [$in_sql, $sql_params] = $this->db->get_in_or_equal(array_values($statuses), SQL_PARAMS_NAMED);
-            $sql .= 'AND status ' . $in_sql;
+            $sql .= 'AND q.status ' . $in_sql;
         }
 
-        $sql .= 'ORDER BY ' . $order_by;
+        $sql .= 'ORDER BY q.' . $order_by;
 
         $records = $this->db->get_records_sql($sql, $sql_params);
 

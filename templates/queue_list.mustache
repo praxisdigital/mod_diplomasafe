@@ -4,7 +4,7 @@
         <thead>
             <tr>
                 <th class="center">{{#str}}view_queue_list_th_id, mod_diplomasafe{{/str}}</th>
-                <th class="center">{{#str}}view_queue_list_th_course, mod_diplomasafe{{/str}}</th>
+                <th class="center">{{#str}}view_queue_list_th_course_fullname, mod_diplomasafe{{/str}}</th>
                 <th class="center">{{#str}}view_queue_list_th_user, mod_diplomasafe{{/str}}</th>
                 <th class="center">{{#str}}view_queue_list_th_status, mod_diplomasafe{{/str}}</th>
                 <th>{{#str}}view_queue_list_th_message, mod_diplomasafe{{/str}}</th>
@@ -19,7 +19,8 @@
             <tr data-id="{{id}}">
                 <td class="center">{{id}}</td>
                 <td class="center">
-                    <div class="item-course nowrap ellipsis" title="{{course_fullname}}">
+                    <div class="item-course nowrap ellipsis"
+                         title="{{#str}}view_queue_list_course_text, mod_diplomasafe, {{course_fullname}} {{/str}}, {{#str}}view_queue_list_activity_text, mod_diplomasafe, {{module_instance_name}} {{/str}}">
                         <a href="/course/view.php?id={{course_id}}">
                             {{course_fullname}}
                         </a>

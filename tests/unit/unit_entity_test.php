@@ -30,12 +30,12 @@ class mod_diplomasafe_unit_entity_testcase extends advanced_testcase
 
         $diploma = new diploma([
             'template' => 't498c1434976b8b05659ff5654b3403d3af4672bd',
-            'course_id' => 6,
+            'module_instance_id' => 6,
             'user_id' => 2,
         ]);
 
         self::assertEquals('t498c1434976b8b05659ff5654b3403d3af4672bd', $diploma->template);
-        self::assertEquals(6, $diploma->course_id);
+        self::assertEquals(6, $diploma->module_instance_id);
         self::assertEquals(2, $diploma->user_id);
     }
 

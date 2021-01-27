@@ -42,6 +42,11 @@ class queue
     private $pending_items;
 
     /**
+     * @var \mod_diplomasafe\config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @param config $config
@@ -137,12 +142,16 @@ class queue
                     break;
                 }
                 $template_repository = template_factory::get_repository();
-                $template = $template_repository->get_by_course_id($queue_item->course_id);
+
+                // Todo: Fetch outside loop
+                $template = $template_repository->get_by_module_id($queue_item->module_instance_id);
                 $language = $language_repository->get_by_id($template->default_language_id);
+                $course_id = $template_repository->get_course_by_module_instance($queue_item->module_instance_id);
 
                 $diploma = new diploma([
                     'template' => $template,
-                    'course_id' => $queue_item->course_id,
+                    'course_id' => $course_id,
+                    'module_instance_id' => $queue_item->module_instance_id,
                     'user_id' => $queue_item->user_id,
                     'issue_date' => date('Y-m-d'),
                     'language' => $language
@@ -154,7 +163,8 @@ class queue
                 mtrace(
                     get_string('message_item_number', 'mod_diplomasafe', $i)
                     . get_string('message_diploma_created_successfully', 'mod_diplomasafe', [
-                        'course_id' => $queue_item->course_id,
+                        'course_id' => $course_id,
+                        'module_instance_id' => $queue_item->module_instance_id,
                         'user_id' => $queue_item->user_id,
                     ])
                 );

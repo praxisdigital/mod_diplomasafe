@@ -103,13 +103,11 @@ class config
      */
     protected function has_environment(&$config): void{
         if (empty($config->environment)) {
-            // PTODO: Add to README.md
             $message = 'environment not set in global settings - see README.md';
             throw new current_environment_not_set($message);
         }
 
         if(!in_array($config->environment, ['test', 'prod'])){
-            // PTODO: Add to README.md
             $message = 'Invalid environment in global settings - see README.md';
             throw new current_environment_invalid($message);
         }
@@ -125,7 +123,6 @@ class config
             ($environment === 'prod' && empty($config->prod_base_url)) ||
             ($environment === 'test' && empty($config->test_base_url))
         ) {
-            // PTODO: Add to README.md
             $message = $environment.'_base_url not set in global settings - see README.md';
             throw new base_url_not_set($message);
         }
@@ -141,7 +138,6 @@ class config
             ($environment === 'prod' && empty($config->prod_personal_access_token)) ||
             ($environment === 'test' && empty($config->test_personal_access_token))
         ) {
-            // PTODO: Add to README.md
             $message = $environment.'personal_access_token not set in global settings - see README.md';
             throw new personal_access_token_not_set($message);
         }

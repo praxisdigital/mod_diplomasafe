@@ -114,7 +114,7 @@ $string['message_can_not_find_template'] = 'Can not find the template. Did you r
 $string['message_item_created'] = 'New item added to the queue';
 $string['message_item_deleted'] = 'Item deleted from the queue';
 $string['message_invalid_action'] = 'Invalid action: {$a}';
-$string['message_diploma_created_successfully'] = 'Issuing diploma for course ID: {$a->course_id} and user ID: {$a->user_id}. Diploma created successfully.';
+$string['message_diploma_created_successfully'] = 'Issuing diploma for course ID: {$a->course_id}, module instance ID: {$a->module_instance_id} and user ID: {$a->user_id}. Diploma created successfully.';
 $string['message_processing_queue_items'] = 'Processing queue items ...';
 $string['message_total_queue_items_processed'] = 'Total queue items processed: {$a}';
 $string['message_item_number'] = 'Item {$a}) ';
@@ -124,6 +124,7 @@ $string['message_remote_templates_to_store'] = 'Remote templates to store: {$a}'
 $string['message_remote_templates_stored'] = 'Remote templates stored: {$a->stored_count}/{$a->total_count}';
 $string['message_marked_as_valid'] = 'Marked as valid';
 $string['message_marked_as_invalid'] = 'Marked as invalid';
+$string['message_could_not_push_to_queue'] = 'Could not push to the queue. Course ID: {$a->course_id}, Module instance ID: {$a->module_instance_id}, User ID: {$a->user_id}. Error: {$a->error}';
 
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
@@ -182,7 +183,7 @@ $string['view_templates_list_back'] = 'Back to settings';
 // Queue view
 $string['view_queue_list_header'] = 'Diploma queue';
 $string['view_queue_list_th_id'] = 'ID';
-$string['view_queue_list_th_course'] = 'Course';
+$string['view_queue_list_th_course_fullname'] = 'Course';
 $string['view_queue_list_th_user'] = 'User';
 $string['view_queue_list_th_status'] = 'Status';
 $string['view_queue_list_th_message'] = 'Message';
@@ -192,6 +193,8 @@ $string['view_queue_list_th_last_mail_sent'] = 'Last mail sent';
 $string['view_queue_list_th_delete'] = 'Delete';
 $string['view_queue_add_again'] = 'Add again';
 $string['view_queue_list_back'] = 'Back to settings';
+$string['view_queue_list_course_text'] = 'Course: {$a}';
+$string['view_queue_list_activity_text'] = 'Activity: {$a}';
 
 // Other
 $string['show_description'] = 'Show description';
