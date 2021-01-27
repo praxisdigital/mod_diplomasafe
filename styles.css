@@ -25,3 +25,8 @@
 
 .diplomasafe-container.view-queue-list td .item-message {
   max-width: 300px; }
+
+.diplomasafe-container ol li {
+  margin-bottom: 10px; }
+  .diplomasafe-container ol li i {
+    color: #888; }

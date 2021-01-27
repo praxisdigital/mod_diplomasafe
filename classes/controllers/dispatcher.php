@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\controllers;
 
+use mod_diplomasafe\requests\setup_guide_request;
 use mod_diplomasafe\requests\single_request;
 use mod_diplomasafe\requests\queue_list_request;
 use mod_diplomasafe\requests\templates_list_request;
@@ -54,6 +55,9 @@ class dispatcher
     public function dispatch(string $dispatch_request): \renderable
     {
         switch ($dispatch_request) {
+            case 'setup_guide':
+                $request = new setup_guide_request($this->page, $this->output);
+                break;
             case 'templates_list':
                 $request = new templates_list_request($this->page, $this->output);
                 break;

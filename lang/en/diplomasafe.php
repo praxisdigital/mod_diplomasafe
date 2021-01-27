@@ -42,6 +42,7 @@ $string['settings_templates'] = 'Environment';
 $string['settings_templates_desc'] = 'Determines if you are testing or in production.';
 $string['settings_templates'] = 'Templates';
 $string['settings_queue'] = 'Diploma queue';
+$string['settings_setup_guide'] = 'Setup guide';
 $string['settings_api_client_header'] = 'API Client settings';
 $string['settings_api_client_information'] = 'Settings are provided by Diplomasafe here: <a href="https://demo-admin.diplomasafe.net/en-US/auth-user">https://demo-admin.diplomasafe.net/en-US/auth-user</a>';
 $string['settings_environment'] = 'Environment';
@@ -65,10 +66,10 @@ $string['settings_moodle_location_field_desc'] = 'Select the field to use for lo
 $string['settings_select_custom_field'] = 'Select custom field';
 $string['settings_item_count_per_page'] = 'Items per page';
 $string['settings_item_count_per_page_desc'] = 'The number of items to show on each page in the admin views. Set to 0 for no limit.';
-$string['setting_available_language_ids'] = 'Available languages';
-$string['setting_available_language_ids_desc'] = 'Select the languages to make available in the course module.';
-$string['setting_available_template_ids'] = 'Available templates';
-$string['setting_available_template_ids_desc'] = 'Select the templates to make available in the course module.';
+$string['settings_available_language_ids'] = 'Available languages';
+$string['settings_available_language_ids_desc'] = 'Select the languages to make available in the course module.';
+$string['settings_available_template_ids'] = 'Available templates';
+$string['settings_available_template_ids_desc'] = 'Select the templates to make available in the course module.';
 
 // Single view
 $string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';
@@ -134,6 +135,34 @@ $string['status_running'] = 'Running';
 $string['status_successful'] = 'Successful';
 $string['status_failed'] = 'Failed';
 $string['missing_or_invalid_status'] = 'Missing or invalid status';
+
+// Setup guide view
+$string['view_setup_guide_header'] = 'Setup guide';
+$string['view_setup_guide_description'] = '<p>This activity allows storing templates and issuing diplomas for Diplomasafe.com.</p>
+    <ol>
+        <li>
+            <strong>Add required settings</strong><br>
+            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select environment (live/prod) and add an API token for the environment.</li>
+        <li>
+            <strong>Store templates and languages</strong><br>
+            Run the <a href="/admin/tool/task/scheduledtasks.php" target="_blank">scheduled task</a> for storing diploma templates and languages from the API.<br>
+            <i>The scheduled task is executed automatically after a period of time.</i>
+        </li>
+        <li>
+            <strong>Select the templates and languages to enable</strong><br>
+            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select the templates and languages to enable in courses.
+        </li>
+        <li>
+            <strong>Add course activities</strong><br>
+            Add the Diplomasafe activity module to a course and select language and template for the diplomas in the settings of the module.<br>
+            <i>A job will be added to the queue every time a course is completed by a student.</i>
+        </li>
+        <li>
+            <strong>Process queue to generate diplomas</strong><br>
+            The queue is processed by the <a href="/admin/tool/task/scheduledtasks.php" target="_blank">scheduled task</a> for processing the queue.<br>
+            <i>The scheduled task is executed automatically after a period of time.</i>
+        </li>
+    </ol>';
 
 // Templates view
 $string['view_templates_list_title'] = 'Templates';

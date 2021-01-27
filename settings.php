@@ -43,8 +43,20 @@ if ($ADMIN->fulltree) {
     $heading = get_string('settings_views_header', $component);
     $information = get_string('settings_views_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
-    $name = $component . '/templates';
-    $heading = get_string('settings_templates', $component);
+
+    $field_identifier = 'setup_guide';
+    $name = $component . '/' . $field_identifier;
+    $heading = get_string('settings_' . $field_identifier, $component);
+    $setting = new admin_setting_link($name, $heading,
+        new moodle_url('/mod/diplomasafe/view.php', [
+            'view' => 'setup_guide'
+        ])
+    );
+    $settings->add($setting);
+
+    $field_identifier = 'templates';
+    $name = $component . '/' . $field_identifier;
+    $heading = get_string('settings_' . $field_identifier, $component);
     $setting = new admin_setting_link($name, $heading,
         new moodle_url('/mod/diplomasafe/view.php', [
             'view' => 'templates_list'
@@ -52,8 +64,9 @@ if ($ADMIN->fulltree) {
     );
     $settings->add($setting);
 
-    $name = $component . '/queue';
-    $heading = get_string('settings_queue', $component);
+    $field_identifier = 'queue';
+    $name = $component . '/' . $field_identifier;
+    $heading = get_string('settings_' . $field_identifier, $component);
     $setting = new admin_setting_link($name, $heading,
         new moodle_url('/mod/diplomasafe/view.php', [
             'view' => 'queue_list'
@@ -61,8 +74,9 @@ if ($ADMIN->fulltree) {
     );
     $settings->add($setting);
 
-    $name = $component . '/settings';
-    $heading = get_string('settings_settings', $component);
+    $field_identifier = 'settings';
+    $name = $component . '/' . $field_identifier;
+    $heading = get_string('settings_' . $field_identifier, $component);
     $information = get_string('settings_api_client_information', $component);
     $settings->add(new admin_setting_heading($name, $heading, $information));
 
@@ -163,8 +177,8 @@ if ($ADMIN->fulltree) {
         }
     }
     $setting_name = $component . '/' . $field_identifier;
-    $title = get_string('setting_' . $field_identifier, $component);
-    $description = get_string('setting_' . $field_identifier . '_desc', $component);
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     if (empty($available_languages) && empty($default_languages)) {
         $setting = new admin_setting_configempty(
             $setting_name,
@@ -195,8 +209,8 @@ if ($ADMIN->fulltree) {
         }
     }
     $setting_name = $component . '/' . $field_identifier;
-    $title = get_string('setting_' . $field_identifier, $component);
-    $description = get_string('setting_' . $field_identifier . '_desc', $component);
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
     if (empty($available_templates) && empty($default_templates)) {
         $setting = new admin_setting_configempty(
             $setting_name,

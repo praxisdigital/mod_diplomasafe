@@ -11,7 +11,7 @@ Activity Module (mod)
 None
 
 ## Description
-This activity allows syncing templates for diplomas from Diplomasafe.com. Templates are marked as valid if all the mapped diploma fields exists remotely. In case of errors regarding diploma fields contact Diplomasafe and ask for the following diploma fields to be set up remotely on the template:
+This activity allows storing templates and issuing diplomas for Diplomasafe.com. Templates are marked as valid if all the mapped diploma fields exists remotely. In case of errors regarding diploma fields contact Diplomasafe and ask for the following diploma fields to be set up remotely on the template:
 - moodle_course_date
   - Remote ID test: 305
   - Remote ID prod: 231
@@ -34,7 +34,7 @@ Templates:
 - Fetched by the cron job through the API:
   <website_url>/admin/tool/task/scheduledtasks.php
   - In case of an error: A message is logged in Moodle and sent to the admin (users assigned a role with the "mod/diplomasafe:receive_api_error_mail" capability in course context).
-  - Get an overview of the synced templates from this URL:
+  - Get an overview of the stored templates from this URL:
   <website_url>/mod/diplomasafe/view.php?view=templates_list
 
 Diplomas:
