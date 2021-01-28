@@ -42,14 +42,18 @@ class repository
 
         $handler = course_handler::create();
 
-        $datas = $handler->get_instance_data($this->course_id);
+        $data_items = $handler->get_instance_data($this->course_id);
 
         $metadata = [];
-        foreach ($datas as $data) {
+        foreach ($data_items as $data) {
             if (empty($data->get_value())) {
                 continue;
             }
-            $metadata[$data->get_field()->get('shortname')] = $data->get_value();
+            $short_name = $data->get_field()->get('shortname');
+            if (empty($short_name)) {
+                continue;
+            }
+            $metadata[$short_name] = $data->get_value();
         }
 
         return $metadata[$field_code] ?? '';
