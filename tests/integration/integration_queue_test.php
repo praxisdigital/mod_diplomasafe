@@ -83,7 +83,7 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 
         $queue = new queue($this->config);
         $queue->push(new queue_item([
-            'course_id' => 7,
+            'module_instance_id' => 7,
             'user_id' => 2,
             'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
             'time_modified' => time()
@@ -106,7 +106,7 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 
         $queue = new queue($this->config);
         $insert_id = $queue->push(new queue_item([
-            'course_id' => 7,
+            'module_instance_id' => 7,
             'user_id' => 2,
             'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
             'time_modified' => time()
@@ -131,14 +131,14 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
 
         $queue = new queue($this->config);
         $queue->push(new queue_item([
-            'course_id' => 7,
+            'module_instance_id' => 7,
             'user_id' => 2,
             'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
             'time_modified' => time()
         ]));
 
         $queue->push(new queue_item([
-            'course_id' => 7,
+            'module_instance_id' => 7,
             'user_id' => 2,
             'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
             'time_modified' => time()

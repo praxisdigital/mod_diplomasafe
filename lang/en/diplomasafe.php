@@ -143,7 +143,7 @@ $string['view_setup_guide_description'] = '<p>The Diplomasafe activity allows st
     <ol>
         <li>
             <strong>Add required settings</strong><br>
-            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select environment (live/prod) and add an API token.</li>
+            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select environment (test/prod), add an API token and select the custom Moodle fields to use for duration and location.</li>
         <li>
             <strong>Store templates and languages</strong><br>
             Run the <a href="/admin/tool/task/schedule_task.php?task=mod_diplomasafe%5Ctask%5Cstore_diploma_templates" target="_blank">scheduled task for storing diploma templates and languages</a> from the API.<br>
@@ -151,7 +151,7 @@ $string['view_setup_guide_description'] = '<p>The Diplomasafe activity allows st
         </li>
         <li>
             <strong>Select the templates and languages to enable</strong><br>
-            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select the templates and languages to enable in courses.
+            Go to the <a href="/admin/settings.php?section=modsettingdiplomasafe" target="_blank">settings</a> view to select which templates and languages to enable in courses.
         </li>
         <li>
             <strong>Add course activities</strong><br>
