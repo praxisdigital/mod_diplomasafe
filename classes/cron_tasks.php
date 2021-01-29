@@ -40,8 +40,6 @@ class cron_tasks
         $api_repo = template_factory::get_api_repository();
         $mapper = template_factory::get_mapper();
 
-        $admin_task_mailer = new admin_task_mailer();
-
         $templates = $api_repo->get_all();
 
         $total_templates_count = count($templates);
@@ -69,7 +67,6 @@ class cron_tasks
                 }
                 $stored_templates_count++;
             } catch (\Exception $e) {
-                $admin_task_mailer->send_to_all($e->getMessage());
                 if ($output_debug_info) {
                     mtrace(
                         $i . ') ' . $e->getMessage()

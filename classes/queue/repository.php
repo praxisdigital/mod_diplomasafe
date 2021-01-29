@@ -74,7 +74,8 @@ class repository
 
         $sql = /** @lang mysql */'
         SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, 
-        d.name module_instance_name, c.fullname course_fullname 
+        d.name module_instance_name, c.fullname course_fullname,
+        d.template_id, d.language_id, d.course as course_id 
         FROM {' . self::TABLE . '} q
         LEFT JOIN {diplomasafe} d ON d.id = q.module_instance_id
         LEFT JOIN {course} c ON c.id = d.course
@@ -119,8 +120,18 @@ class repository
      * @throws \dml_exception
      */
     public function get_by_id(int $item_id) : queue_item {
-        return new queue_item((array)$this->db->get_record(self::TABLE, [
-            'id' => $item_id
+
+        $sql = /** @lang mysql */'
+        SELECT q.*
+        d.template_id, d.language_id, d.course as course_id 
+        FROM {' . self::TABLE . '} q
+        LEFT JOIN {diplomasafe} d ON d.id = q.module_instance_id
+        WHERE q.id = :queue_id
+        LIMIT 1
+        ';
+
+        return new queue_item((array)$this->db->get_record_sql($sql, [
+            'queue_id' => $item_id
         ]));
     }
 }

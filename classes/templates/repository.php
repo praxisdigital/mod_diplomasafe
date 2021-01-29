@@ -201,20 +201,6 @@ class repository
     }
 
     /**
-     * Todo: Move this method or implement in another way
-     *
-     * @param int $module_instance_id
-     *
-     * @return int
-     * @throws \dml_exception
-     */
-    public function get_course_by_module_instance(int $module_instance_id) : int {
-        return (int)$this->db->get_field('diplomasafe', 'course', [
-            'id' => $module_instance_id
-        ]);
-    }
-
-    /**
      * @param array $record
      *
      * @throws \coding_exception

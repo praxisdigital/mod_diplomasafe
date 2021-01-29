@@ -18,6 +18,9 @@ defined('MOODLE_INTERNAL') || die();
  * @package mod_diplomasafe\entities
  *
  * @property $id
+ * @property $template_id
+ * @property $language_id
+ * @property $course_id
  * @property $course_fullname
  * @property $module_instance_id
  * @property $user_id
@@ -41,6 +44,9 @@ class queue_item extends entity
     public function set_data() {
         $this->data = [
             'id' => null,
+            'template_id' => null,
+            'language_id' => null,
+            'course_id' => null,
             'module_instance_id' => null,
             'user_id' => null,
             'status' => null,

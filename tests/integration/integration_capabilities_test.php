@@ -19,8 +19,10 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
 {
     /**
      * @param $receiver_role
+     *
+     * @return array $courses
      */
-    private function enrol_test_users_with_role($receiver_role) : void {
+    private function enrol_test_users_with_role($receiver_role) : array {
 
         $data_generator = $this->getDataGenerator();
 
@@ -38,6 +40,11 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
 
         // Enrol one user into the second course
         $data_generator->enrol_user($user3->id, $course2->id, $receiver_role);
+
+        return [
+            1 => $course1,
+            2 => $course2
+        ];
     }
 
     /**
@@ -47,13 +54,17 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
 
         $this->resetAfterTest();
 
-        $this->enrol_test_users_with_role('editingteacher');
+        $courses = $this->enrol_test_users_with_role('editingteacher');
 
-        $admin_task_mailer = new admin_task_mailer();
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability();
-
-        // We expect 3 unique users to be found since one of the three users are added in both courses
+        // We expect 3 recipients to be found in the first course
+        $admin_task_mailer = new admin_task_mailer($courses[1]->id);
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
         self::assertCount(3, $recipients_to_receive_mail);
+
+        // We expect 1 recipients to be found in the second course
+        $admin_task_mailer = new admin_task_mailer($courses[2]->id);
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        self::assertCount(1, $recipients_to_receive_mail);
     }
 
     /**
@@ -63,12 +74,16 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
 
         $this->resetAfterTest();
 
-        $this->enrol_test_users_with_role('student');
+        $courses = $this->enrol_test_users_with_role('student');
 
-        $admin_task_mailer = new admin_task_mailer();
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability();
+        // We expect 0 recipients to be found in the first course since students should not receive admin mails
+        $admin_task_mailer = new admin_task_mailer($courses[1]->id);
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        self::assertCount(0, $recipients_to_receive_mail);
 
-        // We expect 0 unique users to be found since students should not receive admin mails
+        // We expect 0 recipients to be found in the second course since students should not receive admin mails
+        $admin_task_mailer = new admin_task_mailer($courses[2]->id);
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
         self::assertCount(0, $recipients_to_receive_mail);
     }
 }

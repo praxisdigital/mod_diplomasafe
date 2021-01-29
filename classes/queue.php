@@ -124,7 +124,6 @@ class queue
      */
     public function process_pending($output_exception = false) : void {
         $language_repository = language_factory::get_repository();
-        $admin_task_mailer = new admin_task_mailer();
         $i = 1;
 
         $amount_to_process = $this->config->get_queue_amount_to_process();
@@ -142,19 +141,15 @@ class queue
                     break;
                 }
                 $template_repository = template_factory::get_repository();
-
-                // Todo: Fetch outside loop
-                $template = $template_repository->get_by_module_id($queue_item->module_instance_id);
-                $language = $language_repository->get_by_id($template->default_language_id);
-                $course_id = $template_repository->get_course_by_module_instance($queue_item->module_instance_id);
+                $template = $template_repository->get_by_id($queue_item->template_id);
 
                 $diploma = new diploma([
                     'template' => $template,
-                    'course_id' => $course_id,
+                    'course_id' => $queue_item->course_id,
                     'module_instance_id' => $queue_item->module_instance_id,
                     'user_id' => $queue_item->user_id,
                     'issue_date' => date('Y-m-d'),
-                    'language' => $language
+                    'language' => $language_repository->get_by_id($template->default_language_id)
                 ]);
 
                 $diploma_mapper = diploma_factory::get_api_mapper();
@@ -163,13 +158,14 @@ class queue
                 mtrace(
                     get_string('message_item_number', 'mod_diplomasafe', $i)
                     . get_string('message_diploma_created_successfully', 'mod_diplomasafe', [
-                        'course_id' => $course_id,
+                        'course_id' => $queue_item->course_id,
                         'module_instance_id' => $queue_item->module_instance_id,
                         'user_id' => $queue_item->user_id,
                     ])
                 );
             } catch (\Exception $e) {
                 mtrace(get_string('message_item_number', 'mod_diplomasafe', $i) . $e->getMessage());
+                $admin_task_mailer = new admin_task_mailer($queue_item->course_id);
                 $admin_task_mailer->send_to_all($e->getMessage());
                 $this->set_status($queue_item, queue_item::QUEUE_ITEM_STATUS_FAILED, $e->getMessage());
                 if ($output_exception) {
