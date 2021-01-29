@@ -39,7 +39,7 @@
                     </span>
                     {{#allow_readd}}
                         <div class="resubmit">
-                            <a class="btn btn-default btn-sm" href="/mod/diplomasafe/view.php?view=queue_list&action=add_again&id={{id}}"
+                            <a class="btn btn-secondary btn-sm" href="/mod/diplomasafe/view.php?view=queue_list&action=add_again&id={{id}}"
                             title="{{#str}}view_queue_add_again, mod_diplomasafe{{/str}}">
                                 <i class="fa fa-plus"></i>
                             </a>
@@ -55,7 +55,7 @@
                 <td>{{last_run_formatted}}</td>
                 <td>{{last_mail_sent_formatted}}</td>
                 <td class="center">
-                    <a class="btn btn-default btn-sm"
+                    <a class="btn btn-secondary btn-sm"
                        href="/mod/diplomasafe/view.php?view=queue_list&action=delete&id={{id}}"
                        id="delete-button" data-confirm-deletion="{{#str}}confirm_deletion, mod_diplomasafe{{/str}}">
                         <i class="fa fa-trash"></i>
@@ -67,7 +67,7 @@
     </table>
     {{{pagination}}}
     <div>
-        <a class="btn btn-default" href="/admin/settings.php?section=modsettingdiplomasafe">
+        <a class="btn btn-primary" href="/admin/settings.php?section=modsettingdiplomasafe">
             <i class="fa fa-arrow-left"></i> {{#str}}view_queue_list_back, mod_diplomasafe{{/str}}
         </a>
     </div>
