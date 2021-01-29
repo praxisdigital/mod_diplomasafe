@@ -233,6 +233,24 @@ class mod_diplomasafe_unit_config_testcase extends advanced_testcase
      * @throws current_environment_not_set
      * @throws personal_access_token_not_set
      */
+    public function can_get_delete_from_queue_after_days() : void {
+
+        $this->resetAfterTest();
+
+        $this->required_config_data->delete_from_queue_after_days = 30;
+        $config = new config($this->required_config_data);
+
+        self::assertEquals($this->required_config_data->delete_from_queue_after_days, $config->get_delete_from_queue_after_days());
+    }
+
+    /**
+     * @test
+     *
+     * @throws base_url_not_set
+     * @throws current_environment_invalid
+     * @throws current_environment_not_set
+     * @throws personal_access_token_not_set
+     */
     public function can_get_available_language_ids_as_array() : void {
 
         $this->resetAfterTest();

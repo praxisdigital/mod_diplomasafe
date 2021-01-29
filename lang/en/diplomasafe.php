@@ -70,6 +70,8 @@ $string['settings_available_language_ids'] = 'Available languages';
 $string['settings_available_language_ids_desc'] = 'Select the languages to make available in the course module.';
 $string['settings_available_template_ids'] = 'Available templates';
 $string['settings_available_template_ids_desc'] = 'Select the templates to make available in the course module.';
+$string['settings_delete_from_queue_after_days'] = 'Queue clean up';
+$string['settings_delete_from_queue_after_days_desc'] = 'Enter after how many days items should be deleted from the queue. Set to 0 for no deletion.';
 
 // Single view
 $string['course_completed_message'] = 'You will receive a link for your certificate via mail when the course is completed.';

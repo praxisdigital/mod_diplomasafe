@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\queue;
 
+use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\queue_item;
 
 defined('MOODLE_INTERNAL') || die();
@@ -99,5 +100,23 @@ class mapper
         return $this->db->delete_records(self::TABLE, [
             'id' => $queue_item->id
         ]);
+    }
+
+    /**
+     * @param queue_items $queue_items
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    public function delete_many(queue_items $queue_items) : bool {
+        if ($queue_items->count() === 0) {
+            return true;
+        }
+        $ids_to_delete = [];
+        foreach ($queue_items as $queue_item) {
+            /** @var queue_item $queue_item */
+            $ids_to_delete[] = $queue_item->id;
+        }
+        return $this->db->delete_records_list(self::TABLE, 'id', $ids_to_delete);
     }
 }

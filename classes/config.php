@@ -191,4 +191,11 @@ class config
     public function get_available_template_ids() : array {
         return array_filter(explode(',', $this->config->available_template_ids));
     }
+
+    /**
+     * @return int
+     */
+    public function get_delete_from_queue_after_days() : int {
+        return $this->config->delete_from_queue_after_days;
+    }
 }

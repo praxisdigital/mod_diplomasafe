@@ -123,11 +123,13 @@ class queue
      * @throws \dml_exception
      */
     public function process_pending($output_exception = false) : void {
-        $language_repository = language_factory::get_repository();
+
+        $this->delete_expired_items();
+
         $i = 1;
 
         $amount_to_process = $this->config->get_queue_amount_to_process();
-
+        $language_repository = language_factory::get_repository();
         mtrace(get_string('message_processing_queue_items', 'mod_diplomasafe'));
 
         $amount_processed = 0;
@@ -177,5 +179,14 @@ class queue
         } while ($this->get_next());
 
         mtrace(get_string('message_total_queue_items_processed', 'mod_diplomasafe', $amount_processed));
+    }
+
+    /**
+     * @return bool
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public function delete_expired_items() : bool {
+        return $this->mapper->delete_many($this->repo->get_expired_items());
     }
 }

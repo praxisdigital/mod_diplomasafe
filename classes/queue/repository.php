@@ -11,6 +11,7 @@ namespace mod_diplomasafe\queue;
 use mod_diplomasafe\collection;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\queue_item;
+use mod_diplomasafe\factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -65,12 +66,12 @@ class repository
     /**
      * @param array $statuses
      * @param string $order_by
-     *
+     * @param ?int $days_expired The number of days expired. Null means get all records.
      * @return queue_items
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all($statuses = [], $order_by = 'id DESC') : queue_items {
+    public function get_all(array $statuses = [], string $order_by = 'id DESC', int $days_expired = null) : queue_items {
 
         $sql = /** @lang mysql */'
         SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, 
@@ -86,6 +87,10 @@ class repository
         if (!empty($statuses)) {
             [$in_sql, $sql_params] = $this->db->get_in_or_equal(array_values($statuses), SQL_PARAMS_NAMED);
             $sql .= 'AND q.status ' . $in_sql;
+        }
+
+        if ($days_expired !== null) {
+            $sql .= 'AND q.time_modified < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL ' . $days_expired . ' DAY)) ';
         }
 
         $sql .= 'ORDER BY q.' . $order_by;
@@ -122,7 +127,7 @@ class repository
     public function get_by_id(int $item_id) : queue_item {
 
         $sql = /** @lang mysql */'
-        SELECT q.*
+        SELECT q.*,
         d.template_id, d.language_id, d.course as course_id 
         FROM {' . self::TABLE . '} q
         LEFT JOIN {diplomasafe} d ON d.id = q.module_instance_id
@@ -133,5 +138,19 @@ class repository
         return new queue_item((array)$this->db->get_record_sql($sql, [
             'queue_id' => $item_id
         ]));
+    }
+
+    /**
+     * @return queue_items
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public function get_expired_items() : queue_items {
+        $config = factory::get_config();
+        $expiration_disabled = $config->get_delete_from_queue_after_days() === 0;
+        if ($expiration_disabled) {
+            return new queue_items([]);
+        }
+        return $this->get_all([], 'id ASC', $config->get_delete_from_queue_after_days());
     }
 }

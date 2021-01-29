@@ -89,7 +89,7 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
             'time_modified' => time()
         ]));
 
-        $pending_queue_items = $this->queue_repo->get_all(queue_item::QUEUE_ITEM_STATUS_PENDING);
+        $pending_queue_items = $this->queue_repo->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING]);
 
         self::assertCount(1, $pending_queue_items);
     }
@@ -144,8 +144,56 @@ class mod_diplomasafe_integration_queue_testcase extends advanced_testcase
             'time_modified' => time()
         ]));
 
-        $pending_queue_items = $this->queue_repo->get_all(queue_item::QUEUE_ITEM_STATUS_PENDING);
+        $pending_queue_items = $this->queue_repo->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING]);
 
         self::assertCount(1, $pending_queue_items);
+    }
+
+    /**
+     * @test
+     *
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    public function correct_number_of_expired_items_fetched() : void {
+
+        $this->resetAfterTest();
+
+        $queue = new queue($this->config);
+
+        // Set limit to 30 days
+        set_config('delete_from_queue_after_days', 30, 'mod_diplomasafe');
+
+        $queue->push(new queue_item([
+            'module_instance_id' => 1,
+            'user_id' => 2,
+            'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
+            'time_modified' => (new DateTime())->sub(new DateInterval('P2M'))->getTimestamp()
+        ]));
+
+        $queue->push(new queue_item([
+            'module_instance_id' => 3,
+            'user_id' => 4,
+            'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
+            'time_modified' => (new DateTime())->sub(new DateInterval('P15D'))->getTimestamp()
+        ]));
+
+        $queue->push(new queue_item([
+            'module_instance_id' => 5,
+            'user_id' => 6,
+            'status' => queue_item::QUEUE_ITEM_STATUS_PENDING,
+            'time_modified' => (new DateTime())->sub(new DateInterval('P1D'))->getTimestamp()
+        ]));
+
+        // We expect the first item to be expired
+        $queue_repo = queue_factory::get_queue_repository();
+        self::assertCount(1, $queue_repo->get_expired_items());
+
+        // Set limit to 0 days (which means do not delete items from the queue)
+        set_config('delete_from_queue_after_days', 0, 'mod_diplomasafe');
+        $queue_repo = queue_factory::get_queue_repository();
+
+        // We expect no items to be expired
+        self::assertCount(0, $queue_repo->get_expired_items());
     }
 }

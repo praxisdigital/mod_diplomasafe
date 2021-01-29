@@ -130,6 +130,13 @@ if ($ADMIN->fulltree) {
     $default = 20;
     $settings->add(new admin_setting_configtext($name, $title, $description, $default));
 
+    $field_identifier = 'delete_from_queue_after_days';
+    $name = $component . '/' . $field_identifier;
+    $title = get_string('settings_' . $field_identifier, $component);
+    $description = get_string('settings_' . $field_identifier . '_desc', $component);
+    $default = 30;
+    $settings->add(new admin_setting_configtext($name, $title, $description, $default));
+
     $field_identifier = 'moodle_duration_field';
     $name = $component . '/' . $field_identifier;
     $title = get_string('settings_' . $field_identifier, $component);
