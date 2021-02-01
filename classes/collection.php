@@ -98,7 +98,7 @@ class collection implements \ArrayAccess, \Iterator, \Countable
     /**
      * @return int
      */
-    public function count(): int{
+    public function count(): int {
         return count($this->data);
     }
 
