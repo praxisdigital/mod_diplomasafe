@@ -46,9 +46,11 @@ Diplomas:
   - In case of an error: A message is logged in the queue (visible in the above view) and sent to the admin (users assigned a role with the "mod/diplomasafe:receive_api_error_mail" capability in course context).
 
 ## Backup
-Supported by the plugin.
+Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **1.0.1**
+  - Add required files (install.php and upgrade.php) for moodle.org plugin registration.
 * **1.0.0**
     - First release.
 
