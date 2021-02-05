@@ -56,7 +56,7 @@ class get_templates extends \external_api
         $config = factory::get_config();
 
         $template_repo = template_factory::get_repository();
-        $templates = $template_repo->get_all($language_id, $config->get_available_language_ids());
+        $templates = $template_repo->get_all($language_id, $config->get_available_template_ids());
 
         return [
             'language_id' => $language_id,
