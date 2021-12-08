@@ -49,6 +49,8 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **2.0.0**
+  - Added support for Moodle 3.11
 * **1.0.2**
   - Fix issue loading settings for the external service.
 * **1.0.1**
