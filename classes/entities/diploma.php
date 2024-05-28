@@ -30,10 +30,16 @@ defined('MOODLE_INTERNAL') || die();
  */
 class diploma extends entity
 {
-    /**
-     * @return mixed|void
-     */
-    public function set_data() {
+    public function __construct(array $params) {
+        $required_params = ['template', 'course_id', 'user_id'];
+        $this->process_params($params, $required_params);
+
+        if (!empty($this->template->id) && !empty($this->language->id)) {
+            $this->load_fields();
+        }
+    }
+
+    public function set_data(): void {
         $this->data = [
             'template' => null,
             'course_id' => null,
@@ -45,27 +51,8 @@ class diploma extends entity
         ];
     }
 
-    /**
-     * Constructor
-     *
-     * @param $params
-     *
-     * @throws \dml_exception
-     */
-    public function __construct($params) {
-        $required_params = ['template', 'course_id', 'user_id'];
-        $this->process_params($params, $required_params);
-
-        if (!empty($this->template->id) && !empty($this->language->id)) {
-            $this->load_fields();
-        }
-    }
-
-    /**
-     * @throws \dml_exception
-     */
     private function load_fields() : void {
         $diploma_fields_repo = diploma_factory::get_fields_repository();
-        $this->fields = $diploma_fields_repo->get_fields_key_value($this->course_id);
+        $this->fields = $diploma_fields_repo->get_fields_key_value($this->course_id, $this->user_id);
     }
 }

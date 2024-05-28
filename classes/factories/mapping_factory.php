@@ -9,6 +9,7 @@
 namespace mod_diplomasafe\factories;
 
 use mod_diplomasafe\mapping;
+use mod_diplomasafe\mappings\foak_person_id;
 use mod_diplomasafe\mappings\moodle_course_date;
 use mod_diplomasafe\mappings\moodle_course_period;
 use mod_diplomasafe\mappings\moodle_duration;
@@ -28,24 +29,18 @@ class mapping_factory
     /**
      * @param string $type
      * @param int $course_id
-     *
+     * @param int $user_id
      * @return mapping_interface
-     * @throws \dml_exception
      */
-    public static function make(string $type, int $course_id) : mapping_interface {
-        switch ($type) {
-            case mapping::MOODLE_COURSE_DATE:
-                return new moodle_course_date($course_id);
-            case mapping::MOODLE_COURSE_PERIOD:
-                return new moodle_course_period($course_id);
-            case mapping::MOODLE_DURATION:
-                return new moodle_duration($course_id);
-            case mapping::MOODLE_INSTRUCTOR:
-                return new moodle_instructor($course_id);
-            case mapping::MOODLE_LOCATION:
-                return new moodle_location($course_id);
-            default:
-                throw new \RuntimeException('No or invalid mapping defined');
-        }
+    public static function make(string $type, int $course_id, int $user_id) : mapping_interface {
+        return match ($type) {
+            mapping::MOODLE_COURSE_DATE => new moodle_course_date($course_id, $user_id),
+            mapping::MOODLE_COURSE_PERIOD => new moodle_course_period($course_id, $user_id),
+            mapping::MOODLE_DURATION => new moodle_duration($course_id, $user_id),
+            mapping::MOODLE_INSTRUCTOR => new moodle_instructor($course_id, $user_id),
+            mapping::MOODLE_LOCATION => new moodle_location($course_id, $user_id),
+            mapping::FOAK_PERSON_ID => new foak_person_id($course_id, $user_id),
+            default => throw new \RuntimeException('No or invalid mapping defined'),
+        };
     }
 }

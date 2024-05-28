@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_instructor extends mapping implements mapping_interface
 {
+    public const FIELD_NAME = mapping::MOODLE_INSTRUCTOR;
+
     /**
      * @return string
      * @throws \coding_exception
@@ -45,5 +47,10 @@ class moodle_instructor extends mapping implements mapping_interface
         sort($instructors);
 
         return implode(', ', $instructors);
+    }
+
+    protected function get_field_name(): string
+    {
+        return self::FIELD_NAME;
     }
 }

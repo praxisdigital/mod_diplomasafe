@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_location extends mapping implements mapping_interface
 {
+    public const FIELD_NAME = mapping::MOODLE_LOCATION;
+
     /**
      * @return string
      * @throws \dml_exception
@@ -39,5 +41,10 @@ class moodle_location extends mapping implements mapping_interface
         $repository = custom_field_factory::get_customfield_repository($this->course->id);
 
         return $repository->get_field_data($location_field_code);
+    }
+
+    protected function get_field_name(): string
+    {
+        return self::FIELD_NAME;
     }
 }

@@ -27,6 +27,9 @@ This activity allows storing templates and issuing diplomas for Diplomasafe.com.
 - moodle_location
   - Remote ID test: 303
   - Remote ID prod: 234
+- foak_d_person_id
+  - Remote ID test: 964
+  - Remote ID prod: 718
 
 The teacher (or user with the capability to edit the course) will then be able to create a Diplomasafe activity in the course and select a language and template for the Diplomas in the course in the module settings. After this has been set up Diplomas will automatically be added to the queue every time a course has been completed by a student. When the queue has been processed by the task scheduler in Moodle an email is sent to the student with a link to the newly created diploma.
 
@@ -49,6 +52,9 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **3.0.0**
+  - Added support for Moodle 4.0
+  - Added diploma field (person_id) 
 * **2.0.0**
   - Added support for Moodle 3.11
 * **1.0.2**
