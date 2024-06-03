@@ -27,5 +27,15 @@ $tasks = [
         'dayofweek' => '*',
         'month' => '*',
         'disabled' => 0
+    ],
+    [
+        'classname' => \mod_diplomasafe\task\resend_failed_queues::class,
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*',
+        'disabled' => 1
     ]
 ];

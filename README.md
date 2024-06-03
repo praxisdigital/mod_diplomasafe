@@ -52,6 +52,8 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **3.1.0**
+  - Added scheduled task ``resend_failed_queues`` to rerun failed queues.
 * **3.0.0**
   - Added support for Moodle 4.0
   - Added diploma field (person_id) 

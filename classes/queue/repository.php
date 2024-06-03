@@ -118,6 +118,10 @@ class repository
         return $this->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING], 'id ASC');
     }
 
+    public function get_failed_items(): queue_items {
+        return $this->get_all([queue_item::QUEUE_ITEM_STATUS_FAILED], 'id ASC');
+    }
+
     /**
      * @param int $item_id
      *

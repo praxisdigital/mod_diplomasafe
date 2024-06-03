@@ -15,8 +15,9 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe\collections
+ * @method queue_item current()
+ * @method queue_item offsetGet($offset)
  */
 class queue_items extends collection
 {
