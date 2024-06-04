@@ -17,34 +17,23 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class mapping
 {
-    /**
-     * @const string
-     */
+    private static ?config $config = null;
+
+    public static function config(): config {
+        if (static::$config === null) {
+            static::$config = factory::get_config();
+        }
+        return static::$config;
+    }
+
     public const MOODLE_COURSE_DATE = 'moodle_course_date';
-
-    /**
-     * @const string
-     */
     public const MOODLE_COURSE_PERIOD = 'moodle_course_period';
-
-    /**
-     * @const string
-     */
     public const MOODLE_DURATION = 'moodle_duration';
-
-    /**
-     * @const string
-     */
     public const MOODLE_INSTRUCTOR = 'moodle_instructor';
-
-    /**
-     * @const string
-     */
     public const MOODLE_LOCATION = 'moodle_location';
 
-    /**
-     * @const array
-     */
+    public const FOAK_PERSON_ID = 'foak_d_person_id';
+
     public const MAPPING_FIELDS = [
         self::MOODLE_COURSE_DATE => [
             'field_code' => self::MOODLE_COURSE_DATE,
@@ -70,41 +59,37 @@ abstract class mapping
             'field_code' => self::MOODLE_LOCATION,
             'test_idnumber' => 303,
             'prod_idnumber' => 234
+        ],
+        self::FOAK_PERSON_ID => [
+            'field_code' => self::FOAK_PERSON_ID,
+            'test_idnumber' => 964,
+            'prod_idnumber' => 718
         ]
     ];
 
-    /**
-     * @var int
-     */
-    protected $course;
+    protected object $course;
+    protected object $user;
 
-    /**
-     * Constructor
-     *
-     * @param int $course_id
-     *
-     * @throws \dml_exception
-     */
-    public function __construct(int $course_id) {
+    public function __construct(int $course_id, int $user_id) {
         $this->course = get_course($course_id);
+        $this->user = \core_user::get_user($user_id) ?: (object)[];
     }
 
-    /**
-     * @return string
-     * @throws \dml_exception
-     * @throws exceptions\base_url_not_set
-     * @throws exceptions\current_environment_invalid
-     * @throws exceptions\current_environment_not_set
-     * @throws exceptions\personal_access_token_not_set
-     */
-    public function get_remote_id(): string {
-        $reflect = new \ReflectionClass($this);
-        $mapping_class = $reflect->getShortName();
+    abstract protected function get_field_name(): string;
 
-        $config = factory::get_config();
-        if ($config->is_test_environment()) {
-            return self::MAPPING_FIELDS[$mapping_class]['test_idnumber'] ?? '';
-        }
-        return self::MAPPING_FIELDS[$mapping_class]['prod_idnumber'] ?? '';
+    protected function is_test_environment(): bool
+    {
+        return self::config()->is_test_environment();
+    }
+
+    protected function get_id_property(): string
+    {
+        return $this->is_test_environment() ? 'test_idnumber' : 'prod_idnumber';
+    }
+
+    public function get_remote_id(): string {
+        $field_name = $this->get_field_name();
+        $property = $this->get_id_property();
+        return self::MAPPING_FIELDS[$field_name][$property] ?? '';
     }
 }

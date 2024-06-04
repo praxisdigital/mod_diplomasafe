@@ -122,7 +122,7 @@ class queue
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function process_pending($output_exception = false) : void {
+    public function process_pending(bool $output_exception = false) : void {
 
         $this->delete_expired_items();
 

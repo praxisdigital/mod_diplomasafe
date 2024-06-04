@@ -6,7 +6,7 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
-namespace mod_diplomasafe\tests\feature;
+namespace mod_diplomasafe\feature;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -19,8 +19,6 @@ use mod_diplomasafe\exceptions\current_environment_invalid;
 use mod_diplomasafe\exceptions\current_environment_not_set;
 use mod_diplomasafe\exceptions\personal_access_token_not_set;
 
-global $CFG;
-require_once("$CFG->libdir/externallib.php");
 
 /**
  * Class

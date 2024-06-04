@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_course_period extends mapping implements mapping_interface
 {
+    public const FIELD_NAME = mapping::MOODLE_COURSE_PERIOD;
+
     /**
      * @return string
      * @throws \dml_exception
@@ -52,5 +54,10 @@ class moodle_course_period extends mapping implements mapping_interface
             $period = $start_date . ' - ' . $end_date;
         }
         return str_replace(', 00:00', '', $period);
+    }
+
+    protected function get_field_name(): string
+    {
+        return self::FIELD_NAME;
     }
 }

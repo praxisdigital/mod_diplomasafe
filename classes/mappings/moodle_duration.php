@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_duration extends mapping implements mapping_interface
 {
+    public const FIELD_NAME = mapping::MOODLE_DURATION;
+
     /**
      * @return string
      * @throws \dml_exception
@@ -39,5 +41,10 @@ class moodle_duration extends mapping implements mapping_interface
         $repository = custom_field_factory::get_customfield_repository($this->course->id);
 
         return $repository->get_field_data($duration_field_code);
+    }
+
+    protected function get_field_name(): string
+    {
+        return self::FIELD_NAME;
     }
 }

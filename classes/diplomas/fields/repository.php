@@ -21,39 +21,20 @@ defined('MOODLE_INTERNAL') || die();
  */
 class repository
 {
-    /**
-     * @var array
-     */
-    private $diploma_fields;
+    private array $diploma_fields;
+    private array $diploma_key_value = [];
 
-    /**
-     * @var array
-     */
-    private $diploma_key_value = [];
-
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->diploma_fields = mapping::MAPPING_FIELDS;
     }
 
-    /**
-     * @param int $course_id
-     *
-     * @throws \dml_exception
-     */
-    private function extract_field_data(int $course_id): void {
+    private function extract_field_data(int $course_id, int $user_id): void {
         foreach ($this->diploma_fields as $diploma_field) {
-            $mapping = mapping_factory::make($diploma_field['field_code'], $course_id);
+            $mapping = mapping_factory::make($diploma_field['field_code'], $course_id, $user_id);
             $this->diploma_key_value[$mapping->get_remote_id()] = $mapping->get_value();
         }
     }
 
-    /**
-     * @return array
-     * @throws \dml_exception
-     */
     public function get_field_ids() : array {
         $config = factory::get_config();
         $field_ids = [];
@@ -68,7 +49,7 @@ class repository
     }
 
     /**
-     * @return array|array[]
+     * @return array<string, string, string>
      */
     public function get_fields() : array {
         return $this->diploma_fields;
@@ -76,13 +57,12 @@ class repository
 
     /**
      * @param int $course_id
-     *
-     * @return array
-     * @throws \dml_exception
+     * @param int $user_id
+     * @return array<string, string>
      */
-    public function get_fields_key_value(int $course_id) : array {
+    public function get_fields_key_value(int $course_id, int $user_id) : array {
         if (empty($this->diploma_key_value)) {
-            $this->extract_field_data($course_id);
+            $this->extract_field_data($course_id, $user_id);
         }
         return $this->diploma_key_value;
     }

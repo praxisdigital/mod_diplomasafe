@@ -1,10 +1,14 @@
 <?php
 namespace mod_diplomasafe\diplomas\api;
 
+use coding_exception;
+use curl;
+use dml_exception;
 use mod_diplomasafe\config;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\factories\template_factory;
-use mod_diplomasafe\output\create_diploma_payload;
+use moodle_exception;
+use RuntimeException;
 
 /**
  * @developer   Johnny Drud
@@ -14,6 +18,7 @@ use mod_diplomasafe\output\create_diploma_payload;
  */
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
 require_once $CFG->dirroot . '/user/lib.php';
 
 /**
@@ -25,23 +30,10 @@ class mapper
 {
     public const ENDPOINT = '/diplomas';
 
-    /**
-     * @var \curl
-     */
-    private $client;
+    private curl $client;
+    private config $config;
 
-    /**
-     * @var config
-     */
-    private $config;
-
-    /**
-     * Constructor
-     *
-     * @param \curl $client
-     * @param config $config
-     */
-    public function __construct(\curl $client, config $config) {
+    public function __construct(curl $client, config $config) {
         $this->client = $client;
         $this->config = $config;
     }
@@ -50,15 +42,15 @@ class mapper
      * @param diploma $diploma
      *
      * @return bool
-     * @throws \coding_exception
-     * @throws \dml_exception
-     * @throws \moodle_exception
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws moodle_exception
      */
     public function create(diploma $diploma) : bool {
         $users = user_get_users_by_id([$diploma->user_id]);
 
         if (empty($users[$diploma->user_id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 get_string(
                     'message_user_could_not_be_found',
                     'mod_diplomasafe',
@@ -97,7 +89,7 @@ class mapper
 
         // Check if any of the remote fields are missing local mapping
         if (!empty($remote_fields_without_local_mapping)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 get_string('message_remote_diploma_fields_missing_local_mapping',
                 'mod_diplomasafe', implode($remote_fields_without_local_mapping)
                 )
@@ -109,7 +101,7 @@ class mapper
         ), true);
 
         if (!isset($response['countIssued'])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 get_string(
                     'message_invalid_response_from_endpoint',
                     'mod_diplomasafe',

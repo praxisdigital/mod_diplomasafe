@@ -113,7 +113,7 @@ class repository
      *
      * @return mixed
      */
-    public function get_one(template $template) {
+    public function get_one(template $template): mixed {
         $template_endpoint = self::ENDPOINT . '/' . $template->idnumber;
         return json_decode($this->client->get($this->config->get_base_url() . $template_endpoint), true);
     }

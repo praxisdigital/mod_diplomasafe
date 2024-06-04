@@ -117,6 +117,7 @@ $string['message_item_created'] = 'New item added to the queue';
 $string['message_item_deleted'] = 'Item deleted from the queue';
 $string['message_invalid_action'] = 'Invalid action: {$a}';
 $string['message_diploma_created_successfully'] = 'Issuing diploma for course ID: {$a->course_id}, module instance ID: {$a->module_instance_id} and user ID: {$a->user_id}. Diploma created successfully.';
+$string['message_diploma_created_failure'] = 'Issuing diploma for course ID: {$a->course_id}, module instance ID: {$a->module_instance_id} and user ID: {$a->user_id}. Diploma creation failed. Error: {$a->error}';
 $string['message_processing_queue_items'] = 'Processing queue items ...';
 $string['message_total_queue_items_processed'] = 'Total queue items processed: {$a}';
 $string['message_item_number'] = 'Item {$a}) ';
@@ -131,6 +132,7 @@ $string['message_could_not_push_to_queue'] = 'Could not push to the queue. Cours
 // Cron
 $string['cron_store_diploma_templates'] = 'Store diploma templates';
 $string['cron_process_queue'] = 'Process the queue for issuing diplomas';
+$string['resend_failed_queues'] = 'Resend failed queues';
 
 // Statuses
 $string['status_pending'] = 'Pending';

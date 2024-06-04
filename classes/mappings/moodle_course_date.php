@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class moodle_course_date extends mapping implements mapping_interface
 {
+    public const FIELD_NAME = mapping::MOODLE_COURSE_DATE;
+
     /**
      * @return string
      * @throws \dml_exception
@@ -49,5 +51,10 @@ class moodle_course_date extends mapping implements mapping_interface
         language::set_locale(str_replace('-', '_', $language->name));
 
         return str_replace(', 00:00', '', userdate($this->course->startdate));
+    }
+
+    protected function get_field_name(): string
+    {
+        return self::FIELD_NAME;
     }
 }
