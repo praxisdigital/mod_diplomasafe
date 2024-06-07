@@ -52,6 +52,9 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **3.1.1**
+  - Fix duplicated adhoc tasks that got created by ``resend_failed_queues``.
+  - Add retry for the queue when plugin failed to send data to Diplomasafe API.
 * **3.1.0**
   - Added scheduled task ``resend_failed_queues`` to rerun failed queues.
 * **3.0.0**

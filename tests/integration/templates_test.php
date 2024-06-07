@@ -6,34 +6,35 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_diplomasafe\integration;
 
+// @codeCoverageIgnoreStart
+defined('MOODLE_INTERNAL') || die();
+// @codeCoverageIgnoreEnd
+
+use coding_exception;
+use dml_exception;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\factories\template_factory;
 use mod_diplomasafe\templates\mapper;
 use mod_diplomasafe\templates\repository;
+use mod_diplomasafe\tests\integration_testcase;
 
 /**
  * Class
  *
  * @package mod_diplomasafe\tests
  */
-class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
+class templates_test extends integration_testcase
 {
-    /**
-     * @var mapper
-     */
-    private $templates_mapper;
-
-    /**
-     * @var repository
-     */
-    private $templates_repo;
+    private mapper $templates_mapper;
+    private repository $templates_repo;
 
     /**
      * @return void
      */
     public function setUp(): void {
+        parent::setUp();
         $this->templates_mapper = template_factory::get_mapper();
         $this->templates_repo = template_factory::get_repository();
     }
@@ -60,8 +61,6 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
      */
     public function can_add_template() : void {
 
-        $this->resetAfterTest();
-
         $insert_id = $this->add_template();
 
         $created_template = $this->templates_repo->get_by_id($insert_id);
@@ -71,13 +70,10 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
 
     /**
      * @test
-     *
      * @throws coding_exception
      * @throws dml_exception
      */
     public function can_update_template() : void {
-
-        $this->resetAfterTest();
 
         $insert_id = $this->add_template();
 
@@ -98,8 +94,6 @@ class mod_diplomasafe_integration_templates_testcase extends advanced_testcase
      * @throws dml_exception
      */
     public function can_get_templates_list() : void {
-
-        $this->resetAfterTest();
 
         $this->add_template();
         $this->add_template();

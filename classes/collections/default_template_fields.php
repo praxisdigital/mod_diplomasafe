@@ -14,36 +14,26 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * This class contains values for the default
  * fields in all the available languages.
- *
  * @package mod_diplomasafe\collections
  */
 class default_template_fields extends collection
 {
-    /**
-     * @var array
-     */
-    private $language_keys = [];
+    private array $language_keys = [];
 
     /**
      * Constructor
-     *
      * @param array $base_language_fields
      * @param array $template_payload
      */
-    public function __construct(array $base_language_fields, array $template_payload) {
+    public function __construct(array $base_language_fields, array $template_payload)
+    {
         $this->set($this->extract($base_language_fields, $template_payload));
     }
 
-    /**
-     * @param $base_language_fields
-     * @param $template_payload
-     *
-     * @return array
-     */
-    private function extract($base_language_fields, $template_payload) : array {
+    private function extract(array $base_language_fields, array $template_payload): array
+    {
         $default_fields = [];
         foreach ($base_language_fields as $field_key => $internal_field_id) {
             $template_languages = $template_payload[$field_key];
@@ -61,10 +51,8 @@ class default_template_fields extends collection
         return array_values($default_fields);
     }
 
-    /**
-     * @return array
-     */
-    public function get_available_language_keys() : array {
+    public function get_available_language_keys(): array
+    {
         return $this->language_keys;
     }
 }

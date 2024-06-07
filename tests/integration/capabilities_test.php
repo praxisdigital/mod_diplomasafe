@@ -6,24 +6,28 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
+namespace mod_diplomasafe\integration;
+
+// @codeCoverageIgnoreStart
 defined('MOODLE_INTERNAL') || die();
 
+// @codeCoverageIgnoreEnd
+
 use mod_diplomasafe\admin_task_mailer;
+use mod_diplomasafe\tests\integration_testcase;
 
 /**
  * Class
- *
  * @package mod_diplomasafe\tests
  */
-class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcase
+class capabilities_test extends integration_testcase
 {
     /**
      * @param $receiver_role
-     *
      * @return array $courses
      */
-    private function enrol_test_users_with_role($receiver_role) : array {
-
+    private function enrol_test_users_with_role($receiver_role): array
+    {
         $data_generator = $this->getDataGenerator();
 
         $course1 = $data_generator->create_course();
@@ -50,40 +54,44 @@ class mod_diplomasafe_integration_capabilities_testcase extends advanced_testcas
     /**
      * @test
      */
-    public function admin_mail_receivers_correct() : void {
-
-        $this->resetAfterTest();
-
+    public function admin_mail_receivers_correct(): void
+    {
         $courses = $this->enrol_test_users_with_role('editingteacher');
 
         // We expect 3 recipients to be found in the first course
         $admin_task_mailer = new admin_task_mailer($courses[1]->id);
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability(
+            'mod/diplomasafe:receive_api_error_mail'
+        );
         self::assertCount(3, $recipients_to_receive_mail);
 
         // We expect 1 recipients to be found in the second course
         $admin_task_mailer = new admin_task_mailer($courses[2]->id);
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability(
+            'mod/diplomasafe:receive_api_error_mail'
+        );
         self::assertCount(1, $recipients_to_receive_mail);
     }
 
     /**
      * @test
      */
-    public function admin_mail_receivers_not_students() : void {
-
-        $this->resetAfterTest();
-
+    public function admin_mail_receivers_not_students(): void
+    {
         $courses = $this->enrol_test_users_with_role('student');
 
         // We expect 0 recipients to be found in the first course since students should not receive admin mails
         $admin_task_mailer = new admin_task_mailer($courses[1]->id);
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability(
+            'mod/diplomasafe:receive_api_error_mail'
+        );
         self::assertCount(0, $recipients_to_receive_mail);
 
         // We expect 0 recipients to be found in the second course since students should not receive admin mails
         $admin_task_mailer = new admin_task_mailer($courses[2]->id);
-        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability('mod/diplomasafe:receive_api_error_mail');
+        $recipients_to_receive_mail = $admin_task_mailer->load_recipients_with_course_capability(
+            'mod/diplomasafe:receive_api_error_mail'
+        );
         self::assertCount(0, $recipients_to_receive_mail);
     }
 }

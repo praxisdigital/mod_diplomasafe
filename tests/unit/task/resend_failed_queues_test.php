@@ -2,25 +2,25 @@
 
 namespace mod_diplomasafe\unit\task;
 
-use basic_testcase;
 use core\task\adhoc_task;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\diagnostic\outputable;
 use mod_diplomasafe\entities\queue_item;
 use mod_diplomasafe\queue\repository;
 use mod_diplomasafe\task\resend_failed_queues;
+use mod_diplomasafe\tests\unit_testcase;
 
 // @codeCoverageIgnoreStart
 defined('MOODLE_INTERNAL') || die();
+
 // @codeCoverageIgnoreEnd
 
-class resend_failed_queues_test extends basic_testcase
+class resend_failed_queues_test extends unit_testcase
 {
     private function create_schedule_task(
         ?outputable $output = null,
         ?repository $queue_repo = null
-    ): resend_failed_queues
-    {
+    ): resend_failed_queues {
         $task = new class() extends resend_failed_queues {
             public function set_emitter(?outputable $emitter): void
             {
@@ -32,8 +32,9 @@ class resend_failed_queues_test extends basic_testcase
                 $this->repo = $repo;
             }
 
-            protected function enqueue_adhoc_task(adhoc_task $task): void
-            {}
+            protected function enqueue_adhoc_task(adhoc_task $task, bool $no_duplicate = true): void
+            {
+            }
         };
 
         $task->set_emitter($output);

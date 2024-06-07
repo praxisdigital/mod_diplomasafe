@@ -5,19 +5,26 @@
  * @company     https://diplomasafe.com
  * @copyright   2021 Diplomasafe ApS
  */
-defined('MOODLE_INTERNAL') || die();
 
+namespace mod_diplomasafe\unit;
+
+// @codeCoverageIgnoreStart
+defined('MOODLE_INTERNAL') || die();
+// @codeCoverageIgnoreEnd
+
+use dml_exception;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\language;
 use mod_diplomasafe\entities\queue_item;
 use mod_diplomasafe\entities\template;
+use mod_diplomasafe\tests\integration_testcase;
 
 /**
  * Class
  *
  * @package mod_diplomasafe\tests
  */
-class mod_diplomasafe_unit_entity_testcase extends advanced_testcase
+class entity_test extends integration_testcase
 {
     /**
      * @test

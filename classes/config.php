@@ -20,24 +20,21 @@ use mod_diplomasafe\exceptions\personal_access_token_not_set;
  */
 class config
 {
-    /** @var object|\stdClass */
-    protected $config;
-
-    /** @var string */
+    protected object $config;
     protected $environment;
 
     /**
      * We only want to hold the config for diplomasafe
      * config constructor.
      *
-     * @param \stdClass $config_data
+     * @param object $config_data
      *
      * @throws base_url_not_set
      * @throws current_environment_invalid
      * @throws current_environment_not_set
      * @throws personal_access_token_not_set
      */
-    public function __construct(\stdClass $config_data){
+    public function __construct(object $config_data){
         $this->config = $this->validate_config($config_data);
         $this->environment = $this->config->environment;
     }
@@ -73,14 +70,14 @@ class config
     }
 
     /**
-     * @param \stdClass $config
-     * @return \stdClass
+     * @param object $config
+     * @return object
      * @throws base_url_not_set
      * @throws current_environment_invalid
      * @throws current_environment_not_set
      * @throws personal_access_token_not_set
      */
-    protected function validate_config(\stdClass $config): \stdClass{
+    protected function validate_config(object $config): object {
         $this->has_environment($config);
 
         if($config->environment === 'test'){
@@ -97,11 +94,11 @@ class config
     }
 
     /**
-     * @param $config
+     * @param object $config
      * @throws current_environment_not_set
      * @throws current_environment_invalid
      */
-    protected function has_environment(&$config): void{
+    protected function has_environment(object $config): void{
         if (empty($config->environment)) {
             $message = 'environment not set in global settings - see README.md';
             throw new current_environment_not_set($message);
@@ -114,11 +111,11 @@ class config
     }
 
     /**
-     * @param $config
-     * @param $environment
+     * @param object $config
+     * @param string $environment
      * @throws base_url_not_set
      */
-    protected function has_base_url(&$config, $environment): void{
+    protected function has_base_url(object $config, string $environment): void {
         if (
             ($environment === 'prod' && empty($config->prod_base_url)) ||
             ($environment === 'test' && empty($config->test_base_url))
@@ -129,17 +126,17 @@ class config
     }
 
     /**
-     * @param $config
-     * @param $environment
+     * @param object $config
+     * @param string $environment
      * @throws personal_access_token_not_set
      */
-    protected function has_personal_access_token(&$config, $environment): void{
+    protected function has_personal_access_token(object $config, string $environment): void{
         if (
             ($environment === 'prod' && empty($config->prod_personal_access_token)) ||
             ($environment === 'test' && empty($config->test_personal_access_token))
         ) {
             $message = $environment.'personal_access_token not set in global settings - see README.md';
-            throw new personal_access_token_not_set($message);
+            throw new personal_access_token_not_set(json_encode($this->config));
         }
     }
 

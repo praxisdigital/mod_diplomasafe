@@ -1,0 +1,10 @@
+# Diplomasafe API
+# API doc: https://demo-api.diplomasafe.net/docs/api-docs.json
+# Swagger doc: https://demo-api.diplomasafe.net/api/documentation
+
+@baseUrl=https://demo-api.diplomasafe.net/api/v1
+
+### Get all templates
+GET {{baseUrl}}/templates
+Content-Type: application/json
+Authorization: Bearer {{token}}

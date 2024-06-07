@@ -8,6 +8,7 @@
 
 namespace mod_diplomasafe\diplomas\fields;
 
+use mod_diplomasafe\config;
 use mod_diplomasafe\factories\mapping_factory;
 use mod_diplomasafe\factory;
 use mod_diplomasafe\mapping;
@@ -16,30 +17,34 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe\diplomas
  */
 class repository
 {
     private array $diploma_fields;
     private array $diploma_key_value = [];
+    private config $config;
 
-    public function __construct() {
+    public function __construct(
+        ?config $config = null
+    ) {
         $this->diploma_fields = mapping::MAPPING_FIELDS;
+        $this->config = $config ?? factory::get_config();
     }
 
-    private function extract_field_data(int $course_id, int $user_id): void {
+    private function extract_field_data(int $course_id, int $user_id): void
+    {
         foreach ($this->diploma_fields as $diploma_field) {
             $mapping = mapping_factory::make($diploma_field['field_code'], $course_id, $user_id);
             $this->diploma_key_value[$mapping->get_remote_id()] = $mapping->get_value();
         }
     }
 
-    public function get_field_ids() : array {
-        $config = factory::get_config();
+    public function get_field_ids(): array
+    {
         $field_ids = [];
         foreach ($this->diploma_fields as $diploma_field) {
-            if ($config->is_test_environment()) {
+            if ($this->config->is_test_environment()) {
                 $field_ids[] = $diploma_field['test_idnumber'] ?? '';
                 continue;
             }
@@ -51,7 +56,8 @@ class repository
     /**
      * @return array<string, string, string>
      */
-    public function get_fields() : array {
+    public function get_fields(): array
+    {
         return $this->diploma_fields;
     }
 
@@ -60,7 +66,8 @@ class repository
      * @param int $user_id
      * @return array<string, string>
      */
-    public function get_fields_key_value(int $course_id, int $user_id) : array {
+    public function get_fields_key_value(int $course_id, int $user_id): array
+    {
         if (empty($this->diploma_key_value)) {
             $this->extract_field_data($course_id, $user_id);
         }

@@ -8,7 +8,10 @@
 
 namespace mod_diplomasafe;
 
-use mod_diplomasafe\config;
+use coding_exception;
+use core\task\manager;
+use dml_exception;
+use Exception;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\diploma;
 use mod_diplomasafe\entities\queue_item;
@@ -16,6 +19,11 @@ use mod_diplomasafe\factories\diploma_factory;
 use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\factories\queue_factory;
 use mod_diplomasafe\factories\template_factory;
+use mod_diplomasafe\queue\mapper;
+use mod_diplomasafe\queue\repository;
+use mod_diplomasafe\task\diploma_queue;
+use moodle_database;
+use RuntimeException;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -26,38 +34,18 @@ defined('MOODLE_INTERNAL') || die();
  */
 class queue
 {
-    /**
-     * @var \mod_diplomasafe\queue\mapper
-     */
-    private $mapper;
+    private mapper $mapper;
+    private repository $repo;
+    private queue_items $pending_items;
+    private config $config;
 
-    /**
-     * @var \mod_diplomasafe\queue\repository
-     */
-    private $repo;
-
-    /**
-     * @var queue_items
-     */
-    private $pending_items;
-
-    /**
-     * @var \mod_diplomasafe\config
-     */
-    private $config;
-
-    /**
-     * Constructor
-     *
-     * @param config $config
-     *
-     * @throws \coding_exception
-     * @throws \dml_exception
-     */
-    public function __construct(config $config) {
+    public function __construct(
+        config $config,
+        ?moodle_database $db = null
+    ) {
         $this->config = $config;
-        $this->mapper = queue_factory::get_queue_mapper();
-        $this->repo = queue_factory::get_queue_repository();
+        $this->mapper = queue_factory::get_queue_mapper($db, $this->config);
+        $this->repo = queue_factory::get_queue_repository($db, $this->config);
         $this->pending_items = $this->repo->get_pending_items();
     }
 
@@ -65,7 +53,7 @@ class queue
      * @param queue_item $queue_item
      *
      * @return ?int
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function push(queue_item $queue_item) : ?int {
         if (!$this->is_being_processed($queue_item)) {
@@ -78,7 +66,7 @@ class queue
      * @param queue_item $queue_item
      *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     private function is_being_processed(queue_item $queue_item) : bool {
         return $this->repo->is_being_processed($queue_item);
@@ -87,14 +75,14 @@ class queue
     /**
      * @return mixed
      */
-    public function get_next() {
+    public function get_next(): mixed {
         return $this->pending_items->get_next();
     }
 
     /**
      * @return queue_item|bool
      */
-    public function get_current() {
+    public function get_current(): mixed {
         return $this->pending_items->get_current();
     }
 
@@ -104,9 +92,9 @@ class queue
      * @param string $message
      *
      * @return mixed
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function set_status(queue_item $queue_item, int $status, string $message = '') {
+    public function set_status(queue_item $queue_item, int $status, string $message = ''): bool {
         $queue_item->status = $status;
         $queue_item->message = $message;
         $queue_item->last_run = time();
@@ -119,8 +107,8 @@ class queue
     /**
      * @param bool $output_exception
      *
-     * @throws \coding_exception
-     * @throws \dml_exception
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function process_pending(bool $output_exception = false) : void {
 
@@ -165,13 +153,16 @@ class queue
                         'user_id' => $queue_item->user_id,
                     ])
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 mtrace(get_string('message_item_number', 'mod_diplomasafe', $i) . $e->getMessage());
                 $admin_task_mailer = new admin_task_mailer($queue_item->course_id);
                 $admin_task_mailer->send_to_all($e->getMessage());
                 $this->set_status($queue_item, queue_item::QUEUE_ITEM_STATUS_FAILED, $e->getMessage());
+
+                $this->retry_failed_item($queue_item);
+
                 if ($output_exception) {
-                    throw new \RuntimeException($e->getMessage());
+                    throw new RuntimeException($e->getMessage());
                 }
             }
             $i++;
@@ -183,10 +174,23 @@ class queue
 
     /**
      * @return bool
-     * @throws \coding_exception
-     * @throws \dml_exception
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function delete_expired_items() : bool {
         return $this->mapper->delete_many($this->repo->get_expired_items());
+    }
+
+    private function retry_failed_item(queue_item $item): void {
+
+        if ($item->status !== queue_item::QUEUE_ITEM_STATUS_FAILED) {
+            return;
+        }
+
+        $task = diploma_queue::create_by_queue_id($item->id);
+        // Set the next run time to 5 minutes from now
+        $task->set_next_run_time(time() + 300);
+
+        manager::queue_adhoc_task($task, true);
     }
 }

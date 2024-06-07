@@ -6,51 +6,44 @@
  * @copyright   2021 Diplomasafe ApS
  */
 
+namespace mod_diplomasafe\integration;
+
+// @codeCoverageIgnoreStart
 defined('MOODLE_INTERNAL') || die();
 
-use mod_diplomasafe\config;
-use mod_diplomasafe\exceptions\base_url_not_set;
-use mod_diplomasafe\exceptions\current_environment_invalid;
-use mod_diplomasafe\exceptions\current_environment_not_set;
-use mod_diplomasafe\exceptions\personal_access_token_not_set;
+// @codeCoverageIgnoreEnd
+
+use dml_exception;
 use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\languages\mapper;
 use mod_diplomasafe\languages\repository;
+use mod_diplomasafe\tests\integration_testcase;
 
 /**
  * Class
- *
  * @package mod_diplomasafe\tests
  */
-class mod_diplomasafe_integration_languages_testcase extends advanced_testcase
+class languages_test extends integration_testcase
 {
-    /**
-     * @var mapper
-     */
-    private $languages_mapper;
-
-    /**
-     * @var repository
-     */
-    private $languages_repo;
+    private mapper $languages_mapper;
+    private repository $languages_repo;
 
     /**
      * @return void
      */
-    public function setUp(): void {
+    public function setUp(): void
+    {
+        parent::setUp();
         $this->languages_mapper = language_factory::get_mapper();
         $this->languages_repo = language_factory::get_repository();
     }
 
     /**
      * @test
-     *
      * @throws dml_exception
      */
-    public function can_add_language() : void {
-
-        $this->resetAfterTest();
-
+    public function can_add_language(): void
+    {
         $insert_id = $this->languages_mapper->create('en-US');
         $created_language = $this->languages_repo->get_by_id($insert_id);
 

@@ -8,9 +8,11 @@
 
 namespace mod_diplomasafe\factories;
 
+use mod_diplomasafe\config;
 use mod_diplomasafe\factory;
 use mod_diplomasafe\queue\mapper;
 use mod_diplomasafe\queue\repository;
+use moodle_database;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -24,14 +26,20 @@ class queue_factory extends factory
     /**
      * @return mapper
      */
-    public static function get_queue_mapper() : mapper {
+    public static function get_queue_mapper(
+        ?moodle_database $db = null,
+        ?config $config = null
+    ) : mapper {
         return new mapper(self::get_db());
     }
 
-    /**
-     * @return repository
-     */
-    public static function get_queue_repository() : repository {
-        return new repository(self::get_db());
+    public static function get_queue_repository(
+        ?moodle_database $db = null,
+        ?config $config = null
+    ) : repository {
+        return new repository(
+            $db ?? self::get_db(),
+            $config ?? self::get_config()
+        );
     }
 }
