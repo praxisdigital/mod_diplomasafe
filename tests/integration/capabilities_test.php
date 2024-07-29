@@ -22,11 +22,7 @@ use mod_diplomasafe\tests\integration_testcase;
  */
 class capabilities_test extends integration_testcase
 {
-    /**
-     * @param $receiver_role
-     * @return array $courses
-     */
-    private function enrol_test_users_with_role($receiver_role): array
+    private function enrol_test_users_with_role(string $receiver_role): array
     {
         $data_generator = $this->getDataGenerator();
 

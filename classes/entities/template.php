@@ -67,7 +67,7 @@ class template extends entity
      * Constructor
      * @param $params
      */
-    public function __construct($params)
+    public function __construct(array $params)
     {
         $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name'];
         $this->process_params($params, $required_params);

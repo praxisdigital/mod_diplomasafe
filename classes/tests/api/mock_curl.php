@@ -38,7 +38,7 @@ class mock_curl extends curl
     public function get(
         mixed $url,
         mixed $params = [],
-        mixed $options = []
+        array $options = []
     ): mixed {
         $data = (array)$params;
         try {
@@ -60,7 +60,7 @@ class mock_curl extends curl
         );
     }
 
-    public function post($url, $params = '', $options = array()): mixed
+    public function post(mixed $url, mixed $params = '', array $options = []): mixed
     {
         return $this->send(
             $url,
