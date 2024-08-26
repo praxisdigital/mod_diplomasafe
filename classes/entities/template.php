@@ -17,9 +17,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe\entities
- *
  * @property $id
  * @property $organisation_id
  * @property $default_language_id
@@ -36,15 +34,12 @@ class template extends entity
 
     /**
      * Each field is an array in the following format.
-     *
      * Example:
      * name = [
      *   [en-US] =>
      *   [da-DK] => KURSUSTITEL
      * ]
-     *
      * They are parsed separately from the regular fields.
-     *
      * @const
      */
     public const TEMPLATE_BASE_LANGUAGE_FIELDS = [
@@ -56,7 +51,8 @@ class template extends entity
     /**
      * @return mixed|void
      */
-    public function set_data() {
+    public function set_data()
+    {
         $this->data = [
             'id' => null,
             'organisation_id' => '',
@@ -69,10 +65,10 @@ class template extends entity
 
     /**
      * Constructor
-     *
      * @param $params
      */
-    public function __construct($params) {
+    public function __construct(array $params)
+    {
         $required_params = ['organisation_id', 'default_language_id', 'idnumber', 'name'];
         $this->process_params($params, $required_params);
     }
@@ -80,23 +76,25 @@ class template extends entity
     /**
      * @return bool
      */
-    public function exists() : bool {
+    public function exists(): bool
+    {
         return $this->id !== null;
     }
 
     /**
      * @return mixed
      */
-    public function is_valid() : bool {
+    public function is_valid(): bool
+    {
         return $this->data['is_valid'];
     }
 
     /**
      * @param array $template_payload
-     *
      * @return default_template_fields
      */
-    public static function extract_default_fields(array $template_payload) : default_template_fields {
+    public static function extract_default_fields(array $template_payload): default_template_fields
+    {
         return new default_template_fields(self::TEMPLATE_BASE_LANGUAGE_FIELDS, $template_payload);
     }
 }

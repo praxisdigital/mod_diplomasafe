@@ -8,8 +8,10 @@
 
 namespace mod_diplomasafe\queue;
 
+use dml_exception;
 use mod_diplomasafe\collections\queue_items;
 use mod_diplomasafe\entities\queue_item;
+use moodle_database;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -21,18 +23,9 @@ defined('MOODLE_INTERNAL') || die();
 class mapper
 {
     public const TABLE = 'diplomasafe_queue';
+    private moodle_database $db;
 
-    /**
-     * @var \moodle_database
-     */
-    private $db;
-
-    /**
-     * Constructor
-     *
-     * @param \moodle_database $db
-     */
-    public function __construct(\moodle_database $db) {
+    public function __construct(moodle_database $db) {
         $this->db = $db;
     }
 
@@ -40,7 +33,7 @@ class mapper
      * @param queue_item $queue_item
      *
      * @return int
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function create(queue_item $queue_item) : int {
         $record = [
@@ -67,7 +60,7 @@ class mapper
      * @param queue_item $queue_item
      *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function update(queue_item $queue_item) : bool {
 
@@ -94,7 +87,7 @@ class mapper
      * @param queue_item $queue_item
      *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function delete(queue_item $queue_item) : bool {
         return $this->db->delete_records(self::TABLE, [
@@ -106,7 +99,7 @@ class mapper
      * @param queue_items $queue_items
      *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function delete_many(queue_items $queue_items) : bool {
         if ($queue_items->count() === 0) {
@@ -114,7 +107,6 @@ class mapper
         }
         $ids_to_delete = [];
         foreach ($queue_items as $queue_item) {
-            /** @var queue_item $queue_item */
             $ids_to_delete[] = $queue_item->id;
         }
         return $this->db->delete_records_list(self::TABLE, 'id', $ids_to_delete);

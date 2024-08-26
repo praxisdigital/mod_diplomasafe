@@ -48,8 +48,8 @@ abstract class base_scheduled_task extends scheduled_task
         $this->emitter()->output($message);
     }
 
-    protected function enqueue_adhoc_task(adhoc_task $task): void
+    protected function enqueue_adhoc_task(adhoc_task $task, bool $no_duplicate = true): void
     {
-        manager::queue_adhoc_task($task);
+        manager::queue_adhoc_task($task, $no_duplicate);
     }
 }

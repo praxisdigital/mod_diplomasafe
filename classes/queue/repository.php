@@ -8,10 +8,13 @@
 
 namespace mod_diplomasafe\queue;
 
-use mod_diplomasafe\collection;
+use coding_exception;
+use dml_exception;
 use mod_diplomasafe\collections\queue_items;
+use mod_diplomasafe\config;
 use mod_diplomasafe\entities\queue_item;
 use mod_diplomasafe\factory;
+use moodle_database;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -27,25 +30,19 @@ class repository
      */
     private const TABLE = 'diplomasafe_queue';
 
-    /**
-     * @var \moodle_database
-     */
-    private $db;
+    private moodle_database $db;
+    private config $config;
 
-    /**
-     * Constructor
-     *
-     * @param \moodle_database $db
-     */
-    public function __construct(\moodle_database $db) {
+    public function __construct(moodle_database $db, ?config $config = null) {
         $this->db = $db;
+        $this->config = $config ?? factory::get_config();
     }
 
     /**
      * @param queue_item $queue_item
      *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function is_being_processed(queue_item $queue_item): bool {
         $sql = /** @lang mysql */'
@@ -68,8 +65,8 @@ class repository
      * @param string $order_by
      * @param ?int $days_expired The number of days expired. Null means get all records.
      * @return queue_items
-     * @throws \coding_exception
-     * @throws \dml_exception
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function get_all(array $statuses = [], string $order_by = 'id DESC', int $days_expired = null) : queue_items {
 
@@ -111,8 +108,8 @@ class repository
 
     /**
      * @return queue_items
-     * @throws \dml_exception
-     * @throws \coding_exception
+     * @throws dml_exception
+     * @throws coding_exception
      */
     public function get_pending_items() : queue_items {
         return $this->get_all([queue_item::QUEUE_ITEM_STATUS_PENDING], 'id ASC');
@@ -126,7 +123,7 @@ class repository
      * @param int $item_id
      *
      * @return queue_item
-     * @throws \dml_exception
+     * @throws dml_exception
      */
     public function get_by_id(int $item_id) : queue_item {
 
@@ -146,15 +143,14 @@ class repository
 
     /**
      * @return queue_items
-     * @throws \coding_exception
-     * @throws \dml_exception
+     * @throws coding_exception
+     * @throws dml_exception
      */
     public function get_expired_items() : queue_items {
-        $config = factory::get_config();
-        $expiration_disabled = $config->get_delete_from_queue_after_days() === 0;
+        $expiration_disabled = $this->config->get_delete_from_queue_after_days() === 0;
         if ($expiration_disabled) {
             return new queue_items([]);
         }
-        return $this->get_all([], 'id ASC', $config->get_delete_from_queue_after_days());
+        return $this->get_all([], 'id ASC', $this->config->get_delete_from_queue_after_days());
     }
 }

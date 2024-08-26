@@ -1,11 +1,16 @@
 <?php
+
 namespace mod_diplomasafe\templates;
 
+use dml_exception;
+use Exception;
 use mod_diplomasafe\collections\default_template_fields;
 use mod_diplomasafe\entities\template;
 use mod_diplomasafe\collections\template_default_field_values;
 use mod_diplomasafe\factories\language_factory;
 use mod_diplomasafe\factories\template_factory;
+use moodle_database;
+use RuntimeException;
 
 /**
  * @developer   Johnny Drud
@@ -17,43 +22,27 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe\templates
  */
 class mapper
 {
-    /**
-     * @const string
-     */
     private const TABLE = 'diplomasafe_templates';
-
-    /**
-     * @const string
-     */
     private const TABLE_LANGUAGES = 'diplomasafe_languages';
 
-    /**
-     * @var \moodle_database
-     */
-    private $db;
+    private moodle_database $db;
 
-    /**
-     * Constructor
-     *
-     * @param \moodle_database $db
-     */
-    public function __construct(\moodle_database $db) {
+    public function __construct(moodle_database $db)
+    {
         $this->db = $db;
     }
 
     /**
      * @param template $template
-     *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function store(template $template) : bool {
-
+    public function store(template $template): bool
+    {
         $transaction = $this->db->start_delegated_transaction();
 
         $languages_mapper = language_factory::get_mapper();
@@ -72,7 +61,7 @@ class mapper
             }
 
             if (empty($template->id)) {
-                throw new \RuntimeException(get_string('message_template_id_unavailable_error', 'mod_diplomasafe'));
+                throw new RuntimeException(get_string('message_template_id_unavailable_error', 'mod_diplomasafe'));
             }
 
             $language_keys = $template->default_fields->get_available_language_keys();
@@ -85,10 +74,9 @@ class mapper
             }
 
             $transaction->allow_commit();
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollback($e);
-            throw new \RuntimeException($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
 
         return true;
@@ -96,39 +84,45 @@ class mapper
 
     /**
      * @param template $template
-     *
      * @return int
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function create(template $template) : int {
-        return $this->db->insert_record(self::TABLE, (object)[
-            'organisation_id' => $template->organisation_id,
-            'default_language_id' => $template->default_language_id,
-            'idnumber' => $template->idnumber,
-            'name' => $template->name,
-            'is_valid' => $template->is_valid
-        ]);
+    public function create(template $template): int
+    {
+        return $this->db->insert_record(
+            self::TABLE,
+            (object)[
+                'organisation_id' => $template->organisation_id,
+                'default_language_id' => $template->default_language_id,
+                'idnumber' => $template->idnumber,
+                'name' => $template->name,
+                'is_valid' => $template->is_valid
+            ]
+        );
     }
 
     /**
      * @param template $template
-     *
      * @return bool
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function update(template $template) : bool {
+    public function update(template $template): bool
+    {
         if (!$this->db->record_exists(self::TABLE, [
             'id' => $template->id
         ])) {
-            throw new \RuntimeException('The template does not exist. Can\'t update!');
+            throw new RuntimeException('The template does not exist. Can\'t update!');
         }
-        return $this->db->update_record(self::TABLE, (object)[
-            'id' => $template->id,
-            'organisation_id' => $template->organisation_id,
-            'default_language_id' => $template->default_language_id,
-            'idnumber' => $template->idnumber,
-            'name' => $template->name,
-            'is_valid' => $template->is_valid
-        ]);
+        return $this->db->update_record(
+            self::TABLE,
+            (object)[
+                'id' => $template->id,
+                'organisation_id' => $template->organisation_id,
+                'default_language_id' => $template->default_language_id,
+                'idnumber' => $template->idnumber,
+                'name' => $template->name,
+                'is_valid' => $template->is_valid
+            ]
+        );
     }
 }

@@ -72,7 +72,7 @@ class resend_failed_queues extends base_scheduled_task
         foreach ($items as $item) {
             $task = diploma_queue::create_by_queue_id($item->id);
             $task->set_output_emitter($this->emitter());
-            $this->enqueue_adhoc_task($task);
+            $this->enqueue_adhoc_task($task, true);
         }
 
         $this->output('Done, all resend tasks has been added to the adhoc task queue');

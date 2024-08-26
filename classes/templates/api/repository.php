@@ -1,4 +1,5 @@
 <?php
+
 namespace mod_diplomasafe\templates\api;
 
 use mod_diplomasafe\api_pagination;
@@ -17,7 +18,6 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe\templates
  */
 class repository
@@ -41,11 +41,11 @@ class repository
 
     /**
      * Constructor
-     *
      * @param \curl $client
      * @param config $config
      */
-    public function __construct(\curl $client, config $config) {
+    public function __construct(\curl $client, config $config)
+    {
         $this->client = $client;
         $this->config = $config;
     }
@@ -53,7 +53,6 @@ class repository
     /**
      * @param string $url
      * @param int $page
-     *
      * @return array
      * @throws \dml_exception
      * @throws \mod_diplomasafe\exceptions\base_url_not_set
@@ -61,8 +60,8 @@ class repository
      * @throws \mod_diplomasafe\exceptions\current_environment_not_set
      * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
-    public function get_all(string $url = '', int $page = 0) : array {
-
+    public function get_all(string $url = '', int $page = 0): array
+    {
         if ($url === '') {
             $url = $this->config->get_base_url() . self::ENDPOINT;
         }
@@ -74,7 +73,6 @@ class repository
         $language_mapper = language_factory::get_mapper();
 
         foreach ($templates as $template) {
-
             $diploma_fields = $template['diploma_fields'] ?? [];
             $default_language_key = $template['default_language'];
 
@@ -110,23 +108,22 @@ class repository
 
     /**
      * @param template $template
-     *
      * @return mixed
      */
-    public function get_one(template $template): mixed {
+    public function get_one(template $template): mixed
+    {
         $template_endpoint = self::ENDPOINT . '/' . $template->idnumber;
         return json_decode($this->client->get($this->config->get_base_url() . $template_endpoint), true);
     }
 
     /**
      * @param array $remote_field_ids
-     *
      * @return array
      * @throws \dml_exception
      */
-    public function other_diploma_fields_than_mapped(array $remote_field_ids) : array {
-
-        $diploma_fields_repo = diploma_factory::get_fields_repository();
+    public function other_diploma_fields_than_mapped(array $remote_field_ids): array
+    {
+        $diploma_fields_repo = diploma_factory::get_fields_repository($this->config);
         $mapped_field_ids = $diploma_fields_repo->get_field_ids();
 
         $remote_fields_without_local_mapping = [];
@@ -140,11 +137,11 @@ class repository
 
     /**
      * @param $remote_field_ids
-     *
      * @return bool
      * @throws \dml_exception
      */
-    public function has_other_diploma_fields_than_mapped($remote_field_ids) : bool {
+    public function has_other_diploma_fields_than_mapped($remote_field_ids): bool
+    {
         return !empty($this->other_diploma_fields_than_mapped($remote_field_ids));
     }
 }

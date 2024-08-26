@@ -16,7 +16,6 @@
 
 /**
  * Plugin version and other meta-data are defined here.
- *
  * @package     mod_diplomasafe
  * @copyright   2020 Diplomasafe <info@diplomasafe.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,6 +24,10 @@
 namespace mod_diplomasafe;
 
 use mod_diplomasafe\config;
+use mod_diplomasafe\exceptions\base_url_not_set;
+use mod_diplomasafe\exceptions\current_environment_invalid;
+use mod_diplomasafe\exceptions\current_environment_not_set;
+use mod_diplomasafe\exceptions\personal_access_token_not_set;
 
 /**
  * @developer   Johnny Drud
@@ -39,26 +42,33 @@ require_once $CFG->libdir . '/filelib.php';
 
 /**
  * Class
- *
  * @package mod_diplomasafe
  */
-abstract class factory {
+abstract class factory
+{
     /**
      * @return \moodle_database|null
      */
-    public static function get_db(): \moodle_database {
+    public static function get_db(): \moodle_database
+    {
         global $DB;
         return $DB;
     }
 
     /**
+     * @param config|null $config
      * @return \curl
      * @throws \coding_exception
      * @throws \dml_exception
+     * @throws base_url_not_set
+     * @throws current_environment_invalid
+     * @throws current_environment_not_set
+     * @throws personal_access_token_not_set
      */
-    public static function get_api_client() : \curl {
-
-        $config = self::get_config();
+    public static function get_api_client(
+        ?config $config = null
+    ): \curl {
+        $config ??= self::get_config();
 
         $curl = new \curl();
         $curl->setHeader([
@@ -83,7 +93,8 @@ abstract class factory {
      * @throws exceptions\current_environment_not_set
      * @throws exceptions\personal_access_token_not_set
      */
-    public static function get_config() : config {
+    public static function get_config(): config
+    {
         return new config(get_config('mod_diplomasafe'));
     }
 }

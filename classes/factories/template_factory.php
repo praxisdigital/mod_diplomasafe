@@ -23,26 +23,25 @@ defined('MOODLE_INTERNAL') || die();
  */
 class template_factory extends factory
 {
-    /**
-     * @return mapper
-     */
-    public static function get_mapper() : mapper {
-        return new mapper(self::get_db());
+    public static function get_mapper(
+        ?\moodle_database $db = null
+    ) : mapper {
+        return new mapper($db ?? self::get_db());
     }
 
-    /**
-     * @return repository
-     */
-    public static function get_repository() : repository {
-        return new repository(self::get_db());
+    public static function get_repository(
+        ?\moodle_database $db = null
+    ) : repository {
+        return new repository($db ?? self::get_db());
     }
 
-    /**
-     * @return api_repository
-     * @throws \coding_exception
-     * @throws \dml_exception
-     */
-    public static function get_api_repository() : api_repository {
-        return new api_repository(self::get_api_client(), self::get_config());
+    public static function get_api_repository(
+        ?\curl $client = null,
+        ?config $config = null
+    ) : api_repository {
+        return new api_repository(
+            $client ?? self::get_api_client(),
+                $config ?? self::get_config()
+        );
     }
 }

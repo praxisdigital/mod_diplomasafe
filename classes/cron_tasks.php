@@ -15,7 +15,6 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class
- *
  * @package mod_diplomasafe
  */
 class cron_tasks
@@ -24,21 +23,26 @@ class cron_tasks
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public static function process_queue() : void {
+    public static function process_queue(): void
+    {
         $queue = new queue(factory::get_config());
         $queue->process_pending();
     }
 
     /**
      * @param bool $output_debug_info
-     *
      * @throws \coding_exception
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    public static function create_templates($output_debug_info = true) : void {
-        $api_repo = template_factory::get_api_repository();
-        $mapper = template_factory::get_mapper();
+    public static function create_templates(
+        bool $output_debug_info = true,
+        ?config $config = null,
+        ?\curl $client = null,
+        ?\moodle_database $db = null
+    ): void {
+        $api_repo = template_factory::get_api_repository($client, $config);
+        $mapper = template_factory::get_mapper($db);
 
         $templates = $api_repo->get_all();
 
