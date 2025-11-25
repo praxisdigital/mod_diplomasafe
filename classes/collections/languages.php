@@ -28,7 +28,7 @@ class languages extends collection
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function __construct(array $available_language_ids = null) {
+    public function __construct(?array $available_language_ids = null) {
         $languages = $this->get_data($available_language_ids);
         $this->set($languages);
     }
@@ -40,7 +40,7 @@ class languages extends collection
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    private function get_data(array $available_language_ids = null) {
+    private function get_data(?array $available_language_ids = null) {
         return language_factory::get_repository()
             ->get_all_records($available_language_ids);
     }

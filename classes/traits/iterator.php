@@ -20,10 +20,11 @@ trait iterator{
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return array Can return any type.
+     * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current() {
+    public function current(): mixed
+    {
         return current($this->data);
     }
 
@@ -33,8 +34,9 @@ trait iterator{
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next() {
-        return next($this->data);
+    public function next(): void
+    {
+        next($this->data);
     }
 
     /**
@@ -43,7 +45,8 @@ trait iterator{
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key() {
+    public function key(): mixed
+    {
         return key($this->data);
     }
 
@@ -54,7 +57,8 @@ trait iterator{
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid() {
+    public function valid(): bool
+    {
         return array_key_exists(key($this->data), $this->data);
     }
 
@@ -64,7 +68,8 @@ trait iterator{
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind() {
+    public function rewind(): void
+    {
         reset($this->data);
     }
 }

@@ -31,7 +31,7 @@ class admin_task_mailer
      *
      * @param int|null $course_id
      */
-    public function __construct(int $course_id = null) {
+    public function __construct(?int $course_id = null) {
         $this->course_id = $course_id;
     }
 

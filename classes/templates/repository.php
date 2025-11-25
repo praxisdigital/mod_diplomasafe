@@ -42,7 +42,7 @@ class repository
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all_records(int $language_id = null, array $available_template_ids = null) : array {
+    public function get_all_records(?int $language_id = null, ?array $available_template_ids = null) : array {
         $sql = /** @lang mysql */'
         SELECT t.id, t.organisation_id, l.name default_language, 
         t.idnumber, t.name, t.is_valid
@@ -73,7 +73,7 @@ class repository
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all(int $language_id = null, array $available_template_ids = null) : templates {
+    public function get_all(?int $language_id = null, ?array $available_template_ids = null) : templates {
         return new templates($language_id, $available_template_ids);
     }
 
@@ -133,7 +133,7 @@ class repository
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_by_language(int $language_id, array $available_template_ids = null) : templates {
+    public function get_by_language(int $language_id, ?array $available_template_ids = null) : templates {
         return new templates($language_id, $available_template_ids);
     }
 

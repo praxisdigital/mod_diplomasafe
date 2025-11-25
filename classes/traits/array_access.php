@@ -18,37 +18,38 @@ defined('MOODLE_INTERNAL') || die();
 trait array_access{
 
     /**
-     * @param mixed $offset
+     * @param $key
      * @param mixed $value
      */
-    public function offsetSet($offset, $value): void{
-        if (is_null($offset)) {
+    public function offsetSet($key, mixed $value): void{
+        if (is_null($key)) {
             $this->data[] = $value;
         } else {
-            $this->data[$offset] = $value;
+            $this->data[$key] = $value;
         }
     }
 
     /**
-     * @param mixed $offset
+     * @param $key
      * @return bool
      */
-    public function offsetExists($offset): bool{
-        return isset($this->data[$offset]);
+    public function offsetExists($key): bool{
+        return isset($this->data[$key]);
     }
 
     /**
-     * @param mixed $offset
+     * @param $key
      */
-    public function offsetUnset($offset): void{
-        unset($this->data[$offset]);
+    public function offsetUnset($key): void{
+        unset($this->data[$key]);
     }
 
     /**
-     * @param mixed $offset
+     * @param $key
      * @return mixed|null
      */
-    public function offsetGet($offset){
-        return $this->data[$offset] ?? null;
+    public function offsetGet($key): mixed
+    {
+        return $this->data[$key] ?? null;
     }
 }
