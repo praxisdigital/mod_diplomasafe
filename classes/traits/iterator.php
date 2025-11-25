@@ -20,7 +20,7 @@ trait iterator{
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return mixed
      * @since 5.0.0
      */
     public function current(): mixed

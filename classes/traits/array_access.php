@@ -18,10 +18,10 @@ defined('MOODLE_INTERNAL') || die();
 trait array_access{
 
     /**
-     * @param $key
+     * @param mixed $key
      * @param mixed $value
      */
-    public function offsetSet($key, mixed $value): void{
+    public function offsetSet(mixed $key, mixed $value): void{
         if (is_null($key)) {
             $this->data[] = $value;
         } else {
