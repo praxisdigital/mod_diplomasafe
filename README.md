@@ -52,6 +52,11 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **3.2.0**
+  - Added support for Moodle 4.4 and 5.0
+  - Added support for PHP 8.2 - 8.4
+  - Fixed php deprecations
+  - Added github actions
 * **3.1.1**
   - Fix duplicated adhoc tasks that got created by ``resend_failed_queues``.
   - Add retry for the queue when plugin failed to send data to Diplomasafe API.

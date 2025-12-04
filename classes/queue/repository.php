@@ -68,7 +68,7 @@ class repository
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function get_all(array $statuses = [], string $order_by = 'id DESC', int $days_expired = null) : queue_items {
+    public function get_all(array $statuses = [], string $order_by = 'id DESC', ?int $days_expired = null) : queue_items {
 
         $sql = /** @lang mysql */'
         SELECT DISTINCT q.*, concat(u.firstname, \' \' , u.lastname) user_fullname, 

@@ -29,7 +29,7 @@ class templates extends collection
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function __construct(int $language_id = null, array $available_template_ids = null) {
+    public function __construct(?int $language_id = null, ?array $available_template_ids = null) {
         $data = $this->get_data($language_id, $available_template_ids);
         $this->set($data);
     }
@@ -46,7 +46,7 @@ class templates extends collection
      * @throws \mod_diplomasafe\exceptions\current_environment_not_set
      * @throws \mod_diplomasafe\exceptions\personal_access_token_not_set
      */
-    private function get_data(int $language_id = null, array $available_template_ids = null) {
+    private function get_data(?int $language_id = null, ?array $available_template_ids = null) {
         return template_factory::get_repository()
             ->get_all_records($language_id, $available_template_ids);
     }

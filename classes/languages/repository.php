@@ -49,7 +49,7 @@ class repository
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all_records(array $available_language_ids = null) : array {
+    public function get_all_records(?array $available_language_ids = null) : array {
 
         $sql = /** @lang mysql */ '
             SELECT DISTINCT *
@@ -75,7 +75,7 @@ class repository
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public function get_all(array $available_language_ids = null) : languages {
+    public function get_all(?array $available_language_ids = null) : languages {
         return new languages($available_language_ids);
     }
 

@@ -15,7 +15,7 @@ class api_pagination
     /**
      * @var string
      */
-    private $next_page_url;
+    private string $next_page_url;
 
     /**
      * Constructor
@@ -23,7 +23,7 @@ class api_pagination
      * @param array $payload
      */
     public function __construct(array $payload) {
-        $this->next_page_url = trim($payload['next_page_url']);
+        $this->next_page_url = trim((string)$payload['next_page_url']);
     }
 
     /**
