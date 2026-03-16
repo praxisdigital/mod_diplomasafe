@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /** @var object $plugin */
 $plugin->component = 'mod_diplomasafe';
-$plugin->version = 2025112500;
+$plugin->version = 2026031600;
 $plugin->requires = 2022041900; // Moodle 4.0
-$plugin->release = '3.2.0 (Build: 2025-11-25)';
+$plugin->release = '3.2.1 (Build: 2026-03-16)';
 $plugin->maturity = MATURITY_STABLE;
