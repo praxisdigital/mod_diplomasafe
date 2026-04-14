@@ -1,0 +1,81 @@
+name: Integration & Unit test
+
+on:
+  pull_request:
+    branches:
+      - MOODLE_*_STABLE
+
+jobs:
+  PHPUnit:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        include:
+          # MOODLE 4.0 mysqli
+          - os: ubuntu-latest
+            php: 8.0
+            dbtype: mysqli
+            moodle: MOODLE_400_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.1
+            dbtype: mysqli
+            moodle: MOODLE_400_STABLE
+            experimental: false
+          # MOODLE 4.0 mssql
+          - os: ubuntu-latest
+            php: 8.0
+            dbtype: sqlsrv
+            moodle: MOODLE_400_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.1
+            dbtype: sqlsrv
+            moodle: MOODLE_400_STABLE
+            experimental: false
+          # MOODLE 5.0 mysqli
+          - os: ubuntu-latest
+            php: 8.2
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.3
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.4
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          # MOODLE 5.0 mssql
+          - os: ubuntu-latest
+            php: 8.2
+            dbtype: sqlsrv
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.3
+            dbtype: sqlsrv
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - os: ubuntu-latest
+            php: 8.4
+            dbtype: sqlsrv
+            moodle: MOODLE_500_STABLE
+            experimental: false
+
+    steps:
+      - name: Unit testing & integration testing
+        uses: praxisdigital/moodle-test-action@master
+        with:
+          plugin: mod_diplomasafe
+          plugin-path: mod/diplomasafe
+          os: ${{ matrix.os }}
+          php: ${{ matrix.php }}
+          dbtype: ${{ matrix.dbtype }}
+          moodle: ${{ matrix.moodle }}
+          experimental: ${{ matrix.experimental }}
+          PRIVATE_REPO_TOKEN: ${{ secrets.MOODLE_GH_KEY }}
