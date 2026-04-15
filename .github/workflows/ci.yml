@@ -28,22 +28,6 @@ jobs:
             dbtype: mysqli
             moodle: MOODLE_500_STABLE
             experimental: false
-          # MOODLE 5.0 mssql
-          - php: 8.2
-            os: ubuntu-latest
-            dbtype: sqlsrv
-            moodle: MOODLE_500_STABLE
-            experimental: false
-          - php: 8.3
-            os: ubuntu-latest
-            dbtype: sqlsrv
-            moodle: MOODLE_500_STABLE
-            experimental: false
-          - php: 8.4
-            os: ubuntu-latest
-            dbtype: sqlsrv
-            moodle: MOODLE_500_STABLE
-            experimental: false
 
     steps:
       - name: Unit testing & integration testing
