@@ -13,11 +13,6 @@ jobs:
       matrix:
         include:
           # MOODLE 4.0 mysqli
-          - php: 7.4
-            os: ubuntu-latest
-            dbtype: mysqli
-            moodle: MOODLE_400_STABLE
-            experimental: false
           - php: 8.0
             os: ubuntu-latest
             dbtype: mysqli
