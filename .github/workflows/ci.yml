@@ -78,4 +78,4 @@ jobs:
           dbtype: ${{ matrix.dbtype }}
           moodle: ${{ matrix.moodle }}
           experimental: ${{ matrix.experimental }}
-          PRIVATE_REPO_TOKEN: ${{ secrets.MOODLE_GH_KEY }}
+          PRIVATE_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
