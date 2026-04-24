@@ -1,0 +1,49 @@
+name: Integration & Unit test
+
+on:
+  pull_request:
+    branches:
+      - MOODLE_*_STABLE
+
+jobs:
+  PHPUnit:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        include:
+          # MOODLE 4.0 mysqli
+          - php: 8.0
+            os: ubuntu-latest
+            dbtype: mysqli
+            moodle: MOODLE_400_STABLE
+            experimental: false
+          # MOODLE 5.0 mysqli
+          - php: 8.2
+            os: ubuntu-latest
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - php: 8.3
+            os: ubuntu-latest
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+          - php: 8.4
+            os: ubuntu-latest
+            dbtype: mysqli
+            moodle: MOODLE_500_STABLE
+            experimental: false
+
+    steps:
+      - name: Unit testing & integration testing
+        uses: praxisdigital/moodle-test-action@master
+        with:
+          plugin: mod_diplomasafe
+          plugin-path: mod/diplomasafe
+          os: ${{ matrix.os }}
+          php: ${{ matrix.php }}
+          dbtype: ${{ matrix.dbtype }}
+          moodle: ${{ matrix.moodle }}
+          experimental: ${{ matrix.experimental }}
+          PRIVATE_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -52,6 +52,8 @@ Diplomas:
 Backup/restore on the same Moodle site is supported by the plugin.
 
 ## Release notes
+* **3.2.1**
+  - Added GitHub action file
 * **3.2.0**
   - Added support for Moodle 4.4 and 5.0
   - Added support for PHP 8.2 - 8.4
